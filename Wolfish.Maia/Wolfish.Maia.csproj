@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Wolfish.Gemini\Wolfish.Gemini.csproj" />
+    <ProjectReference Include="..\Wolfish.Commands\Wolfish.Commands.csproj" />
   </ItemGroup>
 
 </Project>

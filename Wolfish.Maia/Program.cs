@@ -1,6 +1,5 @@
-﻿using System.Diagnostics;
-using System.Reflection;
-using Wolfish.Gemini;
+﻿using System.Reflection;
+using Wolfish.Commands;
 
 namespace Wolfish.Maia
 {
@@ -8,6 +7,7 @@ namespace Wolfish.Maia
     {
         static void Main(string[] args)
         {
+            //string[] args = ["merge","developer", "master"];
             //string[] args = ["download","chrome"];
             //string[] args = ["ask", "me dê dicas de comandos shell mais utilizados em desenvolvimento de software"];
 
@@ -37,6 +37,9 @@ namespace Wolfish.Maia
                     break;
                 case "finish":
                     FinishCommand(args);
+                    break;
+                case "merge":
+                    MergeCommand(args);
                     break;
                 case "download":
                     DownloadCommand(args);
@@ -77,6 +80,17 @@ namespace Wolfish.Maia
 
         }
 
+        public static void WelcomeCommand(string[] args)
+        {
+            var command = args[0];
+            var semver = Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+
+            if (command == "welcome")
+            {
+                Console.WriteLine($"\nTank you! I'm happy to be here! \nAnd I'm now runnig on version {semver}");
+            }
+        }
+
         public static void AskCommand(string[] args)
         {
             var command = args[0];
@@ -84,19 +98,8 @@ namespace Wolfish.Maia
 
             if (command == "ask")
             {
-                AskGemini(question);
+                WolfishCommand.AskGemini(question);
             }
-        }
-
-        public static void AskGemini(string question)
-        {
-            var agent = new GeminiService("AIzaSyAjR1Yw-JTzTi63K4WI93PVBHunWgHZ7JE").Builder();
-
-            var answer = agent.GenerativeTextAsync(question);
-
-            var resposta = answer.Result;
-
-            Console.WriteLine(resposta);
         }
 
         public static void DownloadCommand(string[] args)
@@ -106,31 +109,7 @@ namespace Wolfish.Maia
 
             if (command == "download")
             {
-                Download(tool);
-            }
-        }
-
-        public static void Download(string tool)
-        {
-            Console.Write($"Baixando {tool}");
-
-            var output = ProcessCommand("curl", "-o chrome_win_x64.exe https://dl.google.com/chrome/install/standalonesetup.exe");
-
-            Console.WriteLine("Saída do processo:\n" + output);
-
-            //Task.Delay(200).Wait();
-        }
-
-        public static void WelcomeCommand(string[] args)
-        {
-            var command = args[0];
-
-            var version = Assembly.GetEntryAssembly()?.GetName().Version;
-            var semver = Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
-
-            if (command == "welcome")
-            {
-                Console.WriteLine($"\nTank you! I'm happy to be here! \nAnd I'm now runnig on version {semver}");
+                WolfishCommand.Download(tool);
             }
         }
 
@@ -143,21 +122,9 @@ namespace Wolfish.Maia
 
             if (command == "new")
             {
-                if (local == "in")  NewIssue(type, epic);                
-                else NewIssue(type);
+                if (local == "in")  WolfishCommand.NewIssue(type, epic);                
+                else WolfishCommand.NewIssue(type);
             }
-        }
-
-        public static void NewIssue(string type, string? epic = null)
-        {
-            Console.Write($"Criando um nova issue do tipo {type}");
-            if (epic is not null) Console.WriteLine($" no epico {epic}");
-
-            var output = ProcessCommand("git", "status");
-
-            Console.WriteLine("Saída do processo:\n" + output);
-
-            Task.Delay(200).Wait();
         }
 
         public static void InitCommand(string[] args)
@@ -168,23 +135,8 @@ namespace Wolfish.Maia
 
             if (command == "init")
             {
-                InitDevelopment(issue, origin);
+                WolfishCommand.InitDevelopment(issue, origin);
             }
-        }
-
-        private static void InitDevelopment(string issueId , string origin)
-        {            
-            Console.Write($"Iniciando o desenvolvimento da issue {issueId} a partir da branch {origin}");
-
-            ProcessCommand("git", $"pull origin {origin}");
-
-            //retorna os dados da issue no jira
-            var issue = new Issue{Id = issueId, Type = "bugfix", Subject = "titulo-da-issue"};
-
-            //movimenta o ard para desenvolvimento
-
-            ProcessCommand("git", $"checkout -b \"{issue.Type}\\{issue.Id}-{issue.Subject}\" \"{origin}\"");
-
         }
 
         public static void FinishCommand(string[] args)
@@ -195,50 +147,21 @@ namespace Wolfish.Maia
 
             if (command == "finish")
             {
-                FinishDevelopment(issue, target);
+                WolfishCommand.FinishDevelopment(issue, target);
             }
         }
 
-        private static void FinishDevelopment(string issueId, string target)
+        public static void MergeCommand(string[] args)
         {
-            Console.Write($"Finalizando o desenvolvimento da issue {issueId} a publicando PR em {target}");
+            var command = args[0];
+            var origin = args[1];
+            var target = args[2];
 
-            ProcessCommand("git", $"push origin");
-
-            //movimenta o card para Code_Review
-
-            ProcessCommand("git", $"pull origin {target}");
-
-            //cria a pull request para github/gitlab/azure
-        }
-
-        private static string ProcessCommand(string command, string arguments)
-        {
-            string diretorioAtual = Directory.GetCurrentDirectory();
-
-            var startInfo = new ProcessStartInfo
+            if (command == "merge")
             {
-                FileName = command,
-                Arguments = arguments,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                //WorkingDirectory = "C:\\Users\\renat\\source\\Projetos"
-            };
-
-            var process = Process.Start(startInfo);
-            var output = process?.StandardOutput.ReadToEnd();
-            process?.WaitForExit();
-
-            return output;
+                WolfishCommand.MergeBranch(origin, target);
+            }
         }
 
-        private class Issue
-        {
-            public string Id { get; set; }
-            public string Type { get; set; }
-            public string Subject { get; set; }
-        }
     }
 }
