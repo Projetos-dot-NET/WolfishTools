@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mscc.GenerativeAI" Version="2.8.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<!--ProjectReference Include="..\Wolfish.Core\Wolfish.Core.csproj" /-->
+  </ItemGroup>
+
+</Project>
