@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Reflection;
 using System.Text.Json;
 using Wolfish.Gemini;
 
@@ -8,7 +7,6 @@ namespace Wolfish.Commands
     public static class WolfishCommand
     {
         
-
         public static void Download(string tool)
         {
             Console.Write($"Baixando {tool}");
@@ -19,7 +17,6 @@ namespace Wolfish.Commands
 
             //Task.Delay(200).Wait();
         }
-
 
         public static void AskGemini(string question)
         {
@@ -49,9 +46,9 @@ namespace Wolfish.Commands
 
         private class Issue
         {
-            public string Id { get; set; }
-            public string Type { get; set; }
-            public string Subject { get; set; }
+            public string? Id { get; set; }
+            public string? Type { get; set; }
+            public string? Subject { get; set; }
         }
 
         public static void FinishDevelopment(string issueId, string target)
@@ -109,9 +106,9 @@ namespace Wolfish.Commands
             Console.WriteLine(resposta);
         }
 
-        private static string ProcessCommand(string command, string arguments)
+        private static string? ProcessCommand(string command, string arguments)
         {
-            string diretorioAtual = Directory.GetCurrentDirectory();
+            //string diretorioAtual = Directory.GetCurrentDirectory();
 
             var startInfo = new ProcessStartInfo
             {
