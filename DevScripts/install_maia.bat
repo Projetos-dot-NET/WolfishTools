@@ -43,4 +43,5 @@ echo SUCESSO! A ferramenta %PACKAGE_NAME% ja pode ser invocada de qualquer lugar
 echo.
 echo Tente digitar: maia welcome
 
+pause
 endlocal

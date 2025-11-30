@@ -1,33 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Text.Json;
-using Wolfish.Gemini;
 
 namespace Wolfish.Commands
 {
-    public static class WolfishCommand
+    public static class TerminalCommand
     {
-        
-        public static void Download(string tool)
-        {
-            Console.Write($"Baixando {tool}");
-
-            var output = ProcessCommand("curl", "-o chrome_win_x64.exe https://dl.google.com/chrome/install/standalonesetup.exe");
-
-            Console.WriteLine("Saída do processo:\n" + output);
-
-            //Task.Delay(200).Wait();
-        }
-
-        public static void AskGemini(string question)
-        {
-            var agent = new GeminiService("AIzaSyAjR1Yw-JTzTi63K4WI93PVBHunWgHZ7JE").Builder();
-
-            var answer = agent.GenerativeTextAsync(question);
-
-            var resposta = answer.Result;
-
-            Console.WriteLine(resposta);
-        }
 
         public static void InitDevelopment(string issueId, string origin)
         {
@@ -44,13 +21,6 @@ namespace Wolfish.Commands
 
         }
 
-        private class Issue
-        {
-            public string? Id { get; set; }
-            public string? Type { get; set; }
-            public string? Subject { get; set; }
-        }
-
         public static void FinishDevelopment(string issueId, string target)
         {
             Console.Write($"Finalizando o desenvolvimento da issue {issueId} a publicando PR em {target}");
@@ -62,6 +32,28 @@ namespace Wolfish.Commands
             ProcessCommand("git", $"pull origin {target}");
 
             //cria a pull request para github/gitlab/azure
+        }
+
+        public static void Download(string tool)
+        {
+            Console.Write($"Baixando {tool}");
+
+            var output = ProcessCommand("curl", "-o chrome_win_x64.exe https://dl.google.com/chrome/install/standalonesetup.exe");
+
+            Console.WriteLine("Saída do processo:\n" + output);
+
+            //Task.Delay(200).Wait();
+        }
+
+        public static void Install(string tool)
+        {
+            Console.Write($"Instalando {tool} sem preguntas8d");
+
+            var output = ProcessCommand("winget", "install -h Microsoft.DotNet.SDK.8");
+
+            Console.WriteLine("Saída do processo:\n" + output);
+
+            //Task.Delay(200).Wait();
         }
 
         public static void NewIssue(string type, string? epic = null)
@@ -82,7 +74,7 @@ namespace Wolfish.Commands
             var repository = "WolfishTools";
 
             var headDetalhado = "-H \"Accept: application/vnd.github+json\" " +
-                                "-H \"Authorization: Bearer MEU_TOKEN\" " +
+                                "-H \"Authorization: Bearer SEU_TOKEN_GITHUB\" " +
                                 "-H \"X-GitHub-Api-Version: 2022-11-28\"";
 
             var link = $"https://api.github.com/repos/{organization}/{repository}/pulls";
@@ -126,6 +118,13 @@ namespace Wolfish.Commands
             process?.WaitForExit();
 
             return output;
+        }
+
+        private class Issue
+        {
+            public string? Id { get; set; }
+            public string? Type { get; set; }
+            public string? Subject { get; set; }
         }
     }
 }

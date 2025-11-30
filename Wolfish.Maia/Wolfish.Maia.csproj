@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Wolfish.Commands\Wolfish.Commands.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="nupkg\" />
+  </ItemGroup>
+
 </Project>

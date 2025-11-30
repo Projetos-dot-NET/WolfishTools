@@ -44,6 +44,9 @@ namespace Wolfish.Maia
                 case "download":
                     DownloadCommand(args);
                     break;
+                case "install":
+                    InstallCommand(args);
+                    break;
                 case "ask":
                     AskCommand(args);
                     break;
@@ -66,10 +69,12 @@ namespace Wolfish.Maia
         public static void CommandValitadon(string command)
         {
 
-            if (command != "new" &&
+            if (command != "create" &&
                 command != "ask" &&
                 command != "download" &&
+                command != "install" &&
                 command != "welcome" &&
+                command != "merge" &&
                 command != "init" &&
                 command != "finish")
             {
@@ -94,11 +99,14 @@ namespace Wolfish.Maia
         public static void AskCommand(string[] args)
         {
             var command = args[0];
+            //var myGem = args[0];
             var question = args[1];
+
+            var instruction =   "Você é um engenheiro de controle e automação, que também sabe progrmação web e desktop, c#, .Net e um pouco de c, c++ e python. Tente sempre resumir minhas respostas em 150 palavras";
 
             if (command == "ask")
             {
-                WolfishCommand.AskGemini(question);
+                AgentCommand.AskGemini(question, instruction);
             }
         }
 
@@ -109,7 +117,18 @@ namespace Wolfish.Maia
 
             if (command == "download")
             {
-                WolfishCommand.Download(tool);
+                TerminalCommand.Download(tool);
+            }
+        }
+
+        public static void InstallCommand(string[] args)
+        {
+            var command = args[0];
+            var tool = args[1];
+
+            if (command == "install")
+            {
+                TerminalCommand.Install(tool);
             }
         }
 
@@ -122,8 +141,8 @@ namespace Wolfish.Maia
 
             if (command == "new")
             {
-                if (local == "in")  WolfishCommand.NewIssue(type, epic);                
-                else WolfishCommand.NewIssue(type);
+                if (local == "in") TerminalCommand.NewIssue(type, epic);                
+                else TerminalCommand.NewIssue(type);
             }
         }
 
@@ -135,7 +154,7 @@ namespace Wolfish.Maia
 
             if (command == "init")
             {
-                WolfishCommand.InitDevelopment(issue, origin);
+                TerminalCommand.InitDevelopment(issue, origin);
             }
         }
 
@@ -147,7 +166,7 @@ namespace Wolfish.Maia
 
             if (command == "finish")
             {
-                WolfishCommand.FinishDevelopment(issue, target);
+                TerminalCommand.FinishDevelopment(issue, target);
             }
         }
 
@@ -159,7 +178,7 @@ namespace Wolfish.Maia
 
             if (command == "merge")
             {
-                WolfishCommand.MergeBranch(origin, target);
+                TerminalCommand.MergeBranch(origin, target);
             }
         }
 

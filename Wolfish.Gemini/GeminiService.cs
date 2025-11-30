@@ -1,4 +1,5 @@
 ﻿using Mscc.GenerativeAI;
+using System.IO;
 //using Wolfish.Core;
 
 namespace Wolfish.Gemini
@@ -12,7 +13,12 @@ namespace Wolfish.Gemini
         {
             _google = new GoogleAI(apiKey);
             _model = _google.GenerativeModel(Model.Gemini25FlashLite);
+        }
 
+        public GeminiService(string apiKey, string instruction)
+        {
+            _google = new GoogleAI(apiKey);
+            _model = _google.GenerativeModel(Model.Gemini25FlashLite, systemInstruction: new Content(instruction));
         }
 
         public GeminiService BuilderPro()
