@@ -1,105 +1,46 @@
 ﻿using System.Diagnostics;
-using System.Text.Json;
+using System.Text;
 
 namespace Wolfish.Commands
 {
     public static class TerminalCommand
     {
 
-        public static void InitDevelopment(string issueId, string origin)
-        {
-            Console.Write($"Iniciando o desenvolvimento da issue {issueId} a partir da branch {origin}");
-
-            ProcessCommand("git", $"pull origin {origin}");
-
-            //retorna os dados da issue no jira
-            var issue = new Issue { Id = issueId, Type = "bugfix", Subject = "titulo-da-issue" };
-
-            //movimenta o ard para desenvolvimento
-
-            ProcessCommand("git", $"checkout -b \"{issue.Type}\\{issue.Id}-{issue.Subject}\" \"{origin}\"");
-
-        }
-
-        public static void FinishDevelopment(string issueId, string target)
-        {
-            Console.Write($"Finalizando o desenvolvimento da issue {issueId} a publicando PR em {target}");
-
-            ProcessCommand("git", $"push origin");
-
-            //movimenta o card para Code_Review
-
-            ProcessCommand("git", $"pull origin {target}");
-
-            //cria a pull request para github/gitlab/azure
-        }
+        // Comando      argumento       message     realcomand      real argument     
+        // download     chrome          baixando... curl            -o chrome...
+        // install      sdk8            instalano... winget            -o chrome...
 
         public static void Download(string tool)
         {
-            Console.Write($"Baixando {tool}");
-
-            var output = ProcessCommand("curl", "-o chrome_win_x64.exe https://dl.google.com/chrome/install/standalonesetup.exe");
-
-            Console.WriteLine("Saída do processo:\n" + output);
-
-            //Task.Delay(200).Wait();
+            Console.Clear();
+            Console.Write($"Baixando {tool}\n_________________________________________________________________________________\n");
+            ProcessCommand("curl", "-o chrome_win_x64.exe https://dl.google.com/chrome/install/standalonesetup.exe");
         }
 
         public static void Install(string tool)
         {
-            Console.Write($"Instalando {tool} sem preguntas8d");
-
-            var output = ProcessCommand("winget", "install -h Microsoft.DotNet.SDK.8");
-
-            Console.WriteLine("Saída do processo:\n" + output);
-
-            //Task.Delay(200).Wait();
+            Console.Clear();
+            Console.Write($"Instalando {tool} sem perguntas\n ");
+            ProcessCommand("winget", "install -h Microsoft.DotNet.SDK.7");
         }
 
-        public static void NewIssue(string type, string? epic = null)
+        public static void Uninstall(string tool)
         {
-            Console.Write($"Criando um nova issue do tipo {type}");
-            if (epic is not null) Console.WriteLine($" no epico {epic}");
-
-            var output = ProcessCommand("git", "status");
-
-            Console.WriteLine("Saída do processo:\n" + output);
-
-            Task.Delay(200).Wait();
+            Console.Clear();
+            Console.Write($"Desinstalando {tool} sem perguntas\n ");
+            ProcessCommand("winget", "uninstall -h Microsoft.DotNet.SDK.9");
         }
 
-        public static void MergeBranch(string origin, string target)
+        public static void List(string tool)
         {
-            var organization = "Projetos-dot-NET";
-            var repository = "WolfishTools";
-
-            var headDetalhado = "-H \"Accept: application/vnd.github+json\" " +
-                                "-H \"Authorization: Bearer SEU_TOKEN_GITHUB\" " +
-                                "-H \"X-GitHub-Api-Version: 2022-11-28\"";
-
-            var link = $"https://api.github.com/repos/{organization}/{repository}/pulls";
-
-            var jsonSimples = new
-            {
-                title = "Meu novo PR Incrivel",
-                body = "Por favor, revise este codigo",
-                head = origin,
-                Base = target,
-                draft = false,
-            };
-
-            var jsonSerializado = JsonSerializer.Serialize(jsonSimples);
-
-            var jsonPreparado = jsonSerializado.Replace("\"", "\\\"").Replace("B", "b");
-
-            var comandoDetalhado = $"curl -L -X POST {headDetalhado} \"{link}\" -d \"{jsonPreparado}\"";
-
-            var resposta = ProcessCommand("curl", comandoDetalhado);
-            Console.WriteLine(resposta);
+            Console.Clear();
+            Console.Write($"Listando todos  {tool} sem perguntas\n ");
+            ProcessCommand("winget", "list");
         }
 
-        private static string? ProcessCommand(string command, string arguments)
+        private static void ProcessCommand(string command, string arguments)
         {
+            
             //string diretorioAtual = Directory.GetCurrentDirectory();
 
             var startInfo = new ProcessStartInfo
@@ -110,14 +51,46 @@ namespace Wolfish.Commands
                 RedirectStandardError = true,
                 UseShellExecute = false,
                 CreateNoWindow = true,
+                StandardOutputEncoding = Encoding.UTF8, 
+                WindowStyle = ProcessWindowStyle.Normal,
                 //WorkingDirectory = "C:\\Users\\renat\\source\\Projetos"
             };
 
-            var process = Process.Start(startInfo);
-            var output = process?.StandardOutput.ReadToEnd();
-            process?.WaitForExit();
+            var process = new Process
+            {
+                StartInfo = startInfo,
+                EnableRaisingEvents = true
+            };
 
-            return output;
+
+            process.OutputDataReceived += (sender, e) =>
+            {
+                if (!string.IsNullOrEmpty(e.Data))
+                {
+                    Console.CursorVisible = false;
+                    Console.CursorLeft = 0;
+                    Console.Write(e.Data + "                                         ");
+                }
+                    
+            };
+
+            process.ErrorDataReceived += (sender, e) =>
+            {
+                if (!string.IsNullOrEmpty(e.Data))
+                {
+                    Console.CursorVisible = false;
+                    Console.CursorLeft=0;
+                    Console.Write(e.Data+"\n");
+                }
+            };
+
+            process.Start();
+
+
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+
+            process?.WaitForExit();
         }
 
         private class Issue

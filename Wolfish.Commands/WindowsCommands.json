@@ -1,0 +1,30 @@
+﻿[
+  {
+    "Name": "Ask",
+    "Argument": "Estagiario",
+    "Message": "Estagiárioo em Ciencia da Computação",
+    "cmd": "pense que voce é um artista",
+    "arg": "responda em portguês com menos de 150 palavras"
+  },
+  {
+    "Name": "download",
+    "target": "chrome",
+    "Message": "Baixando Chrome\n_________________________________________________________________________________\n",
+    "cmd": "curl ",
+    "arg": "-o chrome_win_x64.exe https://dl.google.com/chrome/install/standalonesetup.exe"
+  },
+  {
+    "Name": "Install",
+    "target": "sdk8",
+    "Message": "Instalando...",
+    "cmd": "winget",
+    "arg": "dotnet8"
+  },
+  {
+    "Name": "Uninstall",
+    "target": "sdk7",
+    "Message": "Baixando...",
+    "Cmd": "winget ",
+    "arg": "-o teste"
+  }
+]

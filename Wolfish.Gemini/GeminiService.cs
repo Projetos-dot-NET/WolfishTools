@@ -27,7 +27,7 @@ namespace Wolfish.Gemini
             return this;
         }
 
-        public GeminiService Builder()
+        public GeminiService BuilderFlash()
         {
             _model = _google.GenerativeModel(Model.Gemini25Flash);
             return this;
