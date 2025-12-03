@@ -13,7 +13,9 @@
     <File Path="DevScripts/install_maia.bat" />
   </Folder>
   <Folder Name="/Docs/">
-    <File Path="exemplo01.md" />
+    <File Path="Docs/exemplo01.md" />
+    <File Path="Docs/index.htm" />
+    <File Path="Docs/index.html" />
     <File Path="LICENSE.txt" />
     <File Path="README.md" />
   </Folder>

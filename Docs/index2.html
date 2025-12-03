@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Aplicativo Incrível | Download</title>
+    <style>
+        /* Estilo CSS básico para a landing page */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        h1 {
+            color: #0056b3;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        p {
+            margin-bottom: 30px;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+
+            .download-btn:hover {
+                background-color: #0056b3;
+            }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Baixe Meu App Incrível</h1>
+        <p>A solução completa para suas necessidades. Rápido, seguro e fácil de instalar. Clique no botão abaixo para começar o download do arquivo ZIP.</p>
+
+        <!-- O link de download aponta para o arquivo app.zip na raiz do repositório -->
+        <a href="app.zip" download class="download-btn">
+            Download Agora (Arquivo ZIP)
+        </a>
+
+        <div class="footer">
+            <p>Versão 1.0. Compatível com Windows/macOS/Linux.</p>
+        </div>
+    </div>
+
+    <!-- Script JavaScript opcional para garantir o download via anchor link -->
+    <script>
+        document.querySelector('.download-btn').addEventListener('click', function(event) {
+            // O atributo 'download' no link já força o navegador a baixar em vez de navegar
+            // Este script é apenas um extra caso o navegador se comporte de forma inesperada.
+            console.log("Iniciando download do app.zip...");
+        });
+    </script>
+</body>
+</html>
