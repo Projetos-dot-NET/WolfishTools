@@ -1,9 +1,15 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wolfish Tools - Download</title>
+
+    <!-- i18next CDN -->
+    <script src="https://unpkg.com/i18next@23.10.1/dist/umd/i18next.min.js"></script>
+    <script src="https://unpkg.com/i18next-http-backend@2.2.2/i18nextHttpBackend.min.js"></script>
+    <script src="https://unpkg.com/i18next-browser-languagedetector@7.1.0/i18nextBrowserLanguageDetector.min.js"></script>
+
     <style>
         body {
             margin: 0;
@@ -64,33 +70,85 @@
             padding: 40px 0;
             color: #777;
         }
+
+        .lang-select {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        select {
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: none;
+        }
+
     </style>
 </head>
 <body>
+
+    <!-- Seletor de idioma -->
+    <div class="lang-select">
+        <select id="languageSwitcher">
+            <option value="pt">🇧🇷 Português</option>
+            <option value="en">🇺🇸 English</option>
+            <option value="es">🇪🇸 Español</option>
+        </select>
+    </div>
+
     <header>
-        <h1>Wolfish Tools</h1>
-        <h2>Automação e ferramentas para desenvolvedores</h2>
+        <h1 data-i18n="title">Wolfish Tools</h1>
+        <h2 data-i18n="subtitle">Automação e ferramentas para desenvolvedores</h2>
     </header>
 
     <div class="container">
-        <p>
+        <p data-i18n="description">
             Baixe agora o aplicativo Wolfish Tools — uma coleção de utilitários e comandos
             criados para acelerar seu fluxo de desenvolvimento.
         </p>
 
-        <!-- ALTERE O CAMINHO DO ZIP QUANDO PUBLICAR NO GITHUB PAGES -->
-        <a href="./wolfish-tools.zip" class="btn-download" download>
+        <a href="https://github.com/Projetos-dot-NET/WolfishTools/releases/download/v0.0.1/Wolfish.Maia.0.0.1.nupkg" class="btn-download" download data-i18n="downloadBtn">
             📥 Baixar Aplicativo (.zip)
         </a>
 
-        <!-- LINK PARA O REPOSITÓRIO DO GITHUB -->
-        <a class="github-link" href="https://github.com/Projetos-dot-NET/WolfishTools" target="_blank">
+        <a class="github-link" href="https://github.com/Projetos-dot-NET/WolfishTools" target="_blank" data-i18n="githubLink">
             🔗 Ver projeto no GitHub
         </a>
     </div>
 
     <footer>
-        © 2025 Wolfish Tools — Todos os direitos reservados.
+        © 2025 Wolfish Tools — <span data-i18n="rights">Todos os direitos reservados.</span>
     </footer>
+
+    <!-- Script i18n -->
+    <script>
+        i18next
+            .use(i18nextHttpBackend)
+            .use(i18nextBrowserLanguageDetector)
+            .init({
+                fallbackLng: 'pt',
+                debug: false,
+                backend: {
+                  loadPath: './locales/{{lng}}.json',
+                  crossDomain: false
+                }
+              }, function (err, t) {
+                updateContent();
+            document.getElementById('languageSwitcher').value = i18next.language.substring(0,2);
+          });
+
+        function updateContent() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                el.innerHTML = i18next.t(key);
+            });
+        }
+
+        // Change language manually
+        document.getElementById('languageSwitcher').addEventListener('change', function() {
+            const newLng = this.value;
+            i18next.changeLanguage(newLng).then(updateContent);
+        });
+    </script>
 </body>
 </html>

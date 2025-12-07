@@ -63,3 +63,8 @@ maia ask "qualquer coisa que queira perguntar para o gemini"
 ```
 maia welcome
 ```
+
+## Website with download link
+
+- [Site](https://projetos-dot-net.github.io/WolfishTools/)
+- [Download](https://github.com/Projetos-dot-NET/WolfishTools/releases/download/v0.0.1/Wolfish.Maia.0.0.1.nupkg)
