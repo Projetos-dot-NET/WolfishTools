@@ -8,6 +8,10 @@ namespace Wolfish.Maia
     {
         private static async Task Main(string[] args)
         {
+            var found = false;
+            
+            //string[] args = ["welcome"];
+            //string[] args = ["install","github"];
             //string[] args = ["merge","developer","master"];
             //string[] args = ["download","chrome"];
 
@@ -17,21 +21,27 @@ namespace Wolfish.Maia
             //string[] args = ["uninstall", "dotnet8"];
             //string[] args = ["ask", "qqumn", "para", "me", "dar", "dicas", "de", "comandos", "shell", "windows", "e", "linux", "mais", "utilizados", "em", "desenvolvimento", "de", "software", "em", "no", "máximo", "200", "palavras", "e", "em", "portugues"];
 
-            var semver = Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
             if (args.Length == 0) args = ["welcome", "version"];
 
             if (args[0] == "welcome")
-            {                
+            {
+                args = ["welcome", "version"];
+                found = true;
+                var semver = Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
                 Console.WriteLine($"\nTank you! I'm happy to be here! \nAnd I'm now runnig on {args[1]} {semver}");
             }
 
-            var terminalCommand = new WolfishCommand("./Lists/TerminalCommands.json");
-            var found = await terminalCommand.SeekAndExecute(args[0], args[1]);
-
-            var allArguments = new StringBuilder();
+            if (!found)
+            {
+                var baseDirectory = AppContext.BaseDirectory;
+                var terminalCommand = new WolfishCommand($"{baseDirectory}/Lists/TerminalCommands.json");
+                found = await terminalCommand.SeekAndExecute(args[0], args[1]);
+            }                     
 
             if (!found)
             {
+                var allArguments = new StringBuilder();
+
                 if (args[0] == "ask" && args[1] == "gemini")
                 {
                     for (var i = 2; i < args.Length; i++) allArguments.Append(" " + args[i]);
