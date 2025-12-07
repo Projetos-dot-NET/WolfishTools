@@ -1,3 +1,19 @@
 <Solution>
-  <Project Path="Wolfish.Maia/Wolfish.Maia.csproj" />
+  <Folder Name="/1 - Application/">
+    <Project Path="Wolfish.Maia/Wolfish.Maia.csproj" />
+  </Folder>
+  <Folder Name="/3 - Domain/">
+    <Project Path="Wolfish.Commands/Wolfish.Commands.csproj" />
+  </Folder>
+  <Folder Name="/5 - Infrastructure/">
+    <Project Path="Wolfish.Gemini/Wolfish.Gemini.csproj" />
+  </Folder>
+  <Folder Name="/7 - Tests/" />
+  <Folder Name="/DevScripts/">
+    <File Path="DevScripts/install_maia.bat" />
+  </Folder>
+  <Folder Name="/Docs/">
+    <File Path="LICENSE.txt" />
+    <File Path="README.md" />
+  </Folder>
 </Solution>

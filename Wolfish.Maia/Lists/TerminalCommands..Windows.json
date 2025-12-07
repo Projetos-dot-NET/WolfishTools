@@ -1,0 +1,58 @@
+﻿[
+  {
+    "gun": "download",
+    "aim": "chrome",
+    "msg": "Baixando Chrome",
+    "cmd": "curl ",
+    "arg": "-o chrome_win_x64.exe https://dl.google.com/chrome/install/standalonesetup.exe"
+  },
+  {
+    "gun": "install",
+    "aim": "sdk10",
+    "msg": "Instalando .NET10",
+    "cmd": "winget",
+    "arg": "install -h Microsoft.DotNet.SDK.10"
+  },
+  {
+    "gun": "install",
+    "aim": "sdk8",
+    "msg": "Instalando .NET8",
+    "cmd": "winget",
+    "arg": "install -h Microsoft.DotNet.SDK.8"
+  },
+  {
+    "gun": "uninstall",
+    "aim": "sdk10",
+    "msg": "Desinstalando .NET10",
+    "cmd": "winget",
+    "arg": "uninstall -h Microsoft.DotNet.SDK.10"
+  },
+  {
+    "gun": "uninstall",
+    "aim": "sdk8",
+    "msg": "Desinstalando .NET8",
+    "cmd": "winget",
+    "arg": "uninstall -h Microsoft.DotNet.SDK.8"
+  },
+  {
+    "gun": "ask",
+    "aim": "gempro",
+    "msg": "Google Gemini Pro via pithon",
+    "cmd": "llm",
+    "arg": "-m gemini-1.5-flash"
+  },
+  {
+    "gun": "ask",
+    "aim": "gemflash",
+    "msg": "Google Gemini Pro via pithon",
+    "cmd": "llm",
+    "arg": "-m gemini-1.5-flash '{0} Me responda de forma resumida em 150 caracteres e em portugês'"
+  },
+  {
+    "gun": "default",
+    "aim": "agent",
+    "msg": "Não conseguiu digitar nenhum comando, vou te ajudar...",
+    "cmd": "llm",
+    "arg": "-m gemini-1.5-flash '{0} Pesquise por comandos via terminal utilizados no windows e o linux que se pareça com esses e me oriente como posso utiliza-los em no máximo 200 palavras e em portugues:'"
+  }
+]

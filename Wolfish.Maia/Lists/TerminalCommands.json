@@ -1,0 +1,37 @@
+﻿[
+  {
+    "gun": "download",
+    "aim": "chrome",
+    "msg": "Baixando Chrome",
+    "cmd": "curl ",
+    "arg": "-o chrome_win_x64.exe https://dl.google.com/chrome/install/standalonesetup.exe"
+  },
+  {
+    "gun": "install",
+    "aim": "sdk10",
+    "msg": "Instalando .NET10",
+    "cmd": "winget",
+    "arg": "install -h Microsoft.DotNet.SDK.10"
+  },
+  {
+    "gun": "install",
+    "aim": "sdk8",
+    "msg": "Instalando .NET8",
+    "cmd": "winget",
+    "arg": "install -h Microsoft.DotNet.SDK.8"
+  },
+  {
+    "gun": "uninstall",
+    "aim": "sdk10",
+    "msg": "Desinstalando .NET10",
+    "cmd": "winget ",
+    "arg": "uninstall -h Microsoft.DotNet.SDK.10"
+  },
+  {
+    "gun": "uninstall",
+    "aim": "sdk8",
+    "msg": "Desinstalando .NET8",
+    "cmd": "winget ",
+    "arg": "uninstall -h Microsoft.DotNet.SDK.8"
+  }
+]
