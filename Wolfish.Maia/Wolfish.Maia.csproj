@@ -5,17 +5,25 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<PackAsTool>true</PackAsTool>
-	<ToolCommandName>maia</ToolCommandName>
 	<Version>0.0.1</Version>
 	<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+	  
+	<PackAsTool>true</PackAsTool>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	<PackageOutputPath>./nupkg</PackageOutputPath>
+	<ToolCommandName>maia</ToolCommandName>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Wolfish.Commands\Wolfish.Commands.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+	<None Include="..\README.md" Pack="true" PackagePath="\"/>
+	<None Include="..\LICENSE.txt" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+	
   <ItemGroup>
     <Folder Include="nupkg\" />
   </ItemGroup>

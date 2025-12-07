@@ -17,8 +17,6 @@ namespace Wolfish.Maia
             //string[] args = ["uninstall", "dotnet8"];
             //string[] args = ["ask", "qqumn", "para", "me", "dar", "dicas", "de", "comandos", "shell", "windows", "e", "linux", "mais", "utilizados", "em", "desenvolvimento", "de", "software", "em", "no", "máximo", "200", "palavras", "e", "em", "portugues"];
 
-            var allArguments = new StringBuilder();
-
             var semver = Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
             if (args.Length == 0) args = ["welcome", "version"];
 
@@ -29,6 +27,8 @@ namespace Wolfish.Maia
 
             var terminalCommand = new WolfishCommand("./Lists/TerminalCommands.json");
             var found = await terminalCommand.SeekAndExecute(args[0], args[1]);
+
+            var allArguments = new StringBuilder();
 
             if (!found)
             {

@@ -8,6 +8,90 @@
   },
   {
     "gun": "install",
+    "aim": "github",
+    "msg": "Instalando GitHub CLI",
+    "cmd": "winget",
+    "arg": "install --id GitHub.cli -e"
+  },
+  {
+    "gun": "uninstall",
+    "aim": "github",
+    "msg": "Desinstalando GitHub CLI",
+    "cmd": "winget",
+    "arg": "uninstall --id GitHub.cli -e"
+  },
+  {
+    "gun": "upgrade",
+    "aim": "github",
+    "msg": "Atualizando GitHub CLI",
+    "cmd": "winget",
+    "arg": "upgrade --id GitHub.cli -e"
+  },
+  {
+    "gun": "install",
+    "aim": "azure",
+    "msg": "Instalando Azure CLI",
+    "cmd": "winget",
+    "arg": "install --id Microsoft.AzureCLI -e"
+  },
+  {
+    "gun": "uninstall",
+    "aim": "azure",
+    "msg": "Desinstalando Azure CLI",
+    "cmd": "winget",
+    "arg": "uninstall --id Microsoft.AzureCLI -e"
+  },
+  {
+    "gun": "upgrade",
+    "aim": "azure",
+    "msg": "Atualizando Azure CLI",
+    "cmd": "winget",
+    "arg": "upgrade --id Microsoft.AzureCLI -e"
+  },
+  {
+    "gun": "install",
+    "aim": "gcloud",
+    "msg": "Instalando Google Cloud SDK",
+    "cmd": "winget",
+    "arg": "install --id Google.CloudSDK -e"
+  },
+  {
+    "gun": "uninstall",
+    "aim": "gcloud",
+    "msg": "Desinstalando Google Cloud SDK",
+    "cmd": "winget",
+    "arg": "uninstall --id Google.CloudSDK -e"
+  },
+  {
+    "gun": "upgrade",
+    "aim": "gcloud",
+    "msg": "Atualizando Google Cloud SDK",
+    "cmd": "winget",
+    "arg": "winget upgrade --id Google.CloudSDK -e"
+  },
+  {
+    "gun": "install",
+    "aim": "python",
+    "msg": "Instalando lastest Python",
+    "cmd": "winget",
+    "arg": "install Python.Python"
+  },
+  {
+    "gun": "uninstall",
+    "aim": "python",
+    "msg": "Desinstalando lastest Python",
+    "cmd": "winget",
+    "arg": "uninstall Python.Python"
+  },
+  {
+    "gun": "upgrade",
+    "aim": "python",
+    "msg": "Atualizando lastest Python",
+    "cmd": "winget",
+    "arg": "upgrade Python.Python"
+  },
+  {
+    "gun": "install",
     "aim": "sdk10",
     "msg": "Instalando .NET10",
     "cmd": "winget",
@@ -24,14 +108,35 @@
     "gun": "uninstall",
     "aim": "sdk10",
     "msg": "Desinstalando .NET10",
-    "cmd": "winget ",
+    "cmd": "winget",
     "arg": "uninstall -h Microsoft.DotNet.SDK.10"
   },
   {
     "gun": "uninstall",
     "aim": "sdk8",
     "msg": "Desinstalando .NET8",
-    "cmd": "winget ",
+    "cmd": "winget",
     "arg": "uninstall -h Microsoft.DotNet.SDK.8"
+  },
+  {
+    "gun": "ask",
+    "aim": "gempro",
+    "msg": "Google Gemini Pro via python",
+    "cmd": "llm",
+    "arg": "-m gemini-1.5-flash"
+  },
+  {
+    "gun": "ask",
+    "aim": "gemflash",
+    "msg": "Google Gemini Pro via python",
+    "cmd": "llm",
+    "arg": "-m gemini-1.5-flash '{0} Me responda de forma resumida em 150 caracteres e em portugês'"
+  },
+  {
+    "gun": "default",
+    "aim": "agent",
+    "msg": "Não conseguiu digitar nenhum comando, vou te ajudar...",
+    "cmd": "llm",
+    "arg": "-m gemini-1.5-flash '{0} Pesquise por comandos via terminal utilizados no windows e o linux que se pareça com esses e me oriente como posso utiliza-los em no máximo 200 palavras e em portugues:'"
   }
 ]
