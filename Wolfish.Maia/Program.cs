@@ -9,8 +9,12 @@ namespace Wolfish.Maia
         private static async Task Main(string[] args)
         {
             var found = false;
-            
+            var baseDirectory = AppContext.BaseDirectory;
+            var terminalCommand = new WolfishCommand($"{baseDirectory}/Lists/TerminalCommands.json");
+
             //string[] args = ["welcome"];
+            //string[] args = ["list"];
+
             //string[] args = ["install","github"];
             //string[] args = ["merge","developer","master"];
             //string[] args = ["download","chrome"];
@@ -21,24 +25,37 @@ namespace Wolfish.Maia
             //string[] args = ["uninstall", "dotnet8"];
             //string[] args = ["ask", "qqumn", "para", "me", "dar", "dicas", "de", "comandos", "shell", "windows", "e", "linux", "mais", "utilizados", "em", "desenvolvimento", "de", "software", "em", "no", "máximo", "200", "palavras", "e", "em", "portugues"];
 
-            if (args.Length == 0) args = ["welcome", "version"];
-
-            if (args[0] == "welcome")
+            if (args.Length == 0)
             {
-                args = ["welcome", "version"];
-                found = true;
-                var semver = Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
-                Console.WriteLine($"\nTank you! I'm happy to be here! \nAnd I'm now runnig on {args[1]} {semver}");
+                //imprimi um help esplicando a ferramenta
+
             }
 
-            if (!found)
+            if (args.Length == 1) //one shots
             {
-                var baseDirectory = AppContext.BaseDirectory;
-                var terminalCommand = new WolfishCommand($"{baseDirectory}/Lists/TerminalCommands.json");
+                if (args[0] == "welcome")
+                {                    
+                    found = true;
+                    var semver = Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+                    Console.WriteLine($"\nTank you! I'm happy to be here! \nAnd I'm now runnig on version {semver}");
+                }
+
+                if (args[0] == "list")
+                {
+                    found = true;
+                    var commandList = terminalCommand.LoadFromJson();
+                    var commandtable = terminalCommand.BuildLimidetTable(commandList);
+                    Console.WriteLine(commandtable);
+                }
+
+            }
+            
+            if (!found && args.Length == 2)//Double shots
+            {               
                 found = await terminalCommand.SeekAndExecute(args[0], args[1]);
             }                     
 
-            if (!found)
+            if (!found && args.Length > 2) //burst rajada
             {
                 var allArguments = new StringBuilder();
 

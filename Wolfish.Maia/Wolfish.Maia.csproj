@@ -20,8 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-	<None Include="..\README.md" Pack="true" PackagePath="\"/>
-	<None Include="..\LICENSE.txt" Pack="true" PackagePath="\"/>
+	<None Include="..\README.md" Pack="true" PackagePath="\" />
+	<None Include="..\LICENSE.txt" Pack="true" PackagePath="\" />
   </ItemGroup>
 	
   <ItemGroup>
@@ -32,13 +32,16 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Lists\TerminalCommands.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Lists\TerminalCommands.Linux.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Lists\AgentCommands.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Lists\TerminalCommands.json">
+    <None Update="Lists\AutomatedScripts.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Lists\TerminalCommands..Windows.json">

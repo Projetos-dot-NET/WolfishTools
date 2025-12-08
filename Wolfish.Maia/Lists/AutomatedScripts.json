@@ -1,0 +1,25 @@
+﻿[
+  {
+    "gun": "download",
+    "aim": "chrome",
+    "msg": "Baixando Chrome",
+    "stp": [
+      {
+        "cmd": "",
+        "arg": ""
+      },
+      {
+        "cmd": "",
+        "arg": ""
+      },
+      {
+        "cmd": "",
+        "arg": ""
+      },
+      {
+        "cmd": "",
+        "arg": ""
+      }
+    ]
+  }
+]
