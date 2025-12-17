@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Wolfish.Commands\Wolfish.Commands.csproj" />
+    <ProjectReference Include="..\Wolfish.Llama\Wolfish.Llama.csproj" />
   </ItemGroup>
 
   <ItemGroup>
