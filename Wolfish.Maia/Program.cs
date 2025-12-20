@@ -1,13 +1,19 @@
-﻿using System.Reflection;
+﻿using Microsoft.Extensions.Configuration;
+using System.Reflection;
 using System.Text;
 using Wolfish.Commands;
+using Wolfish.Llama;
 
 namespace Wolfish.Maia
 {
     public class Program
     {
+        private static readonly string AGENT_PATH = "C:/Users/renat/source/repos/WolfishTools/Wolfish.Llama/gemma-2-2b-it-Q4_K_M.gguf";
+
         private static async Task Main(string[] args)
         {
+            
+
             var found = false;
             var baseDirectory = AppContext.BaseDirectory;
             var terminalCommand = new WolfishCommand($"{baseDirectory}/Lists/TerminalCommands.json");
@@ -23,18 +29,17 @@ namespace Wolfish.Maia
 
             //string[] args = ["apt", "search", "octopi"];
             //string[] args = ["uninstall", "dotnet8"];
-            //string[] args = ["ask", "qqumn", "para", "me", "dar", "dicas", "de", "comandos", "shell", "windows", "e", "linux", "mais", "utilizados", "em", "desenvolvimento", "de", "software", "em", "no", "máximo", "200", "palavras", "e", "em", "portugues"];
+            //string[] args = ["ask", "qqum", "para", "me", "dar", "dicas", "de", "comandos", "shell", "windows", "e", "linux", "mais", "utilizados", "em", "desenvolvimento", "de", "software", "em", "no", "máximo", "200", "palavras", "e", "em", "portugues"];
 
             if (args.Length == 0)
             {
-                //imprimi um help esplicando a ferramenta
-
+                ShowHelp();
             }
 
-            if (args.Length == 1) //one shots
+            if (args.Length == 1) //quick shots tiro rapido
             {
                 if (args[0] == "welcome")
-                {                    
+                {
                     found = true;
                     var semver = Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
                     Console.WriteLine($"\nTank you! I'm happy to be here! \nAnd I'm now runnig on version {semver}");
@@ -49,32 +54,75 @@ namespace Wolfish.Maia
                 }
 
             }
-            
-            if (!found && args.Length == 2)//Double shots
-            {               
+
+            if (!found && args.Length == 2)//clean shots tiro certeiro
+            {
                 found = await terminalCommand.SeekAndExecute(args[0], args[1]);
-            }                     
+            }
+
+            var settings = Config();
 
             if (!found && args.Length > 2) //burst rajada
             {
                 var allArguments = new StringBuilder();
 
-                if (args[0] == "ask" && args[1] == "gemini")
+                if (args[0] == "ask" && args[1] == "bot")
                 {
                     for (var i = 2; i < args.Length; i++) allArguments.Append(" " + args[i]);
-                    AgentCommand.AskGeminiPro(allArguments.ToString());
+
+                    var agent = new LlamaService(settings);
+                    agent.ChatWithGemma(allArguments.ToString()).Wait();
                 }
                 else
                 {
                     foreach (var arg in args) allArguments.Append(" " + arg);
-                    AgentCommand.AskGeminiFlash($"Pesquise por comandos via terminal utilizados no windows " +
-                                                $"e o linux que se pareça com esses e me oriente como utiliza-los " +
-                                                $"em no máximo 256 caracteres e em portugues:{allArguments.ToString()}");
+                    var instructionDefault = "Você é um programador .NET e c# e prefere que seja respondido em português ";
+                    var promptDefault = $"Me dê uma lista de comandos via terminal utilizados no windows " +
+                                        $"e o linux que se pareça com esses e me oriente como utiliza-los " +
+                                        $"em no máximo 256 caracteres e em portugues:{allArguments.ToString()}";
+
+                    var agent = new LlamaService(settings);
+                    agent.ChatWithGemma(promptDefault, instructionDefault).Wait();
                 }
             }
             //end if
         }
         //end main
+
+        private static void ShowHelp()
+        {
+            Console.WriteLine("Wolfish.Maia - Assistente de linha de comando impulsionado por IA");
+            Console.WriteLine("Uso:");
+            Console.WriteLine("  Wolfish.Maia welcome                     Exibe uma mensagem de boas-vindas.");
+            Console.WriteLine("  Wolfish.Maia list                        Lista todos os comandos disponíveis.");
+            Console.WriteLine("  Wolfish.Maia install <nome_do_pacote>    Instala o pacote especificado.");
+            Console.WriteLine("  Wolfish.Maia uninstall <nome_do_pacote>  Desinstala o pacote especificado.");
+            Console.WriteLine("  Wolfish.Maia ask <pergunta>              Faz uma pergunta ao assistente de IA.");
+            Console.WriteLine();
+        }
+
+        private static GemmaSettings Config() 
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+            IConfiguration config = builder.Build();
+
+            var settings = new GemmaSettings();
+            config.GetSection("GemmaSettings").Bind(settings);
+
+            if (!File.Exists(settings.ModelPath))
+            {
+                Console.WriteLine($"[ERRO] Modelo não encontrado no caminho: {settings.ModelPath}");
+                Console.WriteLine("Verifique seu appsettings.json");
+                return null;
+            }
+            return settings;
+            //Console.WriteLine($"[Config] Modelo: {Path.GetFileName(settings.ModelPath)}");
+            //Console.WriteLine($"[Config] Contexto: {settings.ContextSize} tokens");
+        }
+        
     }
     //end class
 }

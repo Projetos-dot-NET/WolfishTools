@@ -6,25 +6,19 @@ namespace Wolfish.Llama
 {
     public class LlamaService
     {
-        private readonly string _path;
+        //private readonly string _path;
+        private readonly GemmaSettings _settings;
 
-        public LlamaService(string path)
+        public LlamaService(GemmaSettings settings)
         {
-            _path = path;
-
-            if (!File.Exists(path))
-            {
-                Console.WriteLine($"ERRO CRÍTICO: Arquivo não encontrado em: {path}");
-                return;
-            }
-
+            _settings = settings;
         }
 
         public async Task ChatWithGemma(string answer, string instruction = null)
         {
             NativeLogConfig.llama_log_set((level, message) => { }); //silenciar os logs nativos do llama
 
-            var parameters = new ModelParams(_path) { ContextSize = 1024, GpuLayerCount = 20 };
+            var parameters = new ModelParams(_settings.ModelPath) { ContextSize = 1024, GpuLayerCount = 20 };
             using var model = LLamaWeights.LoadFromFile(parameters);
             using var context = model.CreateContext(parameters);
             var executor = new InteractiveExecutor(context);
