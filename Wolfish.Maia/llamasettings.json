@@ -1,0 +1,28 @@
+﻿{
+  "LanguageModels": [
+    {
+      "Name": "gemma",
+      "ModelPath": "C:/Users/renat/source/repos/WolfishTools/Wolfish.Llama/gemma-2-2b-it-Q4_K_M.gguf",
+      "SystemMessage": "Tu és um assistente útil e conciso.",
+      "AntiPrompts": [ "User:" ],
+      "ContextSize": 4096,
+      "MaxTokens": 1024,
+      "GpuLayerCount": 20,
+      "Threads": 1,
+      "HistoryFileName": "chat_history.json",
+      "HistorySize": 6 
+    },
+    {
+      "Name": "qwen",
+      "SystemMessage": "Tu és um assistente útil e conciso.",
+      "ModelPath": "C:/Users/renat/source/Projetos/WolfishTools/Wolfish.Llama/qwen2.5-1.5b-instruct-q8_0.gguf",
+      "AntiPrompts": [ "<|im_end|>", "<|endoftext|>" ],
+      "ContextSize": 2048,
+      "MaxTokens": 1024,
+      "GpuLayerCount": 0,
+      "Threads": 2,
+      "HistoryFileName": "chat_history.json",
+      "HistorySize": 2
+    }
+  ]
+}

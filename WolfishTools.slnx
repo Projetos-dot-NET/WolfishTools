@@ -1,18 +1,24 @@
 <Solution>
-  <Folder Name="/1 - Application/">
+  <Folder Name="/1 - Interface/">
     <Project Path="Wolfish.Maia/Wolfish.Maia.csproj" />
   </Folder>
-  <Folder Name="/3 - Domain/">
+  <Folder Name="/2 - Application/">
     <Project Path="Wolfish.Commands/Wolfish.Commands.csproj" />
+  </Folder>
+  <Folder Name="/3 - Domain/">
+    <Project Path="Wolfish.Core/Wolfish.Core.csproj" Id="07b7ddf4-8b6d-4994-b92d-2074be5fa34f" />
+    <Project Path="Wolfish.Shared/Wolfish.Shared.csproj" Id="a0540ea1-c9d0-417b-9503-1c3f114d7c62" />
   </Folder>
   <Folder Name="/5 - Infrastructure/">
     <Project Path="Wolfish.Gemini/Wolfish.Gemini.csproj" />
+    <Project Path="Wolfish.Llama/Wolfish.Llama.csproj" Id="480741dd-5f2a-4610-b4fa-ac613b8b5bd7" />
   </Folder>
   <Folder Name="/7 - Tests/" />
   <Folder Name="/DevScripts/">
     <File Path="DevScripts/install_maia.bat" />
   </Folder>
   <Folder Name="/Docs/">
+    <File Path="docs/index.html" />
     <File Path="LICENSE.txt" />
     <File Path="README.md" />
   </Folder>

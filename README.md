@@ -1,34 +1,40 @@
 # WolfishTools
 
+Wolfish Maia (CLI) Um assistente ~de automatiza√ß√£o, n√£o √© um assiitente de IA por√©m tamb√©m conversa com uma  IA local leve e r√°pido para o terminal, constru√≠do em .NET 10 e alimentado por modelos de linguagem Llama.
+
+[![NuGet](https://img.shields.io/nuget/v/wolfish.maia.svg)](https://www.nuget.org/packages/wolfish.maia)
+[![Downloads](https://img.shields.io/nuget/dt/wolfish.maia.svg)](https://www.nuget.org/packages/wolfish.maia)
+    
+
 ## MAIA Assistente Integrada Automatizada 
 
-Na ciÍncia da computaÁ„o, os desenvolvedores tÍm uma longa tradiÁ„o de usar acrÙnimos recursivos. Esse tipo de sigla È peculiar porque se refere a si mesma em sua prÛpria definiÁ„o, um toque de humor interno e inteligÍncia que se tornou uma marca registrada de muitos projetos de software influentes.
-Exemplos cl·ssicos incluem:
+Na ci√™ncia da computa√ß√£o, os desenvolvedores t√™m uma longa tradi√ß√£o de usar acr√¥nimos recursivos. Esse tipo de sigla √© peculiar porque se refere a si mesma em sua pr√≥pria defini√ß√£o, um toque de humor interno e intelig√™ncia que se tornou uma marca registrada de muitos projetos de software influentes.
+Exemplos cl√°ssicos incluem:
 
 - GNU (GNU's Not Unix)
 - PHP (PHP: Hypertext Preprocessor)
 - WINE (Wine Is Not an Emulator)
 
-Essa tradiÁ„o de nomes inteligentes e autorreferenciais continua com projetos modernos e inovadores.
+Essa tradi√ß√£o de nomes inteligentes e autorreferenciais continua com projetos modernos e inovadores.
 
-… com esse espÌrito criativo que apresentamos MAIA, sua nova assistente digital. O nome MAIA È um acrÙnimo recursivo que define perfeitamente sua funcionalidade principal:
+√â com esse esp√≠rito criativo que apresentamos MAIA, sua nova assistente digital. O nome MAIA √© um acr√¥nimo recursivo que define perfeitamente sua funcionalidade principal:
 
-MAIA foi projetada para simplificar sua vida, integrando-se perfeitamente ‡s suas tarefas di·rias e automatizando processos de forma inteligente.
+MAIA foi projetada para simplificar sua vida, integrando-se perfeitamente √†s suas tarefas di√°rias e automatizando processos de forma inteligente.
 
 ## MAIA Asistente Integrada Automatizada 
-En inform·tica, los desarrolladores tienen una larga tradiciÛn en el uso de acrÛnimos recursivos. Este tipo de acrÛnimo es peculiar porque se refiere a sÌ mismo en su propia definiciÛn, un toque de humor e inteligencia que se ha convertido en el sello distintivo de muchos proyectos de software influyentes.
+En inform√°tica, los desarrolladores tienen una larga tradici√≥n en el uso de acr√≥nimos recursivos. Este tipo de acr√≥nimo es peculiar porque se refiere a s√≠ mismo en su propia definici√≥n, un toque de humor e inteligencia que se ha convertido en el sello distintivo de muchos proyectos de software influyentes.
 
-Ejemplos cl·sicos incluyen:
+Ejemplos cl√°sicos incluyen:
 
 - GNU (GNU no es Unix)
 - PHP (PHP: Preprocesador de Hipertexto)
 - WINE (Wine no es un emulador)
 
-Esta tradiciÛn de nombres ingeniosos y autorreferenciales contin˙a con proyectos modernos e innovadores.
+Esta tradici√≥n de nombres ingeniosos y autorreferenciales contin√∫a con proyectos modernos e innovadores.
 
-Con este espÌritu creativo presentamos MAIA, tu nuevo asistente digital. El nombre MAIA es un acrÛnimo recursivo que define a la perfecciÛn su principal funcionalidad:
+Con este esp√≠ritu creativo presentamos MAIA, tu nuevo asistente digital. El nombre MAIA es un acr√≥nimo recursivo que define a la perfecci√≥n su principal funcionalidad:
 
-MAIA fue diseÒado para simplificarte la vida, integr·ndose a la perfecciÛn en tus tareas diarias y automatizando procesos de forma inteligente.
+MAIA fue dise√±ado para simplificarte la vida, integr√°ndose a la perfecci√≥n en tus tareas diarias y automatizando procesos de forma inteligente.
 
 ## MAIA Automated Integrated Assistant
 
@@ -46,6 +52,27 @@ It is with this creative spirit that we present MAIA, your new digital assistant
 
 MAIA was designed to simplify your life, seamlessly integrating into your daily tasks and intelligently automating processes.
 
+## How to Install
+
+Requer .NET 10 SDK instalado.
+
+```bash
+dotnet tool install --global wolfish.maia
+
+```
+
+## How Download the language models
+
+```bash
+maia download qwen
+
+```
+or
+
+```bash
+maia download gemma
+
+```
 ## Commands
 
 ```
@@ -63,3 +90,11 @@ maia ask "qualquer coisa que queira perguntar para o gemini"
 ```
 maia welcome
 ```
+
+## Website with download link
+
+- [Site](https://projetos-dot-net.github.io/WolfishTools/)
+- [Download](https://github.com/Projetos-dot-NET/WolfishTools/releases/download/v0.0.2/Wolfish.Maia.0.0.2.nupkg)
+
+
+ 

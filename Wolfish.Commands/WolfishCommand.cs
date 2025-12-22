@@ -7,10 +7,7 @@ namespace Wolfish.Commands
     public class WolfishCommand
     {
         public readonly string _path;
-        public WolfishCommand()
-        {
-            _path = "./WindowsCommands.json";
-        }
+        public static int MaxColumnWidth { get; set; } = 30;
 
         public WolfishCommand(string path)
         {
@@ -27,7 +24,84 @@ namespace Wolfish.Commands
 
             return comandNames;
         }
+        
+        public List<TerminalCommandDto> LoadFromJson()
+        {
+            if (!File.Exists(_path))
+                throw new FileNotFoundException("Arquivo JSON não encontrado", _path);
 
+            var json = File.ReadAllText(_path);
+            return JsonSerializer.Deserialize<List<TerminalCommandDto>>(json)!;
+        }
+
+        public string BuildTable(List<TerminalCommandDto> items)
+        {
+            var headers = new[] { "GUN", "AIM", "MESSAGE", "CMD", "ARG" };
+
+            var rows = items.Select(i => new[]
+            {i.Gun, i.Aim, i.Msg, i.Cmd, i.Arg}).ToList();
+
+
+            int[] colWidths = new int[headers.Length];
+
+            for (int c = 0; c < headers.Length; c++)
+            {
+                int headerWidth = headers[c].Length;
+                int maxRowWidth = rows.Max(r => r[c].Length);
+                colWidths[c] = Math.Max(headerWidth, maxRowWidth) + 2;
+            }
+
+            string Separator()
+            {
+                string line = "+";
+                foreach (var w in colWidths)
+                    line += new string('-', w) + "+";
+                return line;
+            }
+
+            string header = "|" + string.Join("", headers.Select((h, i) => h.PadRight(colWidths[i]) + "|"));
+            string sep = Separator();
+
+            var body = rows.Select(row =>
+                "|" + string.Join("", row.Select((c, i) => c.PadRight(colWidths[i]) + "|"))
+            );
+
+            return sep + "\n" + header + "\n" + sep + "\n" + string.Join("\n", body) + "\n" + sep;
+        }
+
+        public string BuildLimidetTable(List<TerminalCommandDto> items)
+        {
+            var headers = new[] { "GUN", "AIM", "MESSAGE", "CMD", "ARG" };
+
+            var rows = items.Select(i => new[]{i.Gun, i.Aim, Truncate(i.Msg, MaxColumnWidth), Truncate(i.Cmd, MaxColumnWidth), Truncate(i.Arg, MaxColumnWidth)}).ToList();
+
+            int[] colWidths = new int[headers.Length];
+
+            for (int c = 0; c < headers.Length; c++)
+            {
+                int headerWidth = headers[c].Length;
+                int maxRowWidth = rows.Max(r => r[c].Length);
+                colWidths[c] = Math.Min(Math.Max(headerWidth, maxRowWidth) + 2, MaxColumnWidth + 2);
+            }
+
+            string Separator()
+            {
+                string line = "+";
+                foreach (var w in colWidths)
+                    line += new string('-', w) + "+";
+                return line;
+            }
+
+            string header = "|" + string.Join("", headers.Select((h, i) => h.PadRight(colWidths[i]) + "|"));
+            string sep = Separator();
+
+            var body = rows.Select(row =>
+                "|" + string.Join("", row.Select((c, i) => c.PadRight(colWidths[i]) + "|"))
+            );
+
+            return sep + "\n" + header + "\n" + sep + "\n" + string.Join("\n", body) + "\n" + sep;
+        }
+        
         public async Task<bool> SeekAndExecute(string name, string target)
         {
             using var fileStream = File.OpenRead(_path);
@@ -89,6 +163,12 @@ namespace Wolfish.Commands
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process?.WaitForExit();
+        }
+
+        private static string Truncate(string text, int max)
+        {
+            if (text.Length <= max) return text;
+            return text.Substring(0, max - 1) + "…"; // adiciona reticência
         }
 
     }

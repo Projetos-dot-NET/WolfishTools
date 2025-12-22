@@ -8,6 +8,90 @@
   },
   {
     "gun": "install",
+    "aim": "github",
+    "msg": "Instalando GitHub CLI",
+    "cmd": "winget",
+    "arg": "install --id GitHub.cli -e"
+  },
+  {
+    "gun": "uninstall",
+    "aim": "github",
+    "msg": "Desinstalando GitHub CLI",
+    "cmd": "winget",
+    "arg": "uninstall --id GitHub.cli -e"
+  },
+  {
+    "gun": "upgrade",
+    "aim": "github",
+    "msg": "Atualizando GitHub CLI",
+    "cmd": "winget",
+    "arg": "upgrade --id GitHub.cli -e"
+  },
+  {
+    "gun": "install",
+    "aim": "azure",
+    "msg": "Instalando Azure CLI",
+    "cmd": "winget",
+    "arg": "install --id Microsoft.AzureCLI -e"
+  },
+  {
+    "gun": "uninstall",
+    "aim": "azure",
+    "msg": "Desinstalando Azure CLI",
+    "cmd": "winget",
+    "arg": "uninstall --id Microsoft.AzureCLI -e"
+  },
+  {
+    "gun": "upgrade",
+    "aim": "azure",
+    "msg": "Atualizando Azure CLI",
+    "cmd": "winget",
+    "arg": "upgrade --id Microsoft.AzureCLI -e"
+  },
+  {
+    "gun": "install",
+    "aim": "gcloud",
+    "msg": "Instalando Google Cloud SDK",
+    "cmd": "winget",
+    "arg": "install --id Google.CloudSDK -e"
+  },
+  {
+    "gun": "uninstall",
+    "aim": "gcloud",
+    "msg": "Desinstalando Google Cloud SDK",
+    "cmd": "winget",
+    "arg": "uninstall --id Google.CloudSDK -e"
+  },
+  {
+    "gun": "upgrade",
+    "aim": "gcloud",
+    "msg": "Atualizando Google Cloud SDK",
+    "cmd": "winget",
+    "arg": "winget upgrade --id Google.CloudSDK -e"
+  },
+  {
+    "gun": "install",
+    "aim": "python",
+    "msg": "Instalando lastest Python",
+    "cmd": "winget",
+    "arg": "install Python.Python"
+  },
+  {
+    "gun": "uninstall",
+    "aim": "python",
+    "msg": "Desinstalando lastest Python",
+    "cmd": "winget",
+    "arg": "uninstall Python.Python"
+  },
+  {
+    "gun": "upgrade",
+    "aim": "python",
+    "msg": "Atualizando lastest Python",
+    "cmd": "winget",
+    "arg": "upgrade Python.Python"
+  },
+  {
+    "gun": "install",
     "aim": "sdk10",
     "msg": "Instalando .NET10",
     "cmd": "winget",

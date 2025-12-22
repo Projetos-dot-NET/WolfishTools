@@ -5,23 +5,53 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<PackAsTool>true</PackAsTool>
-	<ToolCommandName>maia</ToolCommandName>
-	<Version>0.0.1</Version>
+	<Version>0.0.3</Version>
 	<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+	  
+	<PackAsTool>true</PackAsTool>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	<PackageOutputPath>./nupkg</PackageOutputPath>
+	<ToolCommandName>maia</ToolCommandName>
+	  
+	<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+	<DebugSymbols>false</DebugSymbols>
+
+	<PackageTags>maia;terminal;cmd;automation;tool;cli;ai;llm;chat;qwen;llama;csharp;dotnet-tool</PackageTags>  
+	  
+	<StartupObject>Wolfish.Maia.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Wolfish.Commands\Wolfish.Commands.csproj" />
+    <ProjectReference Include="..\Wolfish.Llama\Wolfish.Llama.csproj" />
+    <ProjectReference Include="..\Wolfish.Shared\Wolfish.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+	<None Include="..\README.md" Pack="true" PackagePath="\" />
+	<None Include="..\LICENSE.txt" Pack="true" PackagePath="\" />
+  </ItemGroup>
+	
   <ItemGroup>
     <Folder Include="nupkg\" />
   </ItemGroup>
+	
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.1" />
+  </ItemGroup>
 
   <ItemGroup>
+    <None Update="llamasettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Lists\TerminalCommands.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Lists\TerminalCommands.Linux.json">
@@ -30,7 +60,7 @@
     <None Update="Lists\AgentCommands.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Lists\TerminalCommands.json">
+    <None Update="Lists\AutomatedScripts.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Lists\TerminalCommands..Windows.json">

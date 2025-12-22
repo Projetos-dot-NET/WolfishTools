@@ -1,13 +1,21 @@
 @echo off
 setlocal
 set PACKAGE_NAME=wolfish.maia
-set NUGET_OUTPUT_DIR=.\nupkg
+set NUGET_OUTPUT_DIR=..\DevScripts\nupkg
 
 echo.
-echo === 1. Empacotando a aplicaÁ„o em modo Release... ===
+echo === 1. Rebuildando Wolfish.Maia em modo Release... ===
 echo.
 
-cd ..\Wolfish.Maia
+cd..
+dotnet clean
+dotnet build
+
+cd Wolfish.Maia
+
+echo.
+echo === 2. Empacotando Wolfish.Maia em modo Release... ===
+echo.
 
 dotnet pack -c Release --output %NUGET_OUTPUT_DIR%
 
@@ -20,13 +28,13 @@ IF ERRORLEVEL 1 (
 echo.
 echo Empacotamento concluido com sucesso! Pacote gerado em: %NUGET_OUTPUT_DIR%
 echo.
-echo === 2. Tentando desinstalar a vers„o global anterior (se existir)... ===
+echo === 3. Tentando desinstalar a vers√£o global anterior (se existir)... ===
 echo.
 
 dotnet tool uninstall --global %PACKAGE_NAME%
 
 echo.
-echo === 3. Instalando a nova vers„o globalmente a partir da fonte local... ===
+echo === 4. Instalando a nova vers√£o globalmente a partir da fonte local... ===
 echo.
 
 dotnet tool install --global --add-source %NUGET_OUTPUT_DIR% %PACKAGE_NAME%
