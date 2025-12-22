@@ -1,5 +1,11 @@
 # WolfishTools
 
+Wolfish Maia (CLI) Um assistente ~de automatização, não é um assiitente de IA porém também conversa com uma  IA local leve e rápido para o terminal, construído em .NET 10 e alimentado por modelos de linguagem Llama.
+
+[![NuGet](https://img.shields.io/nuget/v/wolfish.maia.svg)](https://www.nuget.org/packages/wolfish.maia)
+[![Downloads](https://img.shields.io/nuget/dt/wolfish.maia.svg)](https://www.nuget.org/packages/wolfish.maia)
+    
+
 ## MAIA Assistente Integrada Automatizada 
 
 Na ciência da computação, os desenvolvedores têm uma longa tradição de usar acrônimos recursivos. Esse tipo de sigla é peculiar porque se refere a si mesma em sua própria definição, um toque de humor interno e inteligência que se tornou uma marca registrada de muitos projetos de software influentes.
@@ -46,6 +52,27 @@ It is with this creative spirit that we present MAIA, your new digital assistant
 
 MAIA was designed to simplify your life, seamlessly integrating into your daily tasks and intelligently automating processes.
 
+## How to Install
+
+Requer .NET 10 SDK instalado.
+
+```bash
+dotnet tool install --global wolfish.maia
+
+```
+
+## How Download the language models
+
+```bash
+maia download qwen
+
+```
+or
+
+```bash
+maia download gemma
+
+```
 ## Commands
 
 ```
@@ -68,3 +95,6 @@ maia welcome
 
 - [Site](https://projetos-dot-net.github.io/WolfishTools/)
 - [Download](https://github.com/Projetos-dot-NET/WolfishTools/releases/download/v0.0.2/Wolfish.Maia.0.0.2.nupkg)
+
+
+ 

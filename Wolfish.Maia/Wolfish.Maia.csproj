@@ -14,11 +14,12 @@
 	<PackageOutputPath>./nupkg</PackageOutputPath>
 	<ToolCommandName>maia</ToolCommandName>
 	  
-	  <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+	<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     <DebugSymbols>false</DebugSymbols>
     <DebugType>none</DebugType>
-	  <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-	  <DebugSymbols>false</DebugSymbols>
+	<DebugSymbols>false</DebugSymbols>
+
+	<PackageTags>maia;terminal;cmd;automation;tool;cli;ai;llm;chat;qwen;llama;csharp;dotnet-tool</PackageTags>  
 	  
 	<StartupObject>Wolfish.Maia.Program</StartupObject>
   </PropertyGroup>
