@@ -7,29 +7,37 @@ namespace Wolfish.Llama
     public class LlamaService
     {
         //private readonly string _path;
-        private readonly GemmaSettings _settings;
+        private readonly LlamaSettings _settings;
 
-        public LlamaService(GemmaSettings settings)
+        public LlamaService(LlamaSettings settings)
         {
             _settings = settings;
         }
 
-        public async Task ChatWithGemma(string answer, string instruction = null)
+        public async Task ChatWithAgent(string answer)
         {
             NativeLogConfig.llama_log_set((level, message) => { }); //silenciar os logs nativos do llama
 
-            var parameters = new ModelParams(_settings.ModelPath) { ContextSize = 1024, GpuLayerCount = 20 };
+            var parameters = new ModelParams(_settings.ModelPath) 
+            {
+                ContextSize = _settings.ContextSize, 
+                GpuLayerCount = _settings.GpuLayerCount,
+                Threads = _settings.Threads,
+                BatchThreads = _settings.Threads
+            };
+
+
             using var model = LLamaWeights.LoadFromFile(parameters);
             using var context = model.CreateContext(parameters);
             var executor = new InteractiveExecutor(context);
 
             ChatHistory chatHistory = LlamaHistory.Load();
-            chatHistory.AddMessage(AuthorRole.System, instruction);
+            chatHistory.AddMessage(AuthorRole.System, _settings.SystemMessage);
 
             var session = new ChatSession(executor, chatHistory);
             //var responseBuffer = "";
 
-            await foreach (var text in session.ChatAsync(new ChatHistory.Message(AuthorRole.User, answer), new InferenceParams { AntiPrompts = ["User:"] }))
+            await foreach (var text in session.ChatAsync(new ChatHistory.Message(AuthorRole.User, answer), new InferenceParams { AntiPrompts = _settings.AntiPrompts }))
             {
                 Console.Write(text);
 

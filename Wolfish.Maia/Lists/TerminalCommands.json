@@ -7,6 +7,13 @@
     "arg": "-o chrome_win_x64.exe https://dl.google.com/chrome/install/standalonesetup.exe"
   },
   {
+    "gun": "download",
+    "aim": "qwen",
+    "msg": "Baixando Agente IA Qwen",
+    "cmd": "curl ",
+    "arg": "-o qwen2.5-1.5b-instruct-q8_0.gguf https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/main/qwen2.5-1.5b-instruct-q8_0.gguf"
+  },
+  {
     "gun": "install",
     "aim": "github",
     "msg": "Instalando GitHub CLI",

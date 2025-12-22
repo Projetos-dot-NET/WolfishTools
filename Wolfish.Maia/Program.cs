@@ -12,8 +12,6 @@ namespace Wolfish.Maia
 
         private static async Task Main(string[] args)
         {
-            
-
             var found = false;
             var baseDirectory = AppContext.BaseDirectory;
             var terminalCommand = new WolfishCommand($"{baseDirectory}/Lists/TerminalCommands.json");
@@ -29,7 +27,7 @@ namespace Wolfish.Maia
 
             //string[] args = ["apt", "search", "octopi"];
             //string[] args = ["uninstall", "dotnet8"];
-            //string[] args = ["ask", "qqum", "para", "me", "dar", "dicas", "de", "comandos", "shell", "windows", "e", "linux", "mais", "utilizados", "em", "desenvolvimento", "de", "software", "em", "no", "máximo", "200", "palavras", "e", "em", "portugues"];
+            //string[] args = ["ask", "qwen", "para", "me", "dar", "dicas", "de", "comandos", "shell", "windows", "e", "linux", "mais", "utilizados", "em", "desenvolvimento", "de", "software", "em", "no", "máximo", "200", "palavras", "e", "em", "portugues"];
 
             if (args.Length == 0)
             {
@@ -60,29 +58,29 @@ namespace Wolfish.Maia
                 found = await terminalCommand.SeekAndExecute(args[0], args[1]);
             }
 
-            var settings = Config();
+            
 
             if (!found && args.Length > 2) //burst rajada
             {
                 var allArguments = new StringBuilder();
+                var modelName = args[1];
+                var settings = Config(modelName);
+                var agent = new LlamaService(settings);
 
-                if (args[0] == "ask" && args[1] == "bot")
+                if (args[0] == "ask")
                 {
                     for (var i = 2; i < args.Length; i++) allArguments.Append(" " + args[i]);
-
-                    var agent = new LlamaService(settings);
-                    agent.ChatWithGemma(allArguments.ToString()).Wait();
+                    
+                    agent.ChatWithAgent(allArguments.ToString()).Wait();
                 }
                 else
                 {
                     foreach (var arg in args) allArguments.Append(" " + arg);
-                    var instructionDefault = "Você é um programador .NET e c# e prefere que seja respondido em português ";
                     var promptDefault = $"Me dê uma lista de comandos via terminal utilizados no windows " +
                                         $"e o linux que se pareça com esses e me oriente como utiliza-los " +
                                         $"em no máximo 256 caracteres e em portugues:{allArguments.ToString()}";
 
-                    var agent = new LlamaService(settings);
-                    agent.ChatWithGemma(promptDefault, instructionDefault).Wait();
+                    agent.ChatWithAgent(promptDefault).Wait();
                 }
             }
             //end if
@@ -101,26 +99,28 @@ namespace Wolfish.Maia
             Console.WriteLine();
         }
 
-        private static GemmaSettings Config() 
+        private static LlamaSettings Config(string modelName) 
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+                .AddJsonFile("llamasettings.json", optional: false, reloadOnChange: true);
 
             IConfiguration config = builder.Build();
 
-            var settings = new GemmaSettings();
-            config.GetSection("GemmaSettings").Bind(settings);
+            var settings = new LlamaSettings();
+            config.GetSection("LanguageModels").Bind(settings);
 
-            if (!File.Exists(settings.ModelPath))
+            var allModels = config.GetSection("LanguageModels").Get<List<LlamaSettings>>();
+            var selectedConfig = allModels?.FirstOrDefault(c => c.Name.Equals(modelName, StringComparison.OrdinalIgnoreCase));
+
+            if (selectedConfig == null) return null;
+            if (!File.Exists(selectedConfig.ModelPath))
             {
                 Console.WriteLine($"[ERRO] Modelo não encontrado no caminho: {settings.ModelPath}");
                 Console.WriteLine("Verifique seu appsettings.json");
                 return null;
             }
-            return settings;
-            //Console.WriteLine($"[Config] Modelo: {Path.GetFileName(settings.ModelPath)}");
-            //Console.WriteLine($"[Config] Contexto: {settings.ContextSize} tokens");
+            return selectedConfig;
         }
         
     }
