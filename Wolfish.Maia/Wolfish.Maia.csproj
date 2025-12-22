@@ -13,6 +13,14 @@
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	<PackageOutputPath>./nupkg</PackageOutputPath>
 	<ToolCommandName>maia</ToolCommandName>
+	  
+	  <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+	  <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+	  <DebugSymbols>false</DebugSymbols>
+	  
+	<StartupObject>Wolfish.Maia.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
