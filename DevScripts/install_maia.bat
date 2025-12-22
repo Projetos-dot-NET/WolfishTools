@@ -4,10 +4,14 @@ set PACKAGE_NAME=wolfish.maia
 set NUGET_OUTPUT_DIR=.\nupkg
 
 echo.
-echo === 1. Empacotando a aplicação em modo Release... ===
+echo === 1. Empacotando Wolfish.Maia em modo Release... ===
 echo.
 
-cd ..\Wolfish.Maia
+cd..
+
+dotnet build
+
+cd Wolfish.Maia
 
 dotnet pack -c Release --output %NUGET_OUTPUT_DIR%
 

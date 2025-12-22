@@ -3,9 +3,7 @@ using System.Text.Json;
 
 public static class LlamaHistory
 {
-    private static readonly string file = "chat_history.json";
-
-    public static void Save(ChatHistory history)
+    public static void Save(ChatHistory history, string path)
     {
         // Converte o histórico do LLamaSharp para nossa lista simples
         var listToSave = history.Messages.Select(m => new HistoryMessage
@@ -15,24 +13,25 @@ public static class LlamaHistory
         }).ToList();
 
         var json = JsonSerializer.Serialize(listToSave, new JsonSerializerOptions { WriteIndented = true });
-        File.WriteAllText(file, json);
-        Console.WriteLine($"Chat save in {file}");
+        File.WriteAllText(path, json);
     }
 
-    public static ChatHistory Load()
+    public static ChatHistory Load(string path, int items)
     {
         var history = new ChatHistory();
 
-        if (File.Exists(file))
+        if (File.Exists(path))
         {
             try
             {
-                var json = File.ReadAllText(file);
+                var json = File.ReadAllText(path);
                 var savedList = JsonSerializer.Deserialize<List<HistoryMessage>>(json);
 
                 if (savedList != null)
                 {
-                    foreach (var msg in savedList)
+                    var selectedItems = savedList.TakeLast<HistoryMessage>(items);
+
+                    foreach (var msg in selectedItems)
                     {
                         // Converte string de volta para Enum AuthorRole
                         if (Enum.TryParse<AuthorRole>(msg.Role, out var role))
@@ -49,10 +48,14 @@ public static class LlamaHistory
                 Console.WriteLine($"Failed to read history: {ex.Message}");
             }
         }
+        else
+        {
+            history.AddMessage(AuthorRole.System, "Tu és um Assistente virtual focado em C# e .NET. Rápido e conciso. Responda sempre em Português.");
+        }
 
-        // Se não houver arquivo, inicia um novo com o Prompt do Sistema
-        //history.AddMessage(AuthorRole.System, "Você é um assistente especialista em .NET e C#.");
-        return history;
+            // Se não houver arquivo, inicia um novo com o Prompt do Sistema
+            //history.AddMessage(AuthorRole.System, "Você é um assistente especialista em .NET e C#.");
+            return history;
     }
     public class HistoryMessage
     {

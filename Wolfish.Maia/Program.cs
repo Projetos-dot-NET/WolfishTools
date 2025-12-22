@@ -7,9 +7,7 @@ using Wolfish.Llama;
 namespace Wolfish.Maia
 {
     public class Program
-    {
-        private static readonly string AGENT_PATH = "C:/Users/renat/source/repos/WolfishTools/Wolfish.Llama/gemma-2-2b-it-Q4_K_M.gguf";
-
+    {        
         private static async Task Main(string[] args)
         {
             var found = false;
@@ -99,11 +97,13 @@ namespace Wolfish.Maia
             Console.WriteLine();
         }
 
-        private static LlamaSettings Config(string modelName) 
+        private static LlamaSettings? Config(string modelName) 
         {
+
+            var baseDirectory = AppContext.BaseDirectory;
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("llamasettings.json", optional: false, reloadOnChange: true);
+                .AddJsonFile($"{baseDirectory}/llamasettings.json", optional: false, reloadOnChange: true);
 
             IConfiguration config = builder.Build();
 

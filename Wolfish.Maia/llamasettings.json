@@ -6,10 +6,11 @@
       "SystemMessage": "Tu és um assistente útil e conciso.",
       "AntiPrompts": [ "User:" ],
       "ContextSize": 4096,
+      "MaxTokens": 1024,
       "GpuLayerCount": 20,
       "Threads": 1,
       "HistoryFileName": "chat_history.json",
-      "MaxTokens": 1024
+      "HistorySize": 6 
     },
     {
       "Name": "qwen",
@@ -17,10 +18,11 @@
       "ModelPath": "C:/Users/renat/source/Projetos/WolfishTools/Wolfish.Llama/qwen2.5-1.5b-instruct-q8_0.gguf",
       "AntiPrompts": [ "<|im_end|>", "<|endoftext|>" ],
       "ContextSize": 2048,
+      "MaxTokens": 1024,
       "GpuLayerCount": 0,
       "Threads": 2,
       "HistoryFileName": "chat_history.json",
-      "MaxTokens": 1024
+      "HistorySize": 2
     }
   ]
 }

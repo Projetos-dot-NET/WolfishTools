@@ -1,12 +1,12 @@
 ﻿using LLama;
 using LLama.Common;
 using LLama.Native;
+using LLama.Sampling;
 
 namespace Wolfish.Llama
 {
     public class LlamaService
     {
-        //private readonly string _path;
         private readonly LlamaSettings _settings;
 
         public LlamaService(LlamaSettings settings)
@@ -16,6 +16,9 @@ namespace Wolfish.Llama
 
         public async Task ChatWithAgent(string answer)
         {
+            var baseDirectory = AppContext.BaseDirectory;
+            var chatHistoryPath = $"{baseDirectory}/{_settings.HistoryFileName}";
+
             NativeLogConfig.llama_log_set((level, message) => { }); //silenciar os logs nativos do llama
 
             var parameters = new ModelParams(_settings.ModelPath) 
@@ -26,18 +29,31 @@ namespace Wolfish.Llama
                 BatchThreads = _settings.Threads
             };
 
-
             using var model = LLamaWeights.LoadFromFile(parameters);
             using var context = model.CreateContext(parameters);
             var executor = new InteractiveExecutor(context);
 
-            ChatHistory chatHistory = LlamaHistory.Load();
+            ChatHistory chatHistory = LlamaHistory.Load(chatHistoryPath, _settings.HistorySize);
             chatHistory.AddMessage(AuthorRole.System, _settings.SystemMessage);
 
             var session = new ChatSession(executor, chatHistory);
             //var responseBuffer = "";
 
-            await foreach (var text in session.ChatAsync(new ChatHistory.Message(AuthorRole.User, answer), new InferenceParams { AntiPrompts = _settings.AntiPrompts }))
+            var inferenceParams = new InferenceParams
+            {
+                AntiPrompts = _settings.AntiPrompts,
+                MaxTokens = _settings.MaxTokens,
+                SamplingPipeline = new DefaultSamplingPipeline()
+                {
+                    Temperature = 0.7f,
+                    RepeatPenalty = 1.2f,
+                    TopP = 0.9f,
+                    TopK = 40
+                }
+            };
+
+
+            await foreach (var text in session.ChatAsync(new ChatHistory.Message(AuthorRole.User, answer), inferenceParams))
             {
                 Console.Write(text);
 
@@ -49,7 +65,7 @@ namespace Wolfish.Llama
                 //if (responseBuffer.EndsWith("\r\n\r\n\r\n\r\n\r\n\r\n")) break;
             }
 
-            LlamaHistory.Save(chatHistory);
+            LlamaHistory.Save(chatHistory, chatHistoryPath);
 
         }
 
