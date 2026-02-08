@@ -12,7 +12,7 @@ namespace Wolfish.Maia
         {
             var found = false;
             var baseDirectory = AppContext.BaseDirectory;
-            var terminalCommand = new WolfishCommand($"{baseDirectory}/Lists/TerminalCommands.json");
+            var terminalCommand = new WolfishCommand($"{baseDirectory}Lists/TerminalCommands.json");
 
             //string[] args = ["welcome"];
             //string[] args = ["list"];
@@ -20,8 +20,9 @@ namespace Wolfish.Maia
             //string[] args = ["install","github"];
             //string[] args = ["merge","developer","master"];
             //string[] args = ["download","chrome"];
+            //string[] args = ["update","system"];
 
-            //string[] args = ["install", "sdk8"];
+            //string[] args = ["install", "sdk10"];
 
             //string[] args = ["apt", "search", "octopi"];
             //string[] args = ["uninstall", "dotnet8"];
@@ -55,9 +56,7 @@ namespace Wolfish.Maia
             {
                 found = await terminalCommand.SeekAndExecute(args[0], args[1]);
             }
-
             
-
             if (!found && args.Length > 2) //burst rajada
             {
                 var allArguments = new StringBuilder();
@@ -103,7 +102,7 @@ namespace Wolfish.Maia
             var baseDirectory = AppContext.BaseDirectory;
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile($"{baseDirectory}/llamasettings.json", optional: false, reloadOnChange: true);
+                .AddJsonFile($"{baseDirectory}llamasettings.json", optional: false, reloadOnChange: true);
 
             IConfiguration config = builder.Build();
 

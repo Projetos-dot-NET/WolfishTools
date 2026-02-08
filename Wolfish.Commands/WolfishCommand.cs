@@ -128,6 +128,7 @@ namespace Wolfish.Commands
             {
                 FileName = command,
                 Arguments = arguments,
+                //RedirectStandardInput = true,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
