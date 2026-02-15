@@ -14,19 +14,19 @@ namespace Wolfish.Maia
             var baseDirectory = AppContext.BaseDirectory;
             var terminalCommand = new WolfishCommand($"{baseDirectory}Lists/TerminalCommands.json");
 
-            //string[] args = ["welcome"];
-            //string[] args = ["list"];
+            //args = ["welcome"];
+            //args = ["list"];
 
-            //string[] args = ["install","github"];
-            //string[] args = ["merge","developer","master"];
-            //string[] args = ["download","chrome"];
-            //string[] args = ["update","system"];
+            //args = ["install","github"];
+            //args = ["merge","developer","master"];
+            //args = ["download","chrome"];
+            //args = ["update","system"];
 
-            //string[] args = ["install", "sdk10"];
+            //args = ["install", "sdk10"];
 
-            //string[] args = ["apt", "search", "octopi"];
-            //string[] args = ["uninstall", "dotnet8"];
-            //string[] args = ["ask", "qwen", "para", "me", "dar", "dicas", "de", "comandos", "shell", "windows", "e", "linux", "mais", "utilizados", "em", "desenvolvimento", "de", "software", "em", "no", "máximo", "200", "palavras", "e", "em", "portugues"];
+            //args = ["apt", "search", "octopi"];
+            //args = ["uninstall", "dotnet8"];
+            //args = ["ask", "qwin", "para", "me", "dar", "dicas", "de", "comandos", "shell", "windows", "e", "linux", "mais", "utilizados", "em", "desenvolvimento", "de", "software", "em", "no", "máximo", "200", "palavras", "e", "em", "portugues"];
 
             if (args.Length == 0)
             {

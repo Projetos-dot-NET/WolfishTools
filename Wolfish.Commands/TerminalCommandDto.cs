@@ -2,7 +2,8 @@
 using System.Text.Json.Serialization;
 
 namespace Wolfish.Commands
-{    public class TerminalCommandDto
+{    
+    public class TerminalCommandDto
     {
         [JsonPropertyName("gun")]
         public string? Gun { get; set; }
@@ -13,6 +14,12 @@ namespace Wolfish.Commands
         [JsonPropertyName("msg")]
         public string? Msg { get; set; }
 
+        [JsonPropertyName("stp")]
+        public List<StepCommand?>? Stp { get; set; }
+    }
+
+    public class StepCommand
+    {
         [JsonPropertyName("cmd")]
         public string? Cmd { get; set; }
 
