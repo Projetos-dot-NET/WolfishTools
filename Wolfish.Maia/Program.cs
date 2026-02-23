@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using Wolfish.Commands;
 using Wolfish.Llama;
@@ -50,6 +51,32 @@ namespace Wolfish.Maia
                     Console.WriteLine(commandtable);
                 }
 
+                if (!found && args[0] == "platform")
+                {
+                    found = true;
+                    string infoSO = RuntimeInformation.OSDescription;
+                    string arch = RuntimeInformation.OSArchitecture.ToString();
+                    string runtime = RuntimeInformation.RuntimeIdentifier;
+                    string platform = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "Windows" :
+                        RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? "Linux" :
+                        RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ? "macOS" : "Unknown OS";
+                    
+                    Console.WriteLine($"OS: {platform} {arch} ({infoSO} based in {runtime}) ");
+                }
+
+                if (!found && args[0] == "directory")
+                {
+                    found = true;
+                    var basedir = AppContext.BaseDirectory;
+                    Console.WriteLine(basedir);
+                }
+
+                if (!found && args[0] == "help")
+                {
+                    found = true;
+                    ShowHelp();
+                }
+
             }
 
             if (!found && args.Length == 2)//clean shots tiro certeiro
@@ -88,11 +115,14 @@ namespace Wolfish.Maia
         {
             Console.WriteLine("Wolfish.Maia - Assistente de linha de comando impulsionado por IA");
             Console.WriteLine("Uso:");
-            Console.WriteLine("  Wolfish.Maia welcome                     Exibe uma mensagem de boas-vindas.");
-            Console.WriteLine("  Wolfish.Maia list                        Lista todos os comandos disponíveis.");
-            Console.WriteLine("  Wolfish.Maia install <nome_do_pacote>    Instala o pacote especificado.");
-            Console.WriteLine("  Wolfish.Maia uninstall <nome_do_pacote>  Desinstala o pacote especificado.");
-            Console.WriteLine("  Wolfish.Maia ask <pergunta>              Faz uma pergunta ao assistente de IA.");
+            Console.WriteLine("  maia welcome                     Exibe uma mensagem de boas-vindas.");
+            Console.WriteLine("  maia list                        Lista todos os comandos disponíveis.");
+            Console.WriteLine("  maia platform                    Exibe info do sistema operacional.");
+            Console.WriteLine("  maia directory                   Exibe o diretório base do aplicativo.");
+            Console.WriteLine("  maia help                        Exibe esta mensagem de ajuda.");
+            Console.WriteLine("  maia install <nome_do_pacote>    Instala o pacote especificado.");
+            Console.WriteLine("  maia uninstall <nome_do_pacote>  Desinstala o pacote especificado.");
+            Console.WriteLine("  maia ask <pergunta>              Faz uma pergunta ao assistente de IA.");
             Console.WriteLine();
         }
 

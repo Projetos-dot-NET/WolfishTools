@@ -11,6 +11,66 @@
     ]    
   },
   {
+    "gun": "build",
+    "aim": "app-win",
+    "msg": "Adicionando as dependências e buildando o app no windows",
+    "stp": [
+      {
+        "cmd": "cmd.exe",
+        "arg": "/c npm install"
+      },
+      {
+        "cmd": "cmd.exe",
+        "arg": "/c npm run build"
+      }
+    ]    
+  },
+  {
+    "gun": "update",
+    "aim": "linux",
+    "msg": "Atualizando o linux base debian",
+    "stp": [
+      {
+       "cmd": "sudo",
+        "arg": "apt-get update"
+      },
+      {
+        "cmd": "sudo",
+        "arg": "apt-get -y upgrade"
+      }
+    ]    
+  },  
+  {
+    "gun": "install",
+    "aim": "node",
+    "msg": "instalando o node no linux base debian",
+    "stp": [
+      {
+        "cmd": "sudo",
+        "arg": "apt-get update"
+      },
+      {
+        "cmd": "sudo",
+        "arg": "apt-get -y install nodejs"
+      }
+    ]    
+  },  
+  {
+    "gun": "build",
+    "aim": "app-tux",
+    "msg": "Adicionando as dependências e buildando o app no linux",
+    "stp": [
+      {
+        "cmd": "/bin/sh",
+        "arg": "-c \"npm install\""
+      },
+      {
+        "cmd": "/bin/sh",
+        "arg": "-c \"npm run test\""
+      }
+    ]    
+  },
+  {
     "gun": "update",
     "aim": "system",
     "msg": "Atualizando o sistema",
