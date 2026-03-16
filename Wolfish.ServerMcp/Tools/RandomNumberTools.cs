@@ -7,7 +7,16 @@ using ModelContextProtocol.Server;
 /// </summary>
 internal class RandomNumberTools
 {
-    [McpServerTool]
+    [McpServerTool]    
+    [Description("Soma dois números inteiros.")]
+    public int SomarNumeros(
+        [Description("Primeiro número")] int a,
+        [Description("Segundo número")] int b)
+    {
+        return a + b;
+    }
+
+    [McpServerTool] 
     [Description("Generates a random number between the specified minimum and maximum values.")]
     public int GetRandomNumber(
         [Description("Minimum value (inclusive)")] int min = 0,
