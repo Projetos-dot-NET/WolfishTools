@@ -44,3 +44,18 @@ var result = await client.CallToolAsync("get_random_number", argumentos);
 var texto = result.Content.FirstOrDefault()?.Text;
 
 Console.WriteLine($"Número gerado pelo servidor: {texto}");
+
+Console.WriteLine("\n--- Testando Edição de Arquivo JSON ---");
+
+var argsConfig = new Dictionary<string, object?> 
+{ 
+    { "chave", "versao_poc" }, 
+    { "valor", "1.0.2" } 
+};
+
+// O nome da ferramenta no log deve aparecer como 'editar_config'
+var resultConfig = await client.CallToolAsync("editar_config", argsConfig);
+
+Console.WriteLine(resultConfig.Content.FirstOrDefault()?.Text);
+
+// Verificação: O arquivo 'teste.json' deve ter sido criado na pasta do SERVIDOR
