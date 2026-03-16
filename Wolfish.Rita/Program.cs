@@ -1,60 +1,46 @@
-﻿using Azure.AI.OpenAI;
-using Azure.Identity;
-//using Microsoft.Extensions.AI;
-//using Microsoft.Extensions.AI.Mcp; // Este depende do pacote acima
-using ModelContextProtocol;
-using ModelContextProtocol.Client;
+﻿using ModelContextProtocol.Client;
+using ModelContextProtocol.Protocol.Transport;
 
-
-// Create an IChatClient using Azure OpenAI.
-IChatClient client =
-    new ChatClientBuilder(
-        new AzureOpenAIClient(new Uri("<your-azure-openai-endpoint>"),
-        new DefaultAzureCredential())
-        .GetChatClient("gpt-4o").AsIChatClient())
-    .UseFunctionInvocation()
-    .Build();
-
-// Create the MCP client
-// IMPORTANTE: Use a Factory que vem do pacote .Client
-using IMcpClient mcpClient = await McpClientFactory.CreateAsync(
-    new StdioClientTransport(new StdioClientTransportOptions
-    {
-        Command = "dotnet",
-        Arguments = ["run", "--project", "/home/renatolobojr/repos-dot-net/WolfishTools/Wolfish.ServerMcp/Wolfish.ServerMcp.csproj"],
-        Name = "Minimal MCP Server",
-    }));
-
-// List e conversão correta
-Console.WriteLine("Available tools:");
-var mcpTools = await mcpClient.ListToolsAsync();
-// .AsChatTool() agora deve funcionar com o using Microsoft.Extensions.AI.Mcp
-var chatTools = mcpTools.Select(t => t.AsChatTool()).ToList();
-
-foreach (var tool in chatTools)
+var transportOptions = new StdioClientTransportOptions
 {
-    Console.WriteLine($"- {tool.Name}");
-}
-Console.WriteLine();
+    Command = "dotnet",
+    // Use o caminho relativo ou absoluto para o projeto do servidor
+    Arguments = ["run", "--project", "../Wolfish.ServerMcp/Wolfish.ServerMcp.csproj", "--quiet"]
+};
 
-List<ChatMessage> messages = [];
-while (true)
+
+
+var transport = new StdioClientTransport(transportOptions);
+
+// 2. Criar o cliente (Usando o método estático que é o padrão atual)
+await using var client = await McpClientFactory.CreateAsync(transport);
+
+// 2. O método foi renomeado para ConnectAsync ou InitializeAsync (tente ConnectAsync se falhar)
+// Em algumas versões de preview do .NET 10, o Initialize é implícito no Create ou chama-se:
+//await client.ConnectAsync(); 
+
+// 3. A resposta do ListToolsAsync agora retorna diretamente uma LISTA, não um objeto com .Tools
+var tools = await client.ListToolsAsync();
+
+// 4. Como 'tools' já é a lista (IList<McpClientTool>), você acessa direto:
+Console.WriteLine($"Conectado! Encontradas {tools.Count} ferramentas.");
+
+foreach (var tool in tools)
 {
-    Console.Write("Prompt: ");
-    string input = Console.ReadLine();
-    if (string.IsNullOrEmpty(input)) break;
-    
-    messages.Add(new(ChatRole.User, input));
-
-    List<ChatResponseUpdate> updates = [];
-    // AQUI: use a variável 'chatTools' que você criou lá em cima
-    await foreach (ChatResponseUpdate update in client
-        .GetStreamingResponseAsync(messages, new() { Tools = chatTools }))
-    {
-        Console.Write(update);
-        updates.Add(update);
-    }
-    Console.WriteLine();
-
-    messages.AddMessages(updates);
+    Console.WriteLine($"- Ferramenta: {tool.Name}");
 }
+
+Console.WriteLine("\nTentando gerar um número aleatório via MCP...");
+// Use um Dictionary<string, object?> para passar os argumentos
+var argumentos = new Dictionary<string, object?> 
+{ 
+    { "min", 0 }, 
+    { "max", 100 } 
+};
+
+var result = await client.CallToolAsync("get_random_number", argumentos);
+
+// No SDK 1.0, o resultado é uma lista de conteúdos. Pegamos o texto do primeiro:
+var texto = result.Content.FirstOrDefault()?.Text;
+
+Console.WriteLine($"Número gerado pelo servidor: {texto}");
