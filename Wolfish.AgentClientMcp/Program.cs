@@ -13,7 +13,7 @@ await using var mcpClient = await McpClientFactory.CreateAsync(transport);
 var mcpTools = await mcpClient.ListToolsAsync();
 
 // --- 2. CARREGAR MODELO GGUF ---
-string modelPath = @"C:\Caminho\Para\Seu\Modelo.gguf"; // Altere para o seu arquivo
+string modelPath = @"/home/renatolobojr/Downloads/qwen2.5-1.5b-instruct-q8_0.gguf"; // Altere para o seu arquivo
 var parameters = new ModelParams(modelPath) {
    ContextSize = 4096,
     // -1 tenta carregar todas as camadas na GPU automaticamente
