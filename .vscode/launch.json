@@ -4,11 +4,21 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-    {
-        "name": "Maia",
-        "type": "dotnet",
-        "request": "launch",
-        "projectPath": "${workspaceFolder}/Wolfish.Maia/Wolfish.Maia.csproj"
-    }
+        {
+            "name": "Maia",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/Wolfish.Maia/bin/Debug/net10.0/Wolfish.Maia.dll",
+            "cwd": "${workspaceFolder}/Wolfish.Maia",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Rita",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/Wolfish.Rita/bin/Debug/net10.0/Wolfish.Rita.dll",
+            "cwd": "${workspaceFolder}/Wolfish.Rita",
+            "console": "integratedTerminal"
+        }
     ]
 }
