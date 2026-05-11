@@ -12,6 +12,7 @@
   <Folder Name="/5 - Infrastructure/">
     <Project Path="Wolfish.Gemini/Wolfish.Gemini.csproj" />
     <Project Path="Wolfish.Llama/Wolfish.Llama.csproj" Id="480741dd-5f2a-4610-b4fa-ac613b8b5bd7" />
+    <Project Path="Wolfish.CloudAgents/Wolfish.CloudAgents.csproj" />
   </Folder>
   <Folder Name="/7 - Tests/" />
   <Folder Name="/DevScripts/">

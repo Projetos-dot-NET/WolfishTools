@@ -1,0 +1,69 @@
+{
+  "CloudAgents": [
+    {
+      "Name": "Fulano",
+      "SystemMessage": "Você é um assistente útil e amigável. Você pode consultar previsão do tempo, temperatura, umidade e fazer cálculos matemáticos usando as ferramentas disponíveis. Sempre use as ferramentas quando o usuário pedir informações sobre clima ou cálculos.",
+      "ProviderName": "Gemini"
+    },
+    {
+      "Name": "Ciclano",
+      "SystemMessage": "Você é um assistente útil e amigável. Você pode consultar previsão do tempo, temperatura, umidade e fazer cálculos matemáticos usando as ferramentas disponíveis. Sempre use as ferramentas quando o usuário pedir informações sobre clima ou cálculos.",
+      "ProviderName": "OpenAI"
+    },
+    {
+      "Name": "Beltrano",
+      "SystemMessage": "Você é um assistente útil e amigável. Você pode consultar previsão do tempo, temperatura, umidade e fazer cálculos matemáticos usando as ferramentas disponíveis. Sempre use as ferramentas quando o usuário pedir informações sobre clima ou cálculos.",
+      "ProviderName": "DeepSeek"
+    }
+  ],
+  "LLMProviders": [
+    {
+      "Name": "Gemini",
+      "ApiKey": "SUA_CHAVE_GEMINI_AQUI",
+      "Model": "gemini-2.0-flash",
+      "Endpoint": "https://generativelanguage.googleapis.com/v1beta/openai"
+    },
+    {
+      "Name": "OpenAI",
+      "ApiKey": "SUA_CHAVE_OPENAI_AQUI",
+      "Model": "gpt-4.1-mini",
+      "Endpoint": "https://api.openai.com/v1"
+    },
+    {
+      "Name": "OpenRouter",
+      "ApiKey": "SUA_CHAVE_OPENROUTER_AQUI",
+      "Model": "google/gemini-2.0-flash",
+      "Endpoint": "https://openrouter.ai/api/v1"
+    },
+    {
+      "Name": "Groq",
+      "ApiKey": "SUA_CHAVE_GROQ_AQUI",
+      "Model": "llama-3.3-70b-versatile",
+      "Endpoint": "https://api.groq.com/openai/v1"
+    },
+    {
+      "Name": "MistralAI",
+      "ApiKey": "SUA_CHAVE_MISTRAL_AQUI",
+      "Model": "mistral-small-latest",
+      "Endpoint": "https://api.mistral.ai/v1"
+    },
+    {
+      "Name": "DeepSeek",
+      "ApiKey": "SUA_CHAVE_DEEPSEEK_AQUI",
+      "Model": "deepseek-chat",
+      "Endpoint": "https://api.deepseek.com"
+    },
+    {
+      "Name": "GitHubModels",
+      "ApiKey": "SEU_TOKEN_GITHUB_AQUI",
+      "Model": "gpt-4o-mini",
+      "Endpoint": "https://models.inference.ai.azure.com"
+    },
+    {
+      "Name": "TogetherAI",
+      "ApiKey": "SUA_CHAVE_TOGETHER_AQUI",
+      "Model": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
+      "Endpoint": "https://api.together.xyz/v1"
+    }
+  ]
+}
