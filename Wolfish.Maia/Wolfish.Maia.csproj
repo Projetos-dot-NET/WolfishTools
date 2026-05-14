@@ -25,6 +25,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Wolfish.CloudAgents\Wolfish.CloudAgents.csproj" />
     <ProjectReference Include="..\Wolfish.Commands\Wolfish.Commands.csproj" />
     <ProjectReference Include="..\Wolfish.Llama\Wolfish.Llama.csproj" />
     <ProjectReference Include="..\Wolfish.Shared\Wolfish.Shared.csproj" />
@@ -40,8 +41,8 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.8" />
   </ItemGroup>
 
   <ItemGroup>

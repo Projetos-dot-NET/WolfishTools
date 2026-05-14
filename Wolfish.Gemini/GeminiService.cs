@@ -1,4 +1,5 @@
 ﻿using Mscc.GenerativeAI;
+using Mscc.GenerativeAI.Types;
 using System.IO;
 //using Wolfish.Core;
 

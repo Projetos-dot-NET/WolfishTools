@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using Wolfish.CloudAgents.Chat;
 using Wolfish.Commands;
 using Wolfish.Llama;
 
@@ -91,11 +92,19 @@ namespace Wolfish.Maia
                 var settings = Config(modelName);
                 var agent = new LlamaService(settings);
 
+                var cloudAgent = new ChatAgent("Fulano");
+
                 if (args[0] == "ask")
                 {
                     for (var i = 2; i < args.Length; i++) allArguments.Append(" " + args[i]);
                     
-                    agent.ChatWithAgent(allArguments.ToString()).Wait();
+                    //agent.ChatWithAgent(allArguments.ToString()).Wait();
+                    IAsyncEnumerable<string> teste = cloudAgent.SendMessageStreamingAsync(allArguments.ToString());
+
+                    await foreach (var message in teste)
+                    {
+                        Console.Write(message);
+                    }
                 }
                 else
                 {
