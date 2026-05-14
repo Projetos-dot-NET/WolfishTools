@@ -1,19 +1,19 @@
 {
   "CloudAgents": [
     {
-      "Name": "Fulano",
-      "SystemMessage": "Você é um assistente útil e amigável. Você pode consultar previsão do tempo, temperatura, umidade e fazer cálculos matemáticos usando as ferramentas disponíveis. Sempre use as ferramentas quando o usuário pedir informações sobre clima ou cálculos.",
+      "Name": "fulano",
+      "SystemMessage": "Você um assistente que explicao mínimo possível, simplesmente responde com respostas curtíssimas e sempre termina a resposta com um comando cli caso a pergunta seja sobre issou cálculos.",
       "ProviderName": "OpenRouter"
     },
     {
-      "Name": "Ciclano",
+      "Name": "ciclano",
       "SystemMessage": "Você é um assistente útil e amigável. Você pode consultar previsão do tempo, temperatura, umidade e fazer cálculos matemáticos usando as ferramentas disponíveis. Sempre use as ferramentas quando o usuário pedir informações sobre clima ou cálculos.",
-      "ProviderName": "Gemini"
+      "ProviderName": "Embedding"
     },
     {
-      "Name": "Beltrano",
+      "Name": "beltrano",
       "SystemMessage": "Você é um assistente útil e amigável. Você pode consultar previsão do tempo, temperatura, umidade e fazer cálculos matemáticos usando as ferramentas disponíveis. Sempre use as ferramentas quando o usuário pedir informações sobre clima ou cálculos.",
-      "ProviderName": "DeepSeek"
+      "ProviderName": "Gemini"
     }
   ],
   "LLMProviders": [
@@ -21,6 +21,12 @@
       "Name": "Gemini",
       "ApiKey": "SUA_CHAVE_GEMINI_AQUI",
       "Model": "gemini-flash-latest",
+      "Endpoint": "https://generativelanguage.googleapis.com/v1beta"
+    },
+    {
+      "Name": "Embedding",
+      "ApiKey": "SUA_CHAVE_GEMINI_AQUI",
+      "Model": "text-embedding-004",
       "Endpoint": "https://generativelanguage.googleapis.com/v1beta"
     },
     {
@@ -38,7 +44,7 @@
     {
       "Name": "Groq",
       "ApiKey": "SUA_CHAVE_GROQ_AQUI",
-      "Model": "llama-3.3-70b-versatile",
+      "Model": "llama-3-8b-8192",
       "Endpoint": "https://api.groq.com/openai/v1"
     },
     {
@@ -50,7 +56,7 @@
     {
       "Name": "DeepSeek",
       "ApiKey": "SUA_CHAVE_DEEPSEEK_AQUI",
-      "Model": "deepseek-chat",
+      "Model": "deepseek-v4-pro",
       "Endpoint": "https://api.deepseek.com"
     },
     {
