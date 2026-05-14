@@ -3,12 +3,12 @@
     {
       "Name": "Fulano",
       "SystemMessage": "Você é um assistente útil e amigável. Você pode consultar previsão do tempo, temperatura, umidade e fazer cálculos matemáticos usando as ferramentas disponíveis. Sempre use as ferramentas quando o usuário pedir informações sobre clima ou cálculos.",
-      "ProviderName": "Gemini"
+      "ProviderName": "OpenRouter"
     },
     {
       "Name": "Ciclano",
       "SystemMessage": "Você é um assistente útil e amigável. Você pode consultar previsão do tempo, temperatura, umidade e fazer cálculos matemáticos usando as ferramentas disponíveis. Sempre use as ferramentas quando o usuário pedir informações sobre clima ou cálculos.",
-      "ProviderName": "OpenAI"
+      "ProviderName": "Gemini"
     },
     {
       "Name": "Beltrano",
@@ -20,8 +20,8 @@
     {
       "Name": "Gemini",
       "ApiKey": "SUA_CHAVE_GEMINI_AQUI",
-      "Model": "gemini-2.0-flash",
-      "Endpoint": "https://generativelanguage.googleapis.com/v1beta/openai"
+      "Model": "gemini-flash-latest",
+      "Endpoint": "https://generativelanguage.googleapis.com/v1beta"
     },
     {
       "Name": "OpenAI",
@@ -32,7 +32,7 @@
     {
       "Name": "OpenRouter",
       "ApiKey": "SUA_CHAVE_OPENROUTER_AQUI",
-      "Model": "google/gemini-2.0-flash",
+      "Model": "openrouter/auto",
       "Endpoint": "https://openrouter.ai/api/v1"
     },
     {
