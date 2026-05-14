@@ -5,7 +5,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<Version>0.0.4</Version>
+	<Version>0.0.5</Version>
 	<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 	  
 	<PackAsTool>true</PackAsTool>
@@ -27,7 +27,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Wolfish.CloudAgents\Wolfish.CloudAgents.csproj" />
     <ProjectReference Include="..\Wolfish.Commands\Wolfish.Commands.csproj" />
-    <ProjectReference Include="..\Wolfish.Llama\Wolfish.Llama.csproj" />
     <ProjectReference Include="..\Wolfish.Shared\Wolfish.Shared.csproj" />
   </ItemGroup>
 

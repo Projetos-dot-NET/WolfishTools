@@ -4,7 +4,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Wolfish.CloudAgents.Chat;
 using Wolfish.Commands;
-using Wolfish.Llama;
 
 namespace Wolfish.Maia
 {
@@ -88,11 +87,13 @@ namespace Wolfish.Maia
             if (!found && args.Length > 2) //burst rajada
             {
                 var allArguments = new StringBuilder();
-                var modelName = args[1];
-                var settings = Config(modelName);
-                var agent = new LlamaService(settings);
 
-                var cloudAgent = new ChatAgent("Fulano");
+                //var modelName = args[1];
+                //var settings = Config(modelName);
+                //var agent = new LlamaService(settings);
+
+                var agentName = args[1];
+                var cloudAgent = new ChatAgent(agentName);
 
                 if (args[0] == "ask")
                 {
@@ -113,7 +114,14 @@ namespace Wolfish.Maia
                                         $"e o linux que se pareça com esses e me oriente como utiliza-los " +
                                         $"em no máximo 256 caracteres e em portugues:{allArguments.ToString()}";
 
-                    agent.ChatWithAgent(promptDefault).Wait();
+                    IAsyncEnumerable<string> teste = cloudAgent.SendMessageStreamingAsync(promptDefault.ToString());
+
+                    await foreach (var message in teste)
+                    {
+                        Console.Write(message);
+                    }
+
+                    //agent.ChatWithAgent(promptDefault).Wait();
                 }
             }
             //end if

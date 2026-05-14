@@ -10,9 +10,9 @@
     <Project Path="Wolfish.Shared/Wolfish.Shared.csproj" Id="a0540ea1-c9d0-417b-9503-1c3f114d7c62" />
   </Folder>
   <Folder Name="/5 - Infrastructure/">
+    <Project Path="Wolfish.CloudAgents/Wolfish.CloudAgents.csproj" />
     <Project Path="Wolfish.Gemini/Wolfish.Gemini.csproj" />
     <Project Path="Wolfish.Llama/Wolfish.Llama.csproj" Id="480741dd-5f2a-4610-b4fa-ac613b8b5bd7" />
-    <Project Path="Wolfish.CloudAgents/Wolfish.CloudAgents.csproj" />
   </Folder>
   <Folder Name="/7 - Tests/" />
   <Folder Name="/DevScripts/">
