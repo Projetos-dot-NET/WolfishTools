@@ -89,10 +89,6 @@ namespace Wolfish.Maia
             {
                 var allArguments = new StringBuilder();
 
-                //var modelName = args[1];
-                //var settings = Config(modelName);
-                //var agent = new LlamaService(settings);
-
                 var agentName = args[1];
                 var agent = SearchAgentByName(agentName);
                 var provider = ConfigProvider(agent!.ProviderName);
@@ -101,8 +97,7 @@ namespace Wolfish.Maia
                 if (args[0] == "ask")
                 {
                     for (var i = 2; i < args.Length; i++) allArguments.Append(" " + args[i]);
-                    
-                    //agent.ChatWithAgent(allArguments.ToString()).Wait();
+
                     IAsyncEnumerable<string> teste = cloudAgent.SendMessageStreamingAsync(allArguments.ToString());
 
                     await foreach (var message in teste)
@@ -123,13 +118,10 @@ namespace Wolfish.Maia
                     {
                         Console.Write(message);
                     }
-
-                    //agent.ChatWithAgent(promptDefault).Wait();
                 }
             }
-            //end if
+
         }
-        //end main
 
         private static void ShowHelp()
         {
@@ -179,33 +171,7 @@ namespace Wolfish.Maia
             if (selectedProvider is null) return null;
             return selectedProvider;
         }
-
-        private static LlamaSettings? Config(string modelName) 
-        {
-
-            var baseDirectory = AppContext.BaseDirectory;
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile($"{baseDirectory}llamasettings.json", optional: false, reloadOnChange: true);
-
-            IConfiguration config = builder.Build();
-
-            var settings = new LlamaSettings();
-            config.GetSection("LanguageModels").Bind(settings);
-
-            var allModels = config.GetSection("LanguageModels").Get<List<LlamaSettings>>();
-            var selectedConfig = allModels?.FirstOrDefault(c => c.Name.Equals(modelName, StringComparison.OrdinalIgnoreCase));
-
-            if (selectedConfig == null) return null;
-            if (!File.Exists(selectedConfig.ModelPath))
-            {
-                Console.WriteLine($"[ERRO] Modelo não encontrado no caminho: {settings.ModelPath}");
-                Console.WriteLine("Verifique seu appsettings.json");
-                return null;
-            }
-            return selectedConfig;
-        }
-        
+                
     }
-    //end class
+
 }

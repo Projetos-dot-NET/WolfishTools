@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Wolfish.ChatAgent\Wolfish.ChatAgent.csproj" />
-    <ProjectReference Include="..\Wolfish.CloudAgents\Wolfish.CloudAgents.csproj" />
     <ProjectReference Include="..\Wolfish.Commands\Wolfish.Commands.csproj" />
     <ProjectReference Include="..\Wolfish.Shared\Wolfish.Shared.csproj" />
   </ItemGroup>
@@ -46,9 +45,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="llamasettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
