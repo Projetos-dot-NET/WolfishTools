@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Wolfish.ChatAgent;
 using Wolfish.Commands;
+using Wolfish.Shared;
 
 namespace Wolfish.Maia
 {
@@ -27,7 +28,7 @@ namespace Wolfish.Maia
 
             //args = ["apt", "search", "octopi"];
             //args = ["uninstall", "dotnet8"];
-            //args = ["ask", "qwin", "para", "me", "dar", "dicas", "de", "comandos", "shell", "windows", "e", "linux", "mais", "utilizados", "em", "desenvolvimento", "de", "software", "em", "no", "máximo", "200", "palavras", "e", "em", "portugues"];
+            //args = ["ask", "fulano", "para", "me", "dar", "dicas", "de", "comandos", "shell", "windows", "e", "linux", "mais", "utilizados", "em", "desenvolvimento", "de", "software", "em", "no", "máximo", "200", "palavras", "e", "em", "portugues"];
 
             if (args.Length == 0)
             {
