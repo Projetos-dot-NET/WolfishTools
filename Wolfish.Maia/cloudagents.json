@@ -3,31 +3,31 @@
     {
       "Name": "principal",
       "SystemMessage": "Você um assistente que explicao mínimo possível, simplesmente responde com respostas curtíssimas e sempre termina a resposta com um comando cli caso a pergunta seja sobre issou cálculos.",
-      "Provider": "sua_escolha",
+      "ProviderName": "sua_escolha",
       "Model": "sua_escolha"
     },
     {
       "Name": "fulano",
       "SystemMessage": "Você um assistente que explicao mínimo possível, simplesmente responde com respostas curtíssimas e sempre termina a resposta com um comando cli caso a pergunta seja sobre issou cálculos.",
-      "Provider": "OpenRouter",
+      "ProviderName": "OpenRouter",
       "Model": "openrouter/auto"
     },
     {
       "Name": "ciclano",
       "SystemMessage": "Você é um assistente útil e amigável. Você pode consultar previsão do tempo, temperatura, umidade e fazer cálculos matemáticos usando as ferramentas disponíveis. Sempre use as ferramentas quando o usuário pedir informações sobre clima ou cálculos.",
-      "Provider": "GitHubCopilot",
+      "ProviderName": "GitHubCopilot",
       "Model": "phi-4"
     },
     {
       "Name": "beltrano",
       "SystemMessage": "Você é um assistente útil e amigável. Você pode consultar previsão do tempo, temperatura, umidade e fazer cálculos matemáticos usando as ferramentas disponíveis. Sempre use as ferramentas quando o usuário pedir informações sobre clima ou cálculos.",
-      "Provider": "Gemini",
+      "ProviderName": "Gemini",
       "Model": "text-embedding-004"
     },
     {
       "Name": "especial",
       "SystemMessage": "Você é um assistente útil e amigável. Você pode consultar previsão do tempo, temperatura, umidade e fazer cálculos matemáticos usando as ferramentas disponíveis. Sempre use as ferramentas quando o usuário pedir informações sobre clima ou cálculos.",
-      "Provider": "LMStudio",
+      "ProviderName": "LMStudio",
       "Model": "local-model"
     }
   ]

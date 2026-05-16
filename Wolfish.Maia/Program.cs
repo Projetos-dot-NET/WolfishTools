@@ -143,7 +143,7 @@ namespace Wolfish.Maia
             var baseDirectory = AppContext.BaseDirectory;
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile($"{baseDirectory}agentsettings.json", optional: false, reloadOnChange: true);
+                .AddJsonFile($"{baseDirectory}cloudagents.json", optional: false, reloadOnChange: true);
 
             IConfiguration config = builder.Build();
             var cloudAgent = new CloudAgent();

@@ -48,6 +48,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="cloudagents.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Lists\TerminalCommands.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
