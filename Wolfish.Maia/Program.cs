@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
-using Wolfish.CloudAgents.Chat;
+using Wolfish.ChatAgent;
 using Wolfish.Commands;
 
 namespace Wolfish.Maia
@@ -93,7 +93,9 @@ namespace Wolfish.Maia
                 //var agent = new LlamaService(settings);
 
                 var agentName = args[1];
-                var cloudAgent = new ChatAgent(agentName);
+                var agent = SearchAgentByName(agentName);
+                var provider = ConfigProvider(agent!.ProviderName);
+                var cloudAgent = new OpenAiAgent(agent.Model, provider.Endpoint!, provider.ApiKey!);
 
                 if (args[0] == "ask")
                 {
@@ -141,6 +143,40 @@ namespace Wolfish.Maia
             Console.WriteLine("  maia uninstall <nome_do_pacote>  Desinstala o pacote especificado.");
             Console.WriteLine("  maia ask <pergunta>              Faz uma pergunta ao assistente de IA.");
             Console.WriteLine();
+        }
+
+        private static CloudAgent? SearchAgentByName(string agentName)
+        {
+            var baseDirectory = AppContext.BaseDirectory;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile($"{baseDirectory}agentsettings.json", optional: false, reloadOnChange: true);
+
+            IConfiguration config = builder.Build();
+            var cloudAgent = new CloudAgent();
+            config.GetSection("CloudAgents").Bind(cloudAgent);
+            var allAgents = config.GetSection("CloudAgents").Get<List<CloudAgent>>();
+
+            var selectedAgent = allAgents?.FirstOrDefault(c => c.Name.Equals(agentName, StringComparison.OrdinalIgnoreCase));
+            if (selectedAgent is null) return null;
+            return selectedAgent;
+        }
+
+        private static LlmProvider ConfigProvider(string providerName)
+        {
+            var baseDirectory = AppContext.BaseDirectory;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile($"{baseDirectory}appsettings.json", optional: false, reloadOnChange: true);
+
+            IConfiguration config = builder.Build();
+            var providers = new LlmProvider();
+            config.GetSection("LLMProviders").Bind(providers);
+            var allProviders = config.GetSection("LLMProviders").Get<List<LlmProvider>>();
+
+            var selectedProvider = allProviders?.FirstOrDefault(c => c.Name.Equals(providerName, StringComparison.OrdinalIgnoreCase));
+            if (selectedProvider is null) return null;
+            return selectedProvider;
         }
 
         private static LlamaSettings? Config(string modelName) 
