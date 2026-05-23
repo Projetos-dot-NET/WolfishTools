@@ -46,4 +46,4 @@ jobs:
           user: renatolobojr
 
       - name: Enviar Pacote (Push)
-        run: dotnet nuget push ./nupkg/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ steps.nuget_login.outputs.token }} --skip-duplicate
+        run: dotnet nuget push ./nupkg/*.nupkg --source https://api.nuget.org/v3/index.json --api-key "${{ steps.nuget_login.outputs.token }}" --skip-duplicate

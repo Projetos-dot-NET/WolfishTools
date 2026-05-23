@@ -6,7 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<Version>0.0.5</Version>
-	<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+	<RepositoryUrl>https://github.com/Projetos-dot-NET/WolfishTools</RepositoryUrl>
+	<RepositoryType>git</RepositoryType>
+
+  <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 	  
 	<PackAsTool>true</PackAsTool>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
