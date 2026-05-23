@@ -41,6 +41,9 @@ jobs:
       - name: Autenticar no NuGet via Trusted Publishing
         uses: NuGet/login@v1
         id: nuget_login
+        with:
+          # ADICIONE ESTA LINHA ABAIXO:
+          user: renatolobojr
 
       - name: Enviar Pacote (Push)
-        run: dotnet nuget push ./nupkg/*.nupkg --source https://nuget.org --api-key ${{ steps.nuget_login.outputs.token }} --skip-duplicate
+        run: dotnet nuget push ./nupkg/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ steps.nuget_login.outputs.token }} --skip-duplicate
