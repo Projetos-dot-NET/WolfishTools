@@ -32,5 +32,10 @@ jobs:
       - name: Publicar no NuGet
         uses: NuGet/setup-nuget@v2
 
+        # ESTA ETAPA FAZ A MÁGICA DO TRUSTED PUBLISHING FUNCIONAR
+      - name: Autenticar no NuGet via Trusted Publishing
+        uses: NuGet/login@v1
+        id: nuget_login
+
       - name: Enviar Pacote (Push)
-        run: dotnet nuget push ./nupkg/*.nupkg --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: dotnet nuget push ./nupkg/*.nupkg --source
