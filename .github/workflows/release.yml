@@ -27,7 +27,7 @@ jobs:
         run: dotnet restore
 
       - name: Criar Pacote (Pack)
-        run: dotnet pack Wolfish.Maia\Wolfish.Maia.csproj -c Release --output ./nupkg
+        run: dotnet pack Wolfish.Maia/Wolfish.Maia.csproj -c Release --output ./nupkg
 
       - name: Publicar no NuGet
         uses: NuGet/setup-nuget@v2
