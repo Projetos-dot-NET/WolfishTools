@@ -9,14 +9,19 @@ jobs:
     name: Build, Pack e Publish
     runs-on: ubuntu-latest
     
-    # Permissões necessárias para o Trusted Publishing
+     # GARANTA QUE ESSAS TRÊS PERMISSÕES ESTÃO EXATAMENTE ASSIM:
     permissions:
-      id-token: write
-      contents: read
+      id-token: write    # Necessário para o Trusted Publishing do NuGet
+      contents: read     # CORREÇÃO: Dá permissão para ler o repositório privado
+      packages: write    # Opcional (bom deixar caso use o GitHub Packages)
 
     steps:
       - name: Code Checkout
         uses: actions/checkout@v4
+        with:
+          # ISSO RESOLVE O ERRO: Diz ao Git para clonar de forma anônima, 
+          # já que seu repositório é público e não precisa de senhas/tokens.
+          persist-credentials: false
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
