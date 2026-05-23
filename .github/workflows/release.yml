@@ -37,13 +37,18 @@ jobs:
       - name: Publicar no NuGet
         uses: NuGet/setup-nuget@v2
 
-        # ESTA ETAPA FAZ A MÁGICA DO TRUSTED PUBLISHING FUNCIONAR
       - name: Autenticar no NuGet via Trusted Publishing
         uses: NuGet/login@v1
         id: nuget_login
         with:
-          # ADICIONE ESTA LINHA ABAIXO:
           user: renatolobojr
 
       - name: Enviar Pacote (Push)
-        run: dotnet nuget push ./nupkg/*.nupkg --source https://api.nuget.org/v3/index.json --api-key "${{ steps.nuget_login.outputs.token }}" --skip-duplicate
+        env:
+          NUGET_TOKEN: ${{ steps.nuget_login.outputs.token }}
+        run: |
+          if [ -z "$NUGET_TOKEN" ]; then
+            echo "ERRO: O token do NuGet veio em branco! Verifique as permissões id-token."
+            exit 1
+          fi
+          dotnet nuget push ./nupkg/*.nupkg --source https://api.nuget.org/v3/index.json --api-key "$NUGET_TOKEN" --skip-duplicate
