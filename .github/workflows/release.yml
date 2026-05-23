@@ -38,4 +38,4 @@ jobs:
         id: nuget_login
 
       - name: Enviar Pacote (Push)
-        run: dotnet nuget push ./nupkg/*.nupkg --source
+        run: dotnet nuget push ./nupkg/*.nupkg --source https://nuget.org --api-key ${{ steps.nuget_login.outputs.token }} --skip-duplicate
