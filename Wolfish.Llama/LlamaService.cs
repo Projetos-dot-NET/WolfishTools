@@ -17,7 +17,6 @@ namespace Wolfish.Llama
         public async Task ChatWithAgent(string answer)
         {
             var baseDirectory = AppContext.BaseDirectory;
-            var chatHistoryPath = $"{baseDirectory}/{_settings.HistoryFileName}";
 
             NativeLogConfig.llama_log_set((level, message) => { }); //silenciar os logs nativos do llama
 
@@ -29,43 +28,54 @@ namespace Wolfish.Llama
                 BatchThreads = _settings.Threads
             };
 
-            using var model = LLamaWeights.LoadFromFile(parameters);
-            using var context = model.CreateContext(parameters);
-            var executor = new InteractiveExecutor(context);
+            try
+            {                
 
-            ChatHistory chatHistory = LlamaHistory.Load(chatHistoryPath, _settings.HistorySize);
-            chatHistory.AddMessage(AuthorRole.System, _settings.SystemMessage);
+                using var model = LLamaWeights.LoadFromFile(parameters);
+                using var context = model.CreateContext(parameters);
+                var executor = new InteractiveExecutor(context);
 
-            var session = new ChatSession(executor, chatHistory);
-            //var responseBuffer = "";
+                var chatHistoryPath = $"{baseDirectory}/{_settings.HistoryFileName}";
+                ChatHistory chatHistory = LlamaHistory.Load(chatHistoryPath, _settings.HistorySize);
+                chatHistory.AddMessage(AuthorRole.System, _settings.SystemMessage);
 
-            var inferenceParams = new InferenceParams
-            {
-                AntiPrompts = _settings.AntiPrompts,
-                MaxTokens = _settings.MaxTokens,
-                SamplingPipeline = new DefaultSamplingPipeline()
+                var session = new ChatSession(executor, chatHistory);
+                //var responseBuffer = "";
+
+                var inferenceParams = new InferenceParams
                 {
-                    Temperature = 0.7f,
-                    RepeatPenalty = 1.2f,
-                    TopP = 0.9f,
-                    TopK = 40
+                    AntiPrompts = _settings.AntiPrompts,
+                    MaxTokens = _settings.MaxTokens,
+                    SamplingPipeline = new DefaultSamplingPipeline()
+                    {
+                        Temperature = 0.7f,
+                        RepeatPenalty = 1.2f,
+                        TopP = 0.9f,
+                        TopK = 40
+                    }
+                };
+
+
+                await foreach (var text in session.ChatAsync(new ChatHistory.Message(AuthorRole.User, answer), inferenceParams))
+                {
+                    Console.Write(text);
+
+                    //caso o chat fique preso na resposta, descomente as linhas abaixo para forçar a parada                
+                    //if (text.Contains("<end_of_turn>") || text.Contains("<eos>") || text.Contains("User:")) break;                
+
+                    //tentativa mais rigorosa de parada
+                    //responseBuffer += text;
+                    //if (responseBuffer.EndsWith("\r\n\r\n\r\n\r\n\r\n\r\n")) break;
                 }
-            };
 
-
-            await foreach (var text in session.ChatAsync(new ChatHistory.Message(AuthorRole.User, answer), inferenceParams))
-            {
-                Console.Write(text);
-
-                //caso o chat fique preso na resposta, descomente as linhas abaixo para forçar a parada                
-                //if (text.Contains("<end_of_turn>") || text.Contains("<eos>") || text.Contains("User:")) break;                
-
-                //tentativa mais rigorosa de parada
-                //responseBuffer += text;
-                //if (responseBuffer.EndsWith("\r\n\r\n\r\n\r\n\r\n\r\n")) break;
+                LlamaHistory.Save(chatHistory, chatHistoryPath);
             }
-
-            LlamaHistory.Save(chatHistory, chatHistoryPath);
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Message ls: {ex.Message}");
+                Console.WriteLine($"Trace: {ex.StackTrace}");
+                Console.WriteLine($"base: {baseDirectory}{_settings.HistoryFileName}");
+            }
 
         }
 

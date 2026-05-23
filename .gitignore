@@ -364,3 +364,5 @@ FodyWeavers.xsd
 
 # Pacote Nugeet do scirpt
 /DevScripts/nupkg
+/backupProjects/
+/.idea/

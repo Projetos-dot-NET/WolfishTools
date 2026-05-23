@@ -59,7 +59,7 @@ public static class LlamaHistory
     }
     public class HistoryMessage
     {
-        public string Role { get; set; } // "User", "System" ou "Assistant"
-        public string Content { get; set; }
+        public string? Role { get; set; } // "User", "System" ou "Assistant"
+        public string? Content { get; set; }
     }
 }

@@ -39,7 +39,7 @@ namespace Wolfish.Commands
             var headers = new[] { "GUN", "AIM", "MESSAGE", "CMD", "ARG" };
 
             var rows = items.Select(i => new[]
-            {i.Gun, i.Aim, i.Msg, i.Cmd, i.Arg}).ToList();
+            {i.Gun, i.Aim, i.Msg, i.Stp[0].Cmd, i.Stp[0].Arg}).ToList();
 
 
             int[] colWidths = new int[headers.Length];
@@ -73,7 +73,7 @@ namespace Wolfish.Commands
         {
             var headers = new[] { "GUN", "AIM", "MESSAGE", "CMD", "ARG" };
 
-            var rows = items.Select(i => new[]{i.Gun, i.Aim, Truncate(i.Msg, MaxColumnWidth), Truncate(i.Cmd, MaxColumnWidth), Truncate(i.Arg, MaxColumnWidth)}).ToList();
+            var rows = items.Select(i => new[]{i.Gun, i.Aim, Truncate(i.Msg, MaxColumnWidth), Truncate(i.Stp[0].Cmd, MaxColumnWidth), Truncate(i.Stp[0].Arg, MaxColumnWidth)}).ToList();
 
             int[] colWidths = new int[headers.Length];
 
@@ -113,7 +113,14 @@ namespace Wolfish.Commands
                 Console.Clear();
                 Console.Write(current.Msg);
                 Console.Write("\n_________________________________________________________________________________\n");
-                ProcessCommand(current.Cmd, current.Arg);
+                foreach (var step in current?.Stp)
+                {
+                    if (step != null)
+                    {
+                        ProcessCommand(step.Cmd, step.Arg);
+                    }
+                }
+                
                 return true;
             }
             else
@@ -124,17 +131,20 @@ namespace Wolfish.Commands
 
         private static void ProcessCommand(string command, string arguments)
         {
+            string diretorioAtual = Directory.GetCurrentDirectory();
+
             var startInfo = new ProcessStartInfo
             {
                 FileName = command,
                 Arguments = arguments,
+                //RedirectStandardInput = true,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
                 CreateNoWindow = true,
                 StandardOutputEncoding = Encoding.UTF8,
                 WindowStyle = ProcessWindowStyle.Normal,
-                //WorkingDirectory = "C:\\Users\\renat\\source\\Projetos"
+                WorkingDirectory = diretorioAtual
             };
 
             var process = new Process { StartInfo = startInfo, EnableRaisingEvents = true };
