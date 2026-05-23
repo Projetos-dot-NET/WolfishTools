@@ -4,23 +4,15 @@ on:
   release:
     types: [published]
 
-# CORREÇÃO CRUCIAL: Mover as permissões para o escopo global (topo do arquivo)
-# Isso força o GitHub a emitir o token OIDC do OpenID Connect
-permissions:
-  id-token: write
-  contents: read
-
 jobs:
   build_and_publish:
     name: Build, Pack e Publish
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Code Checkout
         uses: actions/checkout@v4
         with:
-          # ISSO RESOLVE O ERRO: Diz ao Git para clonar de forma anônima, 
-          # já que seu repositório é público e não precisa de senhas/tokens.
           persist-credentials: false
 
       - name: Setup .NET
@@ -34,21 +26,9 @@ jobs:
       - name: Criar Pacote (Pack)
         run: dotnet pack Wolfish.Maia/Wolfish.Maia.csproj -c Release --output ./nupkg
 
-      - name: Publicar no NuGet
-        uses: NuGet/setup-nuget@v2
-
-      - name: Autenticar no NuGet via Trusted Publishing
-        uses: NuGet/login@v1
-        id: nuget_login
-        with:
-          user: renatolobojr
-
       - name: Enviar Pacote (Push)
+        # O GitHub injeta a chave de API salva com total segurança aqui
         env:
-          NUGET_TOKEN: ${{ steps.nuget_login.outputs.token }}
+          NUGET_TOKEN: ${{ secrets.NUGET_API_KEY }}
         run: |
-          if [ -z "$NUGET_TOKEN" ]; then
-            echo "ERRO: O token do NuGet veio em branco! Verifique as permissões id-token."
-            exit 1
-          fi
           dotnet nuget push ./nupkg/*.nupkg --source https://api.nuget.org/v3/index.json --api-key "$NUGET_TOKEN" --skip-duplicate
