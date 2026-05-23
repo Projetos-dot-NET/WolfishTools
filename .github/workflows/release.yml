@@ -4,17 +4,17 @@ on:
   release:
     types: [published]
 
+# CORREÇÃO CRUCIAL: Mover as permissões para o escopo global (topo do arquivo)
+# Isso força o GitHub a emitir o token OIDC do OpenID Connect
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   build_and_publish:
     name: Build, Pack e Publish
     runs-on: ubuntu-latest
     
-     # GARANTA QUE ESSAS TRÊS PERMISSÕES ESTÃO EXATAMENTE ASSIM:
-    permissions:
-      id-token: write    # Necessário para o Trusted Publishing do NuGet
-      contents: read     # CORREÇÃO: Dá permissão para ler o repositório privado
-      packages: write    # Opcional (bom deixar caso use o GitHub Packages)
-
     steps:
       - name: Code Checkout
         uses: actions/checkout@v4
