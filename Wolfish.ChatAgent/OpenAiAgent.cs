@@ -10,11 +10,13 @@ namespace Wolfish.ChatAgent
     {
         public OpenAI.Chat.ChatClient _openAiClient;
         private IChatClient _chatClient;
+        private readonly List<ChatMessage> _messages = [];
 
-        public OpenAiAgent(string model, string endpoint, string apiKey)
-        {
-            var options = new OpenAIClientOptions { Endpoint = new Uri(endpoint) };
+        public OpenAiAgent(string model, string endpoint, string apiKey, string systemMessage)
+        {            
+            if (!string.IsNullOrWhiteSpace(systemMessage)) _messages.Add(new ChatMessage(ChatRole.System, systemMessage));
 
+            var options = new OpenAIClientOptions { Endpoint = new Uri(endpoint) };            
             if (string.IsNullOrEmpty(apiKey))
             {
                 _openAiClient = new ChatClient(model, new ApiKeyCredential("*"), options);
@@ -31,18 +33,18 @@ namespace Wolfish.ChatAgent
         /// Envia a mensagem do usuário ao agente e recebe a resposta em string.
         /// </summary>
         public async Task<string> SendMessageAsync(string userMessage)
-        {
-            var messages = new List<ChatMessage>
-            {
-                new ChatMessage(ChatRole.User, userMessage)
-            };
-            var resposta = await _chatClient.GetResponseAsync(messages);
+        {            
+            if (!string.IsNullOrWhiteSpace(userMessage)) _messages.Add(new ChatMessage(ChatRole.User, userMessage));
+
+            var resposta = await _chatClient.GetResponseAsync(_messages);
 
             var fullResponse = new System.Text.StringBuilder();
             foreach (var message in resposta.Messages)
             {
-                fullResponse.Append(message);
+                fullResponse.Append(message.Text);
             }
+
+            _messages.Add(new ChatMessage(ChatRole.Assistant, fullResponse.ToString()));
 
             return fullResponse.ToString();
         }
@@ -52,12 +54,9 @@ namespace Wolfish.ChatAgent
         /// </summary>
         public async IAsyncEnumerable<string> SendMessageStreamingAsync(string userMessage)
         {
-            var messages = new List<ChatMessage>
-            {
-                new ChatMessage(ChatRole.User, userMessage)
-            };
+            if (!string.IsNullOrWhiteSpace(userMessage)) _messages.Add(new ChatMessage(ChatRole.User, userMessage));
 
-            await foreach (var chunk in _chatClient.GetStreamingResponseAsync(messages))
+            await foreach (var chunk in _chatClient.GetStreamingResponseAsync(_messages))
             {
                 var text = chunk.Text;
                 if (!string.IsNullOrEmpty(text))

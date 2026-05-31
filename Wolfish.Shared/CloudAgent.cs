@@ -6,5 +6,6 @@
         public string SystemMessage { get; init; }
         public string ProviderName { get; init; }
         public string Model { get; init; }
+        public string History { get; init; }
     }
 }

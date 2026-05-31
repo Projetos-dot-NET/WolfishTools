@@ -4,31 +4,36 @@
       "Name": "principal",
       "SystemMessage": "Você um assistente que explicao mínimo possível, simplesmente responde com respostas curtíssimas e sempre termina a resposta com um comando cli caso a pergunta seja sobre issou cálculos.",
       "ProviderName": "sua_escolha",
-      "Model": "sua_escolha"
+      "Model": "sua_escolha",
+      "History": "none"
     },
     {
       "Name": "fulano",
       "SystemMessage": "Você um assistente que explicao mínimo possível, simplesmente responde com respostas curtíssimas e sempre termina a resposta com um comando cli caso a pergunta seja sobre issou cálculos.",
       "ProviderName": "OpenRouter",
-      "Model": "openrouter/auto"
+      "Model": "openrouter/auto",
+      "History": "self"
     },
     {
       "Name": "ciclano",
       "SystemMessage": "Você é um assistente útil e amigável. Você pode consultar previsão do tempo, temperatura, umidade e fazer cálculos matemáticos usando as ferramentas disponíveis. Sempre use as ferramentas quando o usuário pedir informações sobre clima ou cálculos.",
       "ProviderName": "GitHubCopilot",
-      "Model": "phi-4"
+      "Model": "phi-4",
+      "History": "none"
     },
     {
       "Name": "beltrano",
       "SystemMessage": "Você é um assistente útil e amigável. Você pode consultar previsão do tempo, temperatura, umidade e fazer cálculos matemáticos usando as ferramentas disponíveis. Sempre use as ferramentas quando o usuário pedir informações sobre clima ou cálculos.",
       "ProviderName": "Gemini",
-      "Model": "text-embedding-004"
+      "Model": "text-embedding-004",
+      "History": "self"
     },
     {
       "Name": "especial",
       "SystemMessage": "Você é um assistente útil e amigável. Você pode consultar previsão do tempo, temperatura, umidade e fazer cálculos matemáticos usando as ferramentas disponíveis. Sempre use as ferramentas quando o usuário pedir informações sobre clima ou cálculos.",
       "ProviderName": "LMStudio",
-      "Model": "local-model"
+      "Model": "local-model",
+      "History": "global"
     }
   ]
 }
