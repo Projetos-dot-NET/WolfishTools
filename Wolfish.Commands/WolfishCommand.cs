@@ -141,7 +141,7 @@ namespace Wolfish.Commands
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
-                CreateNoWindow = true,
+                CreateNoWindow = false,
                 StandardOutputEncoding = Encoding.UTF8,
                 WindowStyle = ProcessWindowStyle.Normal,
                 WorkingDirectory = diretorioAtual
