@@ -2,7 +2,7 @@ name: Publicar Site (Pages)
 
 on:
   push:
-    branches: ["main"] # Ou "master", confirme o nome da sua branch principal
+    branches: ["master"] # Ou "master", confirme o nome da sua branch principal
   workflow_dispatch:
 
 permissions:

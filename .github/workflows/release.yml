@@ -8,14 +8,12 @@ jobs:
   build_and_publish:
     name: Build, Pack e Publish
     runs-on: ubuntu-latest
-    
-    # Permissões necessárias para o Trusted Publishing
-    permissions:
-      id-token: write
-      contents: read
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Code Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -26,10 +24,11 @@ jobs:
         run: dotnet restore
 
       - name: Criar Pacote (Pack)
-        run: dotnet pack Wolfish.Maia.csproj -c Release --output ./nupkg
-
-      - name: Publicar no NuGet
-        uses: NuGet/setup-nuget@v2
+        run: dotnet pack Wolfish.Maia/Wolfish.Maia.csproj -c Release --output ./nupkg
 
       - name: Enviar Pacote (Push)
-        run: dotnet nuget push ./nupkg/*.nupkg --source https://api.nuget.org/v3/index.json --skip-duplicate
+        # O GitHub injeta a chave de API salva com total segurança aqui
+        env:
+          NUGET_TOKEN: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          dotnet nuget push ./nupkg/*.nupkg --source https://api.nuget.org/v3/index.json --api-key "$NUGET_TOKEN" --skip-duplicate

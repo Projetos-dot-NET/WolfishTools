@@ -92,7 +92,13 @@ namespace Wolfish.Maia
                 var agentName = args[1];
                 var agent = SearchAgentByName(agentName);
                 var provider = ConfigProvider(agent!.ProviderName);
-                var cloudAgent = new OpenAiAgent(agent.Model, provider.Endpoint!, provider.ApiKey!);
+                var cloudAgent = new OpenAiAgent(agent.Model, provider.Endpoint!, provider.ApiKey!, agent.SystemMessage!);
+
+                // expunge apagar totalmente
+                //if (args[0] == "expunge")
+
+                // efface apagar aos poucos
+                //if (args[0] == "efface")
 
                 if (args[0] == "ask")
                 {
