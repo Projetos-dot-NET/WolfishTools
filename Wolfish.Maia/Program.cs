@@ -9,7 +9,7 @@ using Wolfish.Shared;
 namespace Wolfish.Maia
 {
     public class Program
-    {        
+    {
         private static async Task Main(string[] args)
         {
             var found = false;
@@ -28,7 +28,7 @@ namespace Wolfish.Maia
 
             //args = ["apt", "search", "octopi"];
             //args = ["uninstall", "dotnet8"];
-            //args = ["ask", "fulano", "para", "me", "dar", "dicas", "de", "comandos", "shell", "windows", "e", "linux", "mais", "utilizados", "em", "desenvolvimento", "de", "software", "em", "no", "máximo", "200", "palavras", "e", "em", "portugues"];
+            //args = ["ask", "all", "para", "me", "dar", "dicas", "de", "comandos", "shell", "windows", "e", "linux", "mais", "utilizados", "em", "desenvolvimento", "de", "software", "em", "no", "máximo", "200", "palavras", "e", "em", "portugues"];
 
             if (args.Length == 0)
             {
@@ -61,7 +61,7 @@ namespace Wolfish.Maia
                     string platform = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "Windows" :
                         RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? "Linux" :
                         RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ? "macOS" : "Unknown OS";
-                    
+
                     Console.WriteLine($"OS: {platform} {arch} ({infoSO} based in {runtime}) ");
                 }
 
@@ -84,16 +84,11 @@ namespace Wolfish.Maia
             {
                 found = await terminalCommand.SeekAndExecute(args[0], args[1]);
             }
-            
+
             if (!found && args.Length > 2) //burst rajada
             {
                 var allArguments = new StringBuilder();
-
-                var agentName = args[1];
-                var agent = SearchAgentByName(agentName);
-                var provider = ConfigProvider(agent!.ProviderName);
-                var cloudAgent = new OpenAiAgent(agent.Model, provider.Endpoint!, provider.ApiKey!, agent.SystemMessage!);
-
+                
                 // expunge apagar totalmente
                 //if (args[0] == "expunge")
 
@@ -102,28 +97,89 @@ namespace Wolfish.Maia
 
                 if (args[0] == "ask")
                 {
-                    for (var i = 2; i < args.Length; i++) allArguments.Append(" " + args[i]);
+                    var agentName = args[1];
+                    var allAgents = new List<CloudAgent>();
 
-                    IAsyncEnumerable<string> teste = cloudAgent.SendMessageStreamingAsync(allArguments.ToString());
-
-                    await foreach (var message in teste)
+                    if (string.IsNullOrWhiteSpace(agentName))
                     {
-                        Console.Write(message);
+                        Console.WriteLine("Please provide a valid agent name.");
+                        return;
+                    }
+
+                    if (string.Equals(agentName, "all", StringComparison.OrdinalIgnoreCase))
+                    {
+                        allAgents = GetAllAgents();
+                    }
+                    else
+                    {
+                        var busca = GetAllAgents() ?? new List<CloudAgent>();
+                        var agentFound = SearchAgentByName(agentName, busca);
+                        if (agentFound != null)
+                        {
+                            allAgents.Add(agentFound);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Agent '{agentName}' not found.");
+                            return;
+                        }
+                    }
+
+                    if (allAgents == null || allAgents.Count == 0)
+                    {
+                        Console.WriteLine("No agents available.");
+                        return;
+                    }
+
+                    foreach (var agent in allAgents)
+                    {
+                        Console.WriteLine($"Asking {agent.Name}... ");
+                        var provider = ConfigProvider(agent!.ProviderName);
+                        if (provider == null)
+                        {
+                            Console.WriteLine($"Provider '{agent.ProviderName}' não encontrado em appsettings.json.");
+                            return;
+                        }
+                        var cloudAgent = new OpenAiAgent(agent.Model, provider?.Endpoint!, provider?.ApiKey!, agent.SystemMessage!);
+                        var outputFile = Path.Combine(Directory.GetCurrentDirectory(), $"ask-{agent.Name}-{DateTime.Now:yyyyMMdd-HHmmss}.md");
+                        var responseBuilder = new StringBuilder();
+
+                        for (var i = 2; i < args.Length; i++) allArguments.Append(" " + args[i]);
+
+                        try
+                        {
+                            //await using var writer = new StreamWriter(outputFile, false, Encoding.UTF8);
+                            IAsyncEnumerable<string> teste = cloudAgent.SendMessageStreamingAsync(allArguments.ToString());
+
+                            await foreach (var message in teste)
+                            {
+                                responseBuilder.Append(message);
+                            }
+
+                            await File.WriteAllTextAsync(outputFile, responseBuilder.ToString(), Encoding.UTF8);
+                            Console.WriteLine($"Answer written to {outputFile}\n");                            
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error: {ex.Message}");
+                        }                      
                     }
                 }
                 else
                 {
-                    foreach (var arg in args) allArguments.Append(" " + arg);
-                    var promptDefault = $"Me dê uma lista de comandos via terminal utilizados no windows " +
-                                        $"e o linux que se pareça com esses e me oriente como utiliza-los " +
-                                        $"em no máximo 256 caracteres e em portugues:{allArguments.ToString()}";
+                    ShowHelp();
 
-                    IAsyncEnumerable<string> teste = cloudAgent.SendMessageStreamingAsync(promptDefault.ToString());
+                    // foreach (var arg in args) allArguments.Append(" " + arg);
+                    // var promptDefault = $"Me dê uma lista de comandos via terminal utilizados no windows " +
+                    //                     $"e o linux que se pareça com esses e me oriente como utiliza-los " +
+                    //                     $"em no máximo 256 caracteres e em portugues:{allArguments.ToString()}";
 
-                    await foreach (var message in teste)
-                    {
-                        Console.Write(message);
-                    }
+                    // IAsyncEnumerable<string> teste = cloudAgent.SendMessageStreamingAsync(promptDefault.ToString());
+
+                    // await foreach (var message in teste)
+                    // {
+                    //     Console.Write(message);
+                    // }
                 }
             }
 
@@ -144,7 +200,14 @@ namespace Wolfish.Maia
             Console.WriteLine();
         }
 
-        private static CloudAgent? SearchAgentByName(string agentName)
+        private static CloudAgent? SearchAgentByName(string agentName, List<CloudAgent>? allAgents)
+        {
+            var selectedAgent = allAgents?.FirstOrDefault(c => c.Name.Equals(agentName, StringComparison.OrdinalIgnoreCase));
+            if (selectedAgent is null) return null;
+            return selectedAgent;
+        }
+
+        private static List<CloudAgent>? GetAllAgents()
         {
             var baseDirectory = AppContext.BaseDirectory;
             var builder = new ConfigurationBuilder()
@@ -156,12 +219,10 @@ namespace Wolfish.Maia
             config.GetSection("CloudAgents").Bind(cloudAgent);
             var allAgents = config.GetSection("CloudAgents").Get<List<CloudAgent>>();
 
-            var selectedAgent = allAgents?.FirstOrDefault(c => c.Name.Equals(agentName, StringComparison.OrdinalIgnoreCase));
-            if (selectedAgent is null) return null;
-            return selectedAgent;
+            return allAgents;
         }
 
-        private static LlmProvider ConfigProvider(string providerName)
+        private static LlmProvider? ConfigProvider(string providerName)
         {
             var baseDirectory = AppContext.BaseDirectory;
             var builder = new ConfigurationBuilder()
@@ -177,7 +238,7 @@ namespace Wolfish.Maia
             if (selectedProvider is null) return null;
             return selectedProvider;
         }
-                
+
     }
 
 }
