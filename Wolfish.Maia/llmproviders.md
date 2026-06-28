@@ -11,6 +11,8 @@
 #### ApiKey
 
 #### Modelos disponíveis
+Modelos disponíveis no link : https://openrouter.ai/models (451 models available)
+E os gratuitos estão no link: https://openrouter.ai/models/?q=free (26 models available)
 
 ## Gemini
 

@@ -28,7 +28,7 @@ namespace Wolfish.Maia
 
             //args = ["apt", "search", "octopi"];
             //args = ["uninstall", "dotnet8"];
-            //args = ["ask", "all", "para", "me", "dar", "dicas", "de", "comandos", "shell", "windows", "e", "linux", "mais", "utilizados", "em", "desenvolvimento", "de", "software", "em", "no", "máximo", "200", "palavras", "e", "em", "portugues"];
+            //args = ["ask", "principal", "para", "me", "dar", "dicas", "de", "comandos", "shell", "windows", "e", "linux", "mais", "utilizados", "em", "desenvolvimento", "de", "software", "em", "no", "máximo", "200", "palavras", "e", "em", "portugues"];
 
             if (args.Length == 0)
             {
@@ -140,16 +140,25 @@ namespace Wolfish.Maia
                             Console.WriteLine($"Provider '{agent.ProviderName}' não encontrado em appsettings.json.");
                             return;
                         }
-                        var cloudAgent = new OpenAiAgent(agent.Model, provider?.Endpoint!, provider?.ApiKey!, agent.SystemMessage!);
+                        
+
+                        for (var i = 2; i < args.Length; i++) allArguments.Append(" " + args[i]);
+                        
+                        var agentHistory = new AgentHistory($"history-{agent.Name}.json");
+                        agentHistory.Load();
+                        agentHistory.AddSystem(agent.SystemMessage!);
+                        agentHistory.AddUser(allArguments.ToString());
+                        
+                        var cloudAgent = new OpenAiAgent(agent.Model, provider?.Endpoint!, provider?.ApiKey!, agentHistory);
                         var outputFile = Path.Combine(Directory.GetCurrentDirectory(), $"ask-{agent.Name}-{DateTime.Now:yyyyMMdd-HHmmss}.md");
                         var responseBuilder = new StringBuilder();
 
-                        for (var i = 2; i < args.Length; i++) allArguments.Append(" " + args[i]);
+                        agentHistory.Save();
 
                         try
                         {
                             //await using var writer = new StreamWriter(outputFile, false, Encoding.UTF8);
-                            IAsyncEnumerable<string> teste = cloudAgent.SendMessageStreamingAsync(allArguments.ToString());
+                            IAsyncEnumerable<string> teste = cloudAgent.SendMessageStreamingAsync();
 
                             await foreach (var message in teste)
                             {
