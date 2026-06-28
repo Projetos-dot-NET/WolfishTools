@@ -28,7 +28,7 @@ namespace Wolfish.Maia
 
             //args = ["apt", "search", "octopi"];
             //args = ["uninstall", "dotnet8"];
-            //args = ["ask", "principal", "para", "me", "dar", "dicas", "de", "comandos", "shell", "windows", "e", "linux", "mais", "utilizados", "em", "desenvolvimento", "de", "software", "em", "no", "máximo", "200", "palavras", "e", "em", "portugues"];
+            //args = ["ask", "especial", "para", "me", "dar", "dicas", "de", "comandos", "shell", "windows", "e", "linux", "mais", "utilizados", "em", "desenvolvimento", "de", "software", "em", "no", "máximo", "200", "palavras", "e", "em", "portugues"];
 
             if (args.Length == 0)
             {
@@ -145,7 +145,16 @@ namespace Wolfish.Maia
                         for (var i = 2; i < args.Length; i++) allArguments.Append(" " + args[i]);
                         
                         var agentHistory = new AgentHistory($"history-{agent.Name}.json");
-                        agentHistory.Load();
+                        
+                        if (agent.History == "self")
+                        {
+                            agentHistory.Load();
+                        }
+                        else if (agent.History == "global")
+                        {
+                            AgentHistory.LoadGlobalHistories(".", "history-*.json");
+                        }
+                        
                         agentHistory.AddSystem(agent.SystemMessage!);
                         agentHistory.AddUser(allArguments.ToString());
                         
@@ -153,7 +162,10 @@ namespace Wolfish.Maia
                         var outputFile = Path.Combine(Directory.GetCurrentDirectory(), $"ask-{agent.Name}-{DateTime.Now:yyyyMMdd-HHmmss}.md");
                         var responseBuilder = new StringBuilder();
 
-                        agentHistory.Save();
+                        if (agent.History == "self" || agent.History == "none")
+                        {
+                            agentHistory.Save();
+                        }
 
                         try
                         {

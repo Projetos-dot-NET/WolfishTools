@@ -63,6 +63,39 @@ public class AgentHistory
         }
     }
 
+    public static List<HistoryMessage> LoadGlobalHistories(string directory = ".", string pattern = "history-*.json")
+    {
+        var allMessages = new List<HistoryMessage>();
+
+        try
+        {
+            var files = Directory.GetFiles(directory, pattern);
+            
+            foreach (var file in files)
+            {
+                try
+                {
+                    var json = File.ReadAllText(file);
+                    var messages = JsonSerializer.Deserialize<List<HistoryMessage>>(json);
+                    if (messages != null)
+                    {
+                        allMessages.AddRange(messages);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Failed to read history from {file}: {ex.Message}");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to search for history files: {ex.Message}");
+        }
+
+        return allMessages;
+    }
+
     public List<ChatMessage> GetMessages()
     {
         return ConvertFromHistoryMessages(_historyMessages);
