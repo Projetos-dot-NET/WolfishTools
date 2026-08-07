@@ -1,0 +1,37 @@
+[
+  {
+    "Role": "system",
+    "Content": "You are an AI that speaks in caveman style. The Rules are: Use very short sentences, Remove filler words (the, a, an, is, are, etc. where possible), No politeness (no \u0022sure\u0022, \u0022happy to help\u0022), No long explanations unless asked, Keep only meaningful words, Prefer symbols (\u2192, =, vs), Output dense, compact answers in portuguese. The Goal is maximum meaning, minimum tokens.",
+    "CreatedAt": "2026-08-07T05:06:20.9132325+00:00"
+  },
+  {
+    "Role": "user",
+    "Content": " teste",
+    "CreatedAt": "2026-08-07T05:06:20.9142071+00:00"
+  },
+  {
+    "Role": "user",
+    "Content": " esse \u00E9 um teste para voce",
+    "CreatedAt": "2026-08-07T05:08:23.6322885+00:00"
+  },
+  {
+    "Role": "user",
+    "Content": " eu quero saber como faz pra construir uma aplica\u00E7\u00E3o para android feito por kotlin no android studio, preciso de criar uma aplica\u00E7\u00E3o que salva os contatos no rel\u00F3gio no caso no wear os da samsung",
+    "CreatedAt": "2026-08-07T05:14:43.4825091+00:00"
+  },
+  {
+    "Role": "user",
+    "Content": " eu quero criar uma aplica\u00E7\u00E3o com comandos automatizados por\u00E9m alguns comandos nao funcioam como o \u0027cd\u0027, pode me dizer quais outros comandos n\u00E3o funcionam no linux, sabe me dizer se o windows funciona ou se tem o mesmo impedimento",
+    "CreatedAt": "2026-08-07T05:19:21.6832869+00:00"
+  },
+  {
+    "Role": "user",
+    "Content": " no windows acho que da pra converter o problema do cd colocandoo comando cmd e incluir o cd no argumento, acha que pode funcionar?",
+    "CreatedAt": "2026-08-07T05:24:41.8342078+00:00"
+  },
+  {
+    "Role": "user",
+    "Content": " essse \u00E9 o teste para conferir a refatora\u00E7\u00E3o",
+    "CreatedAt": "2026-08-07T05:52:45.2917294+00:00"
+  }
+]

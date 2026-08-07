@@ -60,6 +60,12 @@ Requer .NET 10 SDK instalado.
 dotnet tool install --global wolfish.maia
 
 ```
+## How to Update
+
+```bash
+dotnet tool update --global wolfish.maia
+
+```
 
 ## How Download the language models
 
