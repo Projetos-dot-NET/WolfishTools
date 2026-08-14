@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <title>Wolfish Tools</title>
+
+    <!-- Estilo Global -->
+    <link rel="stylesheet" href="./css/style.css" />
+
+    <!-- i18next CDN -->
+    <script src="https://unpkg.com/i18next@23.10.1/dist/umd/i18next.min.js"></script>
+    <script src="https://unpkg.com/i18next-http-backend@2.2.2/i18nextHttpBackend.min.js"></script>
+    <script src="https://unpkg.com/i18next-browser-languagedetector@7.1.0/i18nextBrowserLanguageDetector.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Barra de Navegação -->
+    <nav class="navbar">
+        <a href="./pages/home.html" class="nav-brand">Wolfish Tools</a>
+
+        <ul class="nav-links">
+            <li><a href="./pages/home.html" class="active" data-i18n="navHome">Início</a></li>
+            <li><a href="./pages/download.html" data-i18n="navDownload">Download</a></li>
+            <li><a href="./pages/documentation.html" data-i18n="navDocs">Documentação</a></li>
+            <li><a href="./pages/contact.html" data-i18n="navContact">Contato</a></li>
+        </ul>
+
+        <div class="lang-select">
+            <select id="languageSwitcher">
+                <option value="pt">🇧🇷 Português</option>
+                <option value="en">🇺🇸 English</option>
+                <option value="es">🇪🇸 Español</option>
+            </select>
+        </div>
+    </nav>
+
+    <!-- Conteúdo da Página Principal (Home) -->
+    <header>
+        <h1 data-i18n="homeTitle">Wolfish Maia</h1>
+        <h2 data-i18n="homeSubtitle">MAIA — Assistente Integrada Automatizada para Terminal</h2>
+    </header>
+
+    <div class="container text-center">
+        <p data-i18n="homeIntro">
+            O Wolfish Maia é um assistente de linha de comando leve, rápido e poderoso para o seu terminal,
+            desenvolvido em .NET 10 e integrado com modelos de linguagem locais (Llama, Qwen, Gemma).
+        </p>
+
+        <!-- Explicação do Acrônimo -->
+        <div class="acronym-box">
+            <h3 data-i18n="homeAcronymTitle">O que significa MAIA?</h3>
+            <p data-i18n="homeAcronymDesc">
+                Seguindo a tradição de acrônimos recursivos da ciência da computação (como GNU, PHP e WINE), MAIA significa:
+            </p>
+            <div class="highlight-badge" data-i18n="homeAcronymHighlight">
+                MAIA — MAIA Assistente Integrada Automatizada
+            </div>
+        </div>
+
+        <!-- Seção de Recursos -->
+        <h3 style="margin-top: 40px;" data-i18n="homeFeaturesTitle">Principais Características</h3>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <h4 data-i18n="homeFeature1Title">⚡ Leve e Rápido</h4>
+                <p data-i18n="homeFeature1Desc">Construído sobre o ecossistema .NET 10 de alta performance.</p>
+            </div>
+            <div class="feature-card">
+                <h4 data-i18n="homeFeature2Title">🧠 IA Local</h4>
+                <p data-i18n="homeFeature2Desc">Interaja com modelos Llama, Qwen e Gemma diretamente no terminal sem depender da nuvem.</p>
+            </div>
+            <div class="feature-card">
+                <h4 data-i18n="homeFeature3Title">🛠️ Automação CLI</h4>
+                <p data-i18n="homeFeature3Desc">Comandos rápidos para instalar dependências, baixar utilitários e acelerar seu fluxo de trabalho.</p>
+            </div>
+        </div>
+
+        <div class="cta-group">
+            <a href="./pages/download.html" class="btn-primary" data-i18n="homeCtaDownload">🚀 Ir para Downloads</a>
+            <a href="./pages/documentation.html" class="btn-secondary" data-i18n="homeCtaDocs">📚 Ver Documentação</a>
+        </div>
+    </div>
+
+    <footer>
+        <ul class="footer-links">
+            <li><a href="https://projetos-dot-net.github.io/" target="_blank" data-i18n="footerMainPage">🌐 Projetos .NET</a></li>
+            <li><a href="https://github.com/Projetos-dot-NET/WolfishTools" target="_blank" data-i18n="footerGithub">🐙 GitHub</a></li>
+            <li><a href="https://www.nuget.org/packages/wolfish.maia" target="_blank" data-i18n="footerNuget">📦 Pacote NuGet</a></li>
+            <li><a href="https://github.com/Projetos-dot-NET/WolfishTools/issues" target="_blank" data-i18n="footerIssues">💬 Suporte / Issues</a></li>
+        </ul>
+        <div>
+            © 2025 Wolfish Tools — <span data-i18n="rights">Todos os direitos reservados.</span>
+        </div>
+    </footer>
+
+    <!-- Script i18n -->
+    <script>
+        i18next
+            .use(i18nextHttpBackend)
+            .use(i18nextBrowserLanguageDetector)
+            .init({
+                fallbackLng: 'pt',
+                debug: false,
+                backend: {
+                    loadPath: './locales/{{lng}}.json',
+                    crossDomain: false
+                }
+            }, function (err, t) {
+                updateContent();
+                document.getElementById('languageSwitcher').value = i18next.language.substring(0, 2);
+            });
+
+        function updateContent() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                el.innerHTML = i18next.t(key);
+            });
+        }
+
+        document.getElementById('languageSwitcher').addEventListener('change', function () {
+            const newLng = this.value;
+            i18next.changeLanguage(newLng).then(updateContent);
+        });
+    </script>
+</body>
+
+</html>

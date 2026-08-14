@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <title>Wolfish Tools - Documentação</title>
+
+    <!-- Estilo Global -->
+    <link rel="stylesheet" href="../css/style.css" />
+
+    <!-- i18next CDN -->
+    <script src="https://unpkg.com/i18next@23.10.1/dist/umd/i18next.min.js"></script>
+    <script src="https://unpkg.com/i18next-http-backend@2.2.2/i18nextHttpBackend.min.js"></script>
+    <script src="https://unpkg.com/i18next-browser-languagedetector@7.1.0/i18nextBrowserLanguageDetector.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Barra de Navegação -->
+    <nav class="navbar">
+        <a href="./home.html" class="nav-brand">Wolfish Tools</a>
+
+        <ul class="nav-links">
+            <li><a href="./home.html" data-i18n="navHome">Início</a></li>
+            <li><a href="./download.html" data-i18n="navDownload">Download</a></li>
+            <li><a href="./documentation.html" class="active" data-i18n="navDocs">Documentação</a></li>
+            <li><a href="./contact.html" data-i18n="navContact">Contato</a></li>
+        </ul>
+
+        <div class="lang-select">
+            <select id="languageSwitcher">
+                <option value="pt">🇧🇷 Português</option>
+                <option value="en">🇺🇸 English</option>
+                <option value="es">🇪🇸 Español</option>
+            </select>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <header>
+        <h1 data-i18n="docsPageTitle">Documentação do Wolfish Maia</h1>
+        <h2 data-i18n="docsPageSubtitle">Guia completo de comandos e funcionalidades da ferramenta</h2>
+    </header>
+
+    <div class="container">
+        <!-- Pré-requisitos -->
+        <div class="card">
+            <h3 data-i18n="docsReqTitle">📋 Pré-requisitos</h3>
+            <p data-i18n="docsReqDesc">O Wolfish Maia requer o <strong>.NET 10 SDK</strong> instalado no seu sistema.</p>
+        </div>
+
+        <!-- Comandos Disponíveis -->
+        <div class="card">
+            <h3 data-i18n="docsCmdsTitle">💻 Comandos Disponíveis</h3>
+
+            <div class="cmd-item">
+                <div class="cmd-title">maia welcome</div>
+                <div class="cmd-desc" data-i18n="docsCmdWelcomeDesc">Exibe a mensagem de boas-vindas e status da assistente.</div>
+            </div>
+
+            <div class="cmd-item">
+                <div class="cmd-title">maia download qwen &nbsp;|&nbsp; maia download gemma</div>
+                <div class="cmd-desc" data-i18n="docsCmdDownloadDesc">Baixa os modelos de linguagem locais (Qwen ou Gemma) para uso offline.</div>
+            </div>
+
+            <div class="cmd-item">
+                <div class="cmd-title">maia download chrome</div>
+                <div class="cmd-desc" data-i18n="docsCmdChromeDesc">Baixa o navegador/dependências necessárias para automações.</div>
+            </div>
+
+            <div class="cmd-item">
+                <div class="cmd-title">maia ask "sua pergunta aqui"</div>
+                <div class="cmd-desc" data-i18n="docsCmdAskDesc">Envia uma pergunta diretamente para o modelo de linguagem local no terminal.</div>
+            </div>
+        </div>
+
+        <a class="github-link block-center" href="https://github.com/Projetos-dot-NET/WolfishTools#readme" target="_blank" data-i18n="docsGithubDesc">
+            📖 Ver documentação completa no repositório GitHub
+        </a>
+    </div>
+
+    <footer>
+        <ul class="footer-links">
+            <li><a href="https://projetos-dot-net.github.io/" target="_blank" data-i18n="footerMainPage">🌐 Projetos .NET</a></li>
+            <li><a href="https://github.com/Projetos-dot-NET/WolfishTools" target="_blank" data-i18n="footerGithub">🐙 GitHub</a></li>
+            <li><a href="https://www.nuget.org/packages/wolfish.maia" target="_blank" data-i18n="footerNuget">📦 Pacote NuGet</a></li>
+            <li><a href="https://github.com/Projetos-dot-NET/WolfishTools/issues" target="_blank" data-i18n="footerIssues">💬 Suporte / Issues</a></li>
+        </ul>
+        <div>
+            © 2025 Wolfish Tools — <span data-i18n="rights">Todos os direitos reservados.</span>
+        </div>
+    </footer>
+
+    <!-- Script i18n -->
+    <script>
+        i18next
+            .use(i18nextHttpBackend)
+            .use(i18nextBrowserLanguageDetector)
+            .init({
+                fallbackLng: 'pt',
+                debug: false,
+                backend: {
+                    loadPath: '../locales/{{lng}}.json',
+                    crossDomain: false
+                }
+            }, function (err, t) {
+                updateContent();
+                document.getElementById('languageSwitcher').value = i18next.language.substring(0, 2);
+            });
+
+        function updateContent() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                el.innerHTML = i18next.t(key);
+            });
+        }
+
+        document.getElementById('languageSwitcher').addEventListener('change', function () {
+            const newLng = this.value;
+            i18next.changeLanguage(newLng).then(updateContent);
+        });
+    </script>
+</body>
+
+</html>
