@@ -1,0 +1,56 @@
+# Build results
+**/bin/
+**/obj/
+*.dll
+*.exe
+*.pdb
+*.so
+*.o
+*.a
+
+# Visual Studio and Rider
+.vs/
+.idea/
+*.user
+*.suo
+
+# Databases
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# AI Models & Large Binaries
+*.gguf
+*.bin
+*.onnx
+*.safetensors
+*.pt
+*.ckpt
+
+# Archives and Packages
+*.zip
+*.rar
+*.tar.gz
+*.7z
+*.nupkg
+
+# Media and Documents
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+*.mp3
+*.pdf
+*.docx
+*.xlsx
+
+# Cache and Temp
+**/.cache/
+**/tmp/
+**/temp/
+
+graphify-out/
+ask-*.md

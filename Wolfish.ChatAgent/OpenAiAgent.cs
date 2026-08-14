@@ -8,13 +8,13 @@ namespace Wolfish.ChatAgent
 {
     public class OpenAiAgent
     {
-        public OpenAI.Chat.ChatClient _openAiClient;
+        public ChatClient _openAiClient;
         private IChatClient _chatClient;
         private readonly List<ChatMessage> _messages = [];
 
-        public OpenAiAgent(string model, string endpoint, string apiKey, string systemMessage)
-        {            
-            if (!string.IsNullOrWhiteSpace(systemMessage)) _messages.Add(new ChatMessage(ChatRole.System, systemMessage));
+        public OpenAiAgent(string model, string endpoint, string apiKey, AgentHistory history)
+        {
+            _messages.AddRange(history.GetMessages());
 
             var options = new OpenAIClientOptions { Endpoint = new Uri(endpoint) };            
             if (string.IsNullOrEmpty(apiKey))
@@ -56,6 +56,21 @@ namespace Wolfish.ChatAgent
         {
             if (!string.IsNullOrWhiteSpace(userMessage)) _messages.Add(new ChatMessage(ChatRole.User, userMessage));
 
+            await foreach (var chunk in _chatClient.GetStreamingResponseAsync(_messages))
+            {
+                var text = chunk.Text;
+                if (!string.IsNullOrEmpty(text))
+                {
+                    yield return text;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Envia o historico de mensagens do usuário ao agente e recebe a resposta em streaming.
+        /// </summary>
+        public async IAsyncEnumerable<string> SendMessageStreamingAsync()
+        {
             await foreach (var chunk in _chatClient.GetStreamingResponseAsync(_messages))
             {
                 var text = chunk.Text;

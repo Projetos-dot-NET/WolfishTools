@@ -20,5 +20,9 @@
             "cwd": "${workspaceFolder}/Wolfish.Rita",
             "console": "integratedTerminal"
         }
-    ]
+    ],
+    "logging": {
+        "moduleLoad": false,
+        "engineLogging": false
+    }
 }
