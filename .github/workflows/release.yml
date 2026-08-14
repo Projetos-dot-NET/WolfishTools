@@ -18,7 +18,11 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.0.x' # Altere para a versão do seu .NET
+          dotnet-version: |
+            8.0.x
+            10.0.x
+            11.0.x
+          dotnet-quality: 'preview'
 
       - name: Restaurar dependências
         run: dotnet restore
