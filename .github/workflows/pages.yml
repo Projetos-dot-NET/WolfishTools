@@ -25,10 +25,9 @@ jobs:
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
-          source: ./docs # Confirme se seu site está nesta pasta
+          source: ./public
           destination: ./_site
         env:
-          # Esta é a linha mágica que corrige o erro "API credentials"
           JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

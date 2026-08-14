@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <title>Wolfish Tools - Contato</title>
+
+    <!-- Estilo Global -->
+    <link rel="stylesheet" href="../css/style.css" />
+
+    <!-- i18next CDN -->
+    <script src="https://unpkg.com/i18next@23.10.1/dist/umd/i18next.min.js"></script>
+    <script src="https://unpkg.com/i18next-http-backend@2.2.2/i18nextHttpBackend.min.js"></script>
+    <script src="https://unpkg.com/i18next-browser-languagedetector@7.1.0/i18nextBrowserLanguageDetector.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Barra de Navegação -->
+    <nav class="navbar">
+        <a href="./home.html" class="nav-brand">Wolfish Tools</a>
+
+        <ul class="nav-links">
+            <li><a href="./home.html" data-i18n="navHome">Início</a></li>
+            <li><a href="./download.html" data-i18n="navDownload">Download</a></li>
+            <li><a href="./documentation.html" data-i18n="navDocs">Documentação</a></li>
+            <li><a href="./contact.html" class="active" data-i18n="navContact">Contato</a></li>
+        </ul>
+
+        <div class="lang-select">
+            <select id="languageSwitcher">
+                <option value="pt">🇧🇷 Português</option>
+                <option value="en">🇺🇸 English</option>
+                <option value="es">🇪🇸 Español</option>
+            </select>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <header>
+        <h1 data-i18n="contactPageTitle">Entre em Contato</h1>
+        <h2 data-i18n="contactPageSubtitle">Envie uma mensagem ou tire suas dúvidas sobre o Wolfish Tools</h2>
+    </header>
+
+    <div class="container-narrow">
+        <div class="card">
+            <form id="contactForm" onsubmit="handleFormSubmit(event)">
+                <div class="form-group">
+                    <label for="name" data-i18n="formNameLabel">Seu Nome:</label>
+                    <input type="text" id="name" name="name" class="form-control" required data-i18n-holder="formNamePlaceholder" placeholder="Digite seu nome completo" />
+                </div>
+
+                <div class="form-group">
+                    <label for="email" data-i18n="formEmailLabel">Seu E-mail:</label>
+                    <input type="email" id="email" name="email" class="form-control" required data-i18n-holder="formEmailPlaceholder" placeholder="seu.email@exemplo.com" />
+                </div>
+
+                <div class="form-group">
+                    <label for="subject" data-i18n="formSubjectLabel">Assunto:</label>
+                    <input type="text" id="subject" name="subject" class="form-control" required data-i18n-holder="formSubjectPlaceholder" placeholder="Dúvida, sugestão ou feedback" />
+                </div>
+
+                <div class="form-group">
+                    <label for="message" data-i18n="formMessageLabel">Mensagem:</label>
+                    <textarea id="message" name="message" class="form-control" required data-i18n-holder="formMessagePlaceholder" placeholder="Escreva sua mensagem aqui..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit" data-i18n="formSubmitBtn">✉️ Enviar Mensagem</button>
+            </form>
+        </div>
+
+        <a class="github-link block-center" href="https://github.com/Projetos-dot-NET/WolfishTools/issues" target="_blank" data-i18n="contactGitHubIssue">
+            💬 Preferir abrir uma Issue? Visite a nossa página de suporte no GitHub.
+        </a>
+    </div>
+
+    <footer>
+        <ul class="footer-links">
+            <li><a href="https://projetos-dot-net.github.io/" target="_blank" data-i18n="footerMainPage">🌐 Projetos .NET</a></li>
+            <li><a href="https://github.com/Projetos-dot-NET/WolfishTools" target="_blank" data-i18n="footerGithub">🐙 GitHub</a></li>
+            <li><a href="https://www.nuget.org/packages/wolfish.maia" target="_blank" data-i18n="footerNuget">📦 Pacote NuGet</a></li>
+            <li><a href="https://github.com/Projetos-dot-NET/WolfishTools/issues" target="_blank" data-i18n="footerIssues">💬 Suporte / Issues</a></li>
+        </ul>
+        <div>
+            © 2025 Wolfish Tools — <span data-i18n="rights">Todos os direitos reservados.</span>
+        </div>
+    </footer>
+
+    <!-- Script i18n & Form Handler -->
+    <script>
+        i18next
+            .use(i18nextHttpBackend)
+            .use(i18nextBrowserLanguageDetector)
+            .init({
+                fallbackLng: 'pt',
+                debug: false,
+                backend: {
+                    loadPath: '../locales/{{lng}}.json',
+                    crossDomain: false
+                }
+            }, function (err, t) {
+                updateContent();
+                document.getElementById('languageSwitcher').value = i18next.language.substring(0, 2);
+            });
+
+        function updateContent() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                el.innerHTML = i18next.t(key);
+            });
+            document.querySelectorAll('[data-i18n-holder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-holder');
+                el.placeholder = i18next.t(key);
+            });
+        }
+
+        document.getElementById('languageSwitcher').addEventListener('change', function () {
+            const newLng = this.value;
+            i18next.changeLanguage(newLng).then(updateContent);
+        });
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+            const mailtoUrl = `mailto:renatobrito.dev@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Nome: ${name}\nE-mail: ${email}\n\nMensagem:\n${message}`)}`;
+            window.location.href = mailtoUrl;
+        }
+    </script>
+</body>
+
+</html>

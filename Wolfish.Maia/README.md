@@ -100,7 +100,7 @@ maia welcome
 ## Website with download link
 
 - [Site](https://projetos-dot-net.github.io/WolfishTools/)
-- [Download](https://github.com/Projetos-dot-NET/WolfishTools/releases/download/v0.0.2/Wolfish.Maia.0.0.2.nupkg)
+- [Download](https://www.nuget.org/api/v2/package/Wolfish.Maia/0.0.7)
 
 
  

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <title>Wolfish Tools - Download</title>
+
+    <!-- Estilo Global -->
+    <link rel="stylesheet" href="../css/style.css" />
+
+    <!-- i18next CDN -->
+    <script src="https://unpkg.com/i18next@23.10.1/dist/umd/i18next.min.js"></script>
+    <script src="https://unpkg.com/i18next-http-backend@2.2.2/i18nextHttpBackend.min.js"></script>
+    <script src="https://unpkg.com/i18next-browser-languagedetector@7.1.0/i18nextBrowserLanguageDetector.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Barra de Navegação -->
+    <nav class="navbar">
+        <a href="./home.html" class="nav-brand">Wolfish Tools</a>
+
+        <ul class="nav-links">
+            <li><a href="./home.html" data-i18n="navHome">Início</a></li>
+            <li><a href="./download.html" class="active" data-i18n="navDownload">Download</a></li>
+            <li><a href="./documentation.html" data-i18n="navDocs">Documentação</a></li>
+            <li><a href="./contact.html" data-i18n="navContact">Contato</a></li>
+        </ul>
+
+        <div class="lang-select">
+            <select id="languageSwitcher">
+                <option value="pt">🇧🇷 Português</option>
+                <option value="en">🇺🇸 English</option>
+                <option value="es">🇪🇸 Español</option>
+            </select>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <header>
+        <h1 data-i18n="dlTitle">Download & Instalação</h1>
+        <h2 data-i18n="dlSubtitle">Baixe o pacote oficial ou instale como ferramenta global do .NET</h2>
+    </header>
+
+    <div class="container text-center">
+        <!-- Card 1: Download Direto -->
+        <div class="card text-center">
+            <h3 data-i18n="dlDirectTitle">Download Direto</h3>
+            <p data-i18n="dlDirectDesc">Baixe o pacote de lançamento oficial no formato .nupkg</p>
+            
+            <a href="https://www.nuget.org/api/v2/package/Wolfish.Maia/0.0.7" class="btn-download" download data-i18n="dlBtn">
+                📥 Baixar Wolfish.Maia v0.0.7 (.nupkg)
+            </a>
+        </div>
+
+        <!-- Card 2: Instalação via CLI -->
+        <div class="card" style="text-align: left;">
+            <h3 data-i18n="dlDotnetTitle">Instalação via .NET CLI</h3>
+            <p data-i18n="dlDotnetDesc">Se você já possui o .NET 10 SDK instalado, pode instalar globalmente via terminal:</p>
+
+            <code-block>dotnet tool install --global wolfish.maia</code-block>
+
+            <p data-i18n="dlUpdateDesc" style="margin-top: 20px;">Para atualizar a ferramenta para a versão mais recente:</p>
+            <code-block>dotnet tool update --global wolfish.maia</code-block>
+        </div>
+
+        <a class="github-link" href="https://github.com/Projetos-dot-NET/WolfishTools" target="_blank" data-i18n="githubLink">
+            🔗 Ver projeto no GitHub
+        </a>
+    </div>
+
+    <footer>
+        <ul class="footer-links">
+            <li><a href="https://projetos-dot-net.github.io/" target="_blank" data-i18n="footerMainPage">🌐 Projetos .NET</a></li>
+            <li><a href="https://github.com/Projetos-dot-NET/WolfishTools" target="_blank" data-i18n="footerGithub">🐙 GitHub</a></li>
+            <li><a href="https://www.nuget.org/packages/wolfish.maia" target="_blank" data-i18n="footerNuget">📦 Pacote NuGet</a></li>
+            <li><a href="https://github.com/Projetos-dot-NET/WolfishTools/issues" target="_blank" data-i18n="footerIssues">💬 Suporte / Issues</a></li>
+        </ul>
+        <div>
+            © 2025 Wolfish Tools — <span data-i18n="rights">Todos os direitos reservados.</span>
+        </div>
+    </footer>
+
+    <!-- Script i18n -->
+    <script>
+        i18next
+            .use(i18nextHttpBackend)
+            .use(i18nextBrowserLanguageDetector)
+            .init({
+                fallbackLng: 'pt',
+                debug: false,
+                backend: {
+                    loadPath: '../locales/{{lng}}.json',
+                    crossDomain: false
+                }
+            }, function (err, t) {
+                updateContent();
+                document.getElementById('languageSwitcher').value = i18next.language.substring(0, 2);
+            });
+
+        function updateContent() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                el.innerHTML = i18next.t(key);
+            });
+        }
+
+        document.getElementById('languageSwitcher').addEventListener('change', function () {
+            const newLng = this.value;
+            i18next.changeLanguage(newLng).then(updateContent);
+        });
+    </script>
+</body>
+
+</html>
