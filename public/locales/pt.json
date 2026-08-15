@@ -28,6 +28,8 @@
   "dlBtn": "📥 Baixar Wolfish.Maia v0.0.7 (.nupkg)",
   "dlDotnetTitle": "Instalação via .NET CLI",
   "dlDotnetDesc": "Se você já possui o .NET 10 SDK instalado, pode instalar globalmente via terminal:",
+  "dlPowerShellTitle": "Instalação via PowerShell",
+  "dlPowerShellDesc": "Se você não possui o .NET 10 SDK instalado, pode instalar globalmente via PowerShell:",
   "dlUpdateDesc": "Para atualizar a ferramenta para a versão mais recente:",
   "githubLink": "🔗 Ver projeto no GitHub",
   "docsPageTitle": "Documentação do Wolfish Maia",
