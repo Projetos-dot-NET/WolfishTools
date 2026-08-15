@@ -16,7 +16,8 @@
     <!-- i18next CDN -->
     <script src="https://unpkg.com/i18next@23.10.1/dist/umd/i18next.min.js"></script>
     <script src="https://unpkg.com/i18next-http-backend@2.2.2/i18nextHttpBackend.min.js"></script>
-    <script src="https://unpkg.com/i18next-browser-languagedetector@7.1.0/i18nextBrowserLanguageDetector.min.js"></script>
+    <script
+        src="https://unpkg.com/i18next-browser-languagedetector@7.1.0/i18nextBrowserLanguageDetector.min.js"></script>
 </head>
 
 <body>
@@ -52,8 +53,9 @@
         <div class="card text-center">
             <h3 data-i18n="dlDirectTitle">Download Direto</h3>
             <p data-i18n="dlDirectDesc">Baixe o pacote de lançamento oficial no formato .nupkg</p>
-            
-            <a href="https://www.nuget.org/api/v2/package/Wolfish.Maia/0.0.7" class="btn-download" download data-i18n="dlBtn">
+
+            <a href="https://www.nuget.org/api/v2/package/Wolfish.Maia/0.0.7" class="btn-download" download
+                data-i18n="dlBtn">
                 📥 Baixar Wolfish.Maia v0.0.7 (.nupkg)
             </a>
         </div>
@@ -61,25 +63,42 @@
         <!-- Card 2: Instalação via CLI -->
         <div class="card" style="text-align: left;">
             <h3 data-i18n="dlDotnetTitle">Instalação via .NET CLI</h3>
-            <p data-i18n="dlDotnetDesc">Se você já possui o .NET 10 SDK instalado, pode instalar globalmente via terminal:</p>
+            <p data-i18n="dlDotnetDesc">Se você já possui o .NET 10 SDK instalado, pode instalar globalmente via
+                terminal:</p>
 
             <code-block>dotnet tool install --global wolfish.maia</code-block>
 
-            <p data-i18n="dlUpdateDesc" style="margin-top: 20px;">Para atualizar a ferramenta para a versão mais recente:</p>
+            <p data-i18n="dlUpdateDesc" style="margin-top: 20px;">Para atualizar a ferramenta para a versão mais
+                recente:</p>
             <code-block>dotnet tool update --global wolfish.maia</code-block>
         </div>
 
-        <a class="github-link" href="https://github.com/Projetos-dot-NET/WolfishTools" target="_blank" data-i18n="githubLink">
+        <!-- Card 3: Instalação via PowerShell -->
+        <div class="card" style="text-align: left;">
+            <h3 data-i18n="dlPowerShellTitle">Instalação via PowerShell</h3>
+            <p data-i18n="dlPowerShellDesc">Se você não possui o .NET 10 SDK instalado, pode instalar globalmente via
+                PowerShell:</p>
+
+            <code-block>irm https://wolfish-studio.io/wftools/install.ps1 | iex"</code-block>
+
+        </div>
+
+        <a class="github-link" href="https://github.com/Projetos-dot-NET/WolfishTools" target="_blank"
+            data-i18n="githubLink">
             🔗 Ver projeto no GitHub
         </a>
     </div>
 
     <footer>
         <ul class="footer-links">
-            <li><a href="https://projetos-dot-net.github.io/" target="_blank" data-i18n="footerMainPage">🌐 Projetos .NET</a></li>
-            <li><a href="https://github.com/Projetos-dot-NET/WolfishTools" target="_blank" data-i18n="footerGithub">🐙 GitHub</a></li>
-            <li><a href="https://www.nuget.org/packages/wolfish.maia" target="_blank" data-i18n="footerNuget">📦 Pacote NuGet</a></li>
-            <li><a href="https://github.com/Projetos-dot-NET/WolfishTools/issues" target="_blank" data-i18n="footerIssues">💬 Suporte / Issues</a></li>
+            <li><a href="https://projetos-dot-net.github.io/" target="_blank" data-i18n="footerMainPage">🌐 Projetos
+                    .NET</a></li>
+            <li><a href="https://github.com/Projetos-dot-NET/WolfishTools" target="_blank" data-i18n="footerGithub">🐙
+                    GitHub</a></li>
+            <li><a href="https://www.nuget.org/packages/wolfish.maia" target="_blank" data-i18n="footerNuget">📦 Pacote
+                    NuGet</a></li>
+            <li><a href="https://github.com/Projetos-dot-NET/WolfishTools/issues" target="_blank"
+                    data-i18n="footerIssues">💬 Suporte / Issues</a></li>
         </ul>
         <div>
             © 2025 Wolfish Tools — <span data-i18n="rights">Todos os direitos reservados.</span>
