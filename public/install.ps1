@@ -1,3 +1,6 @@
+# Força o console do PowerShell a renderizar caracteres em UTF-8 corretamente
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
 Write-Host "Instalando Wolfish.Maia, sua Assistente Integrada Automatizada..." -ForegroundColor Cyan
 
 # Verifica se o .NET SDK está instalado no computador do usuário

@@ -93,7 +93,7 @@ maia welcome
 
 ## Website with download link
 
-- [Site](https://projetos-dot-net.github.io/WolfishTools/pages/home.html)
+- [Site](https://wolfishstudio.github.io/tools/pages/home.html)
 - [Download](https://www.nuget.org/api/v2/package/Wolfish.Maia/0.0.7)
 
 

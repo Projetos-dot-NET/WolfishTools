@@ -1,7 +1,7 @@
 # 🐺 WolfishTools
 
 ![NuGet](https://img.shields.io/nuget/v/Wolfish.Maia)
-![GitHub](https://img.shields.io/github/license/Projetos-dot-NET/WolfishTools)
+![GitHub](https://img.shields.io/github/license/wolfishstudio/tools)
 
 **WolfishTools** é um conjunto de ferramentas modernas para desenvolvedores **.NET**, focado em produtividade, automação e integração com modelos de linguagem (LLMs), oferecendo bibliotecas reutilizáveis e um CLI extensível.
 
@@ -88,5 +88,5 @@ Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE  para m
 
 ## 👤 Autor
 
-Desenvolvido por Projetos .NET
-GitHub: https://github.com/Projetos-dot-NET
+Desenvolvido por Wolfish Studio
+GitHub: https://github.com/wolfishstudio
