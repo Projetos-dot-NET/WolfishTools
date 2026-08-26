@@ -45,8 +45,8 @@ namespace Wolfish.Commands
 
         public static void MergeBranch(string origin, string target)
         {
-            var organization = "Projetos-dot-NET";
-            var repository = "WolfishTools";
+            var organization = "wolfishstudio";
+            var repository = "tools";
 
             var headDetalhado = "-H \"Accept: application/vnd.github+json\" " +
                                 "-H \"Authorization: Bearer SEU_TOKEN_GITHUB\" " +
