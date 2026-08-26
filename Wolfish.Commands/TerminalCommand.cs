@@ -49,7 +49,7 @@ namespace Wolfish.Commands
                 Arguments = arguments,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
-                UseShellExecute = false,
+                UseShellExecute = true,
                 CreateNoWindow = false,
                 StandardOutputEncoding = Encoding.UTF8, 
                 WindowStyle = ProcessWindowStyle.Normal,
