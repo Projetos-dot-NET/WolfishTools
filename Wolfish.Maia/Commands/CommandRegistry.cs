@@ -43,7 +43,8 @@ namespace Wolfish.Maia.Commands
             // Registre novos comandos aqui:
             registry.Register(new WelcomeCommand())
                     .Register(new ListCommand())
-                    .Register(new PlatformCommand())
+                    //.Register(new PlatformCommand())
+                    .Register(new BackupCommand())
                     .Register(new HomeCommand())
                     .Register(new HelpCommand())
                     .Register(new InfoCommand())
