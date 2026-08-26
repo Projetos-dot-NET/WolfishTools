@@ -93,11 +93,23 @@ namespace Wolfish.Maia.Commands
 
                 try
                 {
-                    IAsyncEnumerable<string> teste = cloudAgent.SendMessageStreamingAsync();
+                    var teste = cloudAgent.SendMessageStreamingAndGetModelAsync();
+                    string? usedModel = null;
 
-                    await foreach (var message in teste)
+                    await foreach (var chunk in teste)
                     {
-                        responseBuilder.Append(message);
+                        responseBuilder.Append(chunk.Text);
+                        if (usedModel == null && !string.IsNullOrEmpty(chunk.ModelId))
+                        {
+                            usedModel = chunk.ModelId;
+                        }
+                    }
+
+                    if (usedModel != null)
+                    {
+                        Console.Write($"[{usedModel}] ");
+                        responseBuilder.AppendLine();
+                        responseBuilder.AppendLine($"\n> **Modelo utilizado:** `{usedModel}`");
                     }
 
                     await File.WriteAllTextAsync(outputFile, responseBuilder.ToString(), Encoding.UTF8);
