@@ -27,7 +27,7 @@
   "dlDirectDesc": "Descarga el paquete de lanzamiento oficial en formato .nupkg",
   "dlPowerShellTitle": "Instalación via PowerShell",
   "dlPowerShellDesc": "Si no tienes el SDK de .NET 10 instalado, puedes instalarlo globalmente vía PowerShell:",
-  "dlBtn": "📥 Descargar Wolfish.Maia v0.0.7 (.nupkg)",
+  "dlBtn": "📥 Descargar Wolfish.Maia v0.0.8 (.nupkg)",
   "dlDotnetTitle": "Instalación vía .NET CLI",
   "dlDotnetDesc": "Si ya tienes instalado el SDK de .NET 10, puedes instalarlo globalmente vía terminal:",
   "dlUpdateDesc": "Para actualizar la herramienta a la versión más reciente:",
