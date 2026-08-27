@@ -20,6 +20,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Generate site version
+        run: |
+          version=$(sed -n 's:.*<WolfishMaiaVersion>\([^<]*\)</WolfishMaiaVersion>.*:\1:p' Version.props)
+          package_url=$(sed -n 's:.*<WolfishMaiaPackageUrl>\([^<]*\)</WolfishMaiaPackageUrl>.*:\1:p' Version.props)
+          {
+            printf "window.WOLFISH_MAIA_VERSION = '%s';\n" "$version"
+            printf "window.WOLFISH_MAIA_PACKAGE_URL = '%s';\n" "$package_url"
+          } > public/version.js
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Build with Jekyll
