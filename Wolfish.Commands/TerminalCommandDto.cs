@@ -20,6 +20,9 @@ namespace Wolfish.Commands
 
     public class StepCommand
     {
+        [JsonPropertyName("mod")]
+        public string? Mod { get; set; }
+
         [JsonPropertyName("cmd")]
         public string? Cmd { get; set; }
 

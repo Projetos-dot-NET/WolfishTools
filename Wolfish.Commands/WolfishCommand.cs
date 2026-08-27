@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 
@@ -117,7 +117,15 @@ namespace Wolfish.Commands
                 {
                     if (step != null)
                     {
-                        ProcessCommand(step.Cmd, step.Arg);
+                        switch (step.Mod?.ToLowerInvariant())
+                        {
+                            case "interactive":
+                                InteractiveCommand(step.Cmd, step.Arg);
+                                break;
+                            default:
+                                ProcessCommand(step.Cmd, step.Arg);
+                                break;
+                        }
                     }
                 }
                 
@@ -127,6 +135,28 @@ namespace Wolfish.Commands
             {
                 return false;
             }
+        }
+
+        private static void InteractiveCommand(string command, string arguments)
+        {
+            string diretorioAtual = Directory.GetCurrentDirectory();
+
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = command,
+                Arguments = arguments,
+                RedirectStandardInput = false,
+                RedirectStandardOutput = false,
+                RedirectStandardError = false,
+                UseShellExecute = false,
+                CreateNoWindow = false,
+                WindowStyle = ProcessWindowStyle.Normal,
+                WorkingDirectory = diretorioAtual
+            };
+
+            var process = new Process { StartInfo = startInfo, EnableRaisingEvents = true };
+            process.Start();
+            process.WaitForExit();
         }
 
         private static void ProcessCommand(string command, string arguments)

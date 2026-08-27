@@ -38,6 +38,61 @@ namespace Wolfish.Commands
             ProcessCommand("winget", "list");
         }
 
+        private static void InteractiveCommand(string command, string arguments)
+        {
+            
+            //string diretorioAtual = Directory.GetCurrentDirectory();
+
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "cmd.exe",
+                Arguments = $"/c start /wait {command} {arguments}",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = true,
+                CreateNoWindow = false,
+                StandardOutputEncoding = Encoding.UTF8, 
+                WindowStyle = ProcessWindowStyle.Normal,
+                //WorkingDirectory = "C:\\Users\\renat\\source\\Projetos"
+            };
+
+            var process = new Process
+            {
+                StartInfo = startInfo,
+                EnableRaisingEvents = true
+            };
+
+
+            process.OutputDataReceived += (sender, e) =>
+            {
+                if (!string.IsNullOrEmpty(e.Data))
+                {
+                    Console.CursorVisible = false;
+                    Console.CursorLeft = 0;
+                    Console.Write(e.Data + "                                         ");
+                }
+                    
+            };
+
+            process.ErrorDataReceived += (sender, e) =>
+            {
+                if (!string.IsNullOrEmpty(e.Data))
+                {
+                    Console.CursorVisible = false;
+                    Console.CursorLeft=0;
+                    Console.Write(e.Data+"\n");
+                }
+            };
+
+            process.Start();
+
+
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+
+            process?.WaitForExit();
+        }
+
         private static void ProcessCommand(string command, string arguments)
         {
             
@@ -49,7 +104,7 @@ namespace Wolfish.Commands
                 Arguments = arguments,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
-                UseShellExecute = true,
+                UseShellExecute = false,
                 CreateNoWindow = false,
                 StandardOutputEncoding = Encoding.UTF8, 
                 WindowStyle = ProcessWindowStyle.Normal,
