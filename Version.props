@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <WolfishMaiaVersion>0.0.9</WolfishMaiaVersion>
+    <WolfishMaiaPackageUrl>https://www.nuget.org/api/v2/package/Wolfish.Maia</WolfishMaiaPackageUrl>
+  </PropertyGroup>
+</Project>

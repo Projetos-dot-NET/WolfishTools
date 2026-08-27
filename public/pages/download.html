@@ -54,9 +54,9 @@
             <h3 data-i18n="dlDirectTitle">Download Direto</h3>
             <p data-i18n="dlDirectDesc">Baixe o pacote de lançamento oficial no formato .nupkg</p>
 
-            <a href="https://www.nuget.org/api/v2/package/Wolfish.Maia/0.0.8" class="btn-download" download
+            <a id="downloadPackage" href="#" class="btn-download" download
                 data-i18n="dlBtn">
-                📥 Baixar Wolfish.Maia v0.0.8 (.nupkg)
+                📥 Baixar Wolfish.Maia (.nupkg)
             </a>
         </div>
 
@@ -105,7 +105,10 @@
     </footer>
 
     <!-- Script i18n -->
+    <script src="../version.js"></script>
     <script>
+        const maiaVersion = window.WOLFISH_MAIA_VERSION || 'latest';
+
         i18next
             .use(i18nextHttpBackend)
             .use(i18nextBrowserLanguageDetector)
@@ -118,14 +121,22 @@
                 }
             }, function (err, t) {
                 updateContent();
+                updateDownloadLink();
                 document.getElementById('languageSwitcher').value = i18next.language.substring(0, 2);
             });
 
         function updateContent() {
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                el.innerHTML = i18next.t(key);
+                el.innerHTML = i18next.t(key).replace('{{version}}', maiaVersion);
             });
+        }
+
+        function updateDownloadLink() {
+            const packageUrl = window.WOLFISH_MAIA_PACKAGE_URL ||
+                'https://www.nuget.org/api/v2/package/Wolfish.Maia';
+            document.getElementById('downloadPackage').href =
+                `${packageUrl}/${maiaVersion}`;
         }
 
         document.getElementById('languageSwitcher').addEventListener('change', function () {
