@@ -3,15 +3,15 @@ using Microsoft.Extensions.Configuration;
 namespace Wolfish.Maia.Commands
 {
     /// <summary>
-    /// Comando "backup" — copia appsettings.json, cloudagents.json e TerminalCommands.json
+    /// Comando "config" — copia appsettings.json, cloudagents.json e TerminalCommands.json
     /// para a pasta configurada em appsettings:MyHome.
     /// </summary>
-    public class BackupCommand : ICliCommand
+    public class ConfigCommand : ICliCommand
     {
-        public string Name => "backup";
+        public string Name => "config";
 
-        // Arquivos relativos ao BaseDirectory para backup
-        private static readonly string[] FilesToBackup =
+        // Arquivos relativos ao BaseDirectory para config
+        private static readonly string[] FilesToConfig =
         [
             "appsettings.json",
             "cloudagents.json",
@@ -32,14 +32,14 @@ namespace Wolfish.Maia.Commands
 
             if (string.IsNullOrWhiteSpace(myHome))
             {
-                Console.WriteLine("\n  ⚠️  'MyHome' não está definido no appsettings.json.");
+                Console.WriteLine("\n  'MyHome' não está definido no appsettings.json.");
                 Console.WriteLine("  Adicione a chave \"MyHome\": \"/seu/caminho\" no appsettings.json.\n");
                 return Task.CompletedTask;
             }
 
             Console.WriteLine();
             Console.WriteLine("  ╔══════════════════════════════════════════╗");
-            Console.WriteLine("  ║       Backup de Configurações Maia       ║");
+            Console.WriteLine("  ║      Busca as Configurações da Maia      ║");
             Console.WriteLine("  ╚══════════════════════════════════════════╝");
             Console.WriteLine();
             Console.WriteLine($"  Origem:  {baseDirectory}");
@@ -53,11 +53,11 @@ namespace Wolfish.Maia.Commands
                 try
                 {
                     Directory.CreateDirectory(myHome);
-                    Console.WriteLine($"  📁 Pasta criada: {myHome}");
+                    Console.WriteLine($" Pasta criada: {myHome}");
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"  ❌ Erro ao criar pasta: {ex.Message}\n");
+                    Console.WriteLine($" Erro ao criar pasta: {ex.Message}\n");
                     return Task.CompletedTask;
                 }
             }
@@ -65,7 +65,7 @@ namespace Wolfish.Maia.Commands
             var copied = 0;
             var errors = 0;
 
-            foreach (var relativeFile in FilesToBackup)
+            foreach (var relativeFile in FilesToConfig)
             {
                 var sourcePath = Path.Combine(baseDirectory, relativeFile);
                 var fileName = Path.GetFileName(relativeFile);
@@ -73,7 +73,7 @@ namespace Wolfish.Maia.Commands
 
                 if (!File.Exists(sourcePath))
                 {
-                    Console.WriteLine($"  ⚠️  Não encontrado: {relativeFile}");
+                    Console.WriteLine($"  Não encontrado: {relativeFile}");
                     errors++;
                     continue;
                 }
@@ -82,12 +82,12 @@ namespace Wolfish.Maia.Commands
                 {
                     File.Copy(sourcePath, destPath, overwrite: true);
                     var size = new FileInfo(destPath).Length;
-                    Console.WriteLine($"  ✅ {fileName} ({size} bytes)");
+                    Console.WriteLine($" {fileName} ({size} bytes)");
                     copied++;
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"  ❌ {fileName}: {ex.Message}");
+                    Console.WriteLine($" {fileName}: {ex.Message}");
                     errors++;
                 }
             }
@@ -98,9 +98,9 @@ namespace Wolfish.Maia.Commands
             Console.WriteLine("  ────────────────────────────────────────");
 
             if (errors == 0)
-                Console.WriteLine("\n  ✅ Backup concluído com sucesso!\n");
+                Console.WriteLine("\n  Config iniciada com sucesso!\n");
             else
-                Console.WriteLine($"\n  ⚠️  Backup concluído com {errors} erro(s).\n");
+                Console.WriteLine($"\n  Config iniciada com {errors} erro(s).\n");
 
             return Task.CompletedTask;
         }
