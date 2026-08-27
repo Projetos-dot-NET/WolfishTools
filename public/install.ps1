@@ -10,7 +10,7 @@ if ((Get-Command dotnet -ErrorAction SilentlyContinue) -eq $null) {
 }
 
 # Executa o comando oficial de instalação global do NuGet
-dotnet tool install --global Wolfish.Maia --version 0.0.7
+dotnet tool install --global Wolfish.Maia --version 0.0.8
 
 if ($LASTEXITCODE -eq 0) {
     Write-Host "`nSucesso! Wolfish.Maia instalada com êxito." -ForegroundColor Green
