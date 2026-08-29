@@ -1,100 +1,161 @@
-# WolfishTools
+# 🐺 WolfishTools
 
-Wolfish Maia (CLI) Um assistente ~de automatização, não é um assiitente de IA porém também conversa com uma  IA local leve e rápido para o terminal, construído em .NET 10 e alimentado por modelos de linguagem Llama.
-
-[![NuGet](https://img.shields.io/nuget/v/wolfish.maia.svg)](https://www.nuget.org/packages/wolfish.maia)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.txt)
+[![NuGet](https://img.shields.io/nuget/v/wolfish.maia.svg?label=wolfish.maia)](https://www.nuget.org/packages/wolfish.maia)
 [![Downloads](https://img.shields.io/nuget/dt/wolfish.maia.svg)](https://www.nuget.org/packages/wolfish.maia)
-    
 
-## MAIA Assistente Integrada Automatizada 
+WolfishTools é um ecossistema de ferramentas .NET para desenvolvedores, focado em automação de terminal, integração com modelos de linguagem (LLMs) e recuperação de informações. O repositório agrupa um CLI publicado no NuGet, bibliotecas de suporte e projetos experimentais em idealização.
 
-Na ciência da computação, os desenvolvedores têm uma longa tradição de usar acrônimos recursivos. Esse tipo de sigla é peculiar porque se refere a si mesma em sua própria definição, um toque de humor interno e inteligência que se tornou uma marca registrada de muitos projetos de software influentes.
-Exemplos clássicos incluem:
+---
 
-- GNU (GNU's Not Unix)
-- PHP (PHP: Hypertext Preprocessor)
-- WINE (Wine Is Not an Emulator)
+## Projetos
 
-Essa tradição de nomes inteligentes e autorreferenciais continua com projetos modernos e inovadores.
+### ✅ Wolfish.Maia — CLI publicado no NuGet
 
-É com esse espírito criativo que apresentamos MAIA, sua nova assistente digital. O nome MAIA é um acrônimo recursivo que define perfeitamente sua funcionalidade principal:
+> **MAIA** — *MAIA Automated Integrated Assistant* (acrônimo recursivo)
 
-MAIA foi projetada para simplificar sua vida, integrando-se perfeitamente às suas tarefas diárias e automatizando processos de forma inteligente.
-
-## MAIA Asistente Integrada Automatizada 
-En informática, los desarrolladores tienen una larga tradición en el uso de acrónimos recursivos. Este tipo de acrónimo es peculiar porque se refiere a sí mismo en su propia definición, un toque de humor e inteligencia que se ha convertido en el sello distintivo de muchos proyectos de software influyentes.
-
-Ejemplos clásicos incluyen:
-
-- GNU (GNU no es Unix)
-- PHP (PHP: Preprocesador de Hipertexto)
-- WINE (Wine no es un emulador)
-
-Esta tradición de nombres ingeniosos y autorreferenciales continúa con proyectos modernos e innovadores.
-
-Con este espíritu creativo presentamos MAIA, tu nuevo asistente digital. El nombre MAIA es un acrónimo recursivo que define a la perfección su principal funcionalidad:
-
-MAIA fue diseñado para simplificarte la vida, integrándose a la perfección en tus tareas diarias y automatizando procesos de forma inteligente.
-
-## MAIA Automated Integrated Assistant
-
-In computer science, developers have a long tradition of using recursive acronyms. This type of acronym is peculiar because it refers to itself in its own definition, a touch of inner humor and intelligence that has become a trademark of many influential software projects.
-
-Classic examples include:
-
-- GNU (GNU's Not Unix)
-- PHP (PHP: Hypertext Preprocessor)
-- WINE (Wine Is Not an Emulator)
-
-This tradition of clever and self-referential names continues with modern and innovative projects.
-
-It is with this creative spirit that we present MAIA, your new digital assistant. The name MAIA is a recursive acronym that perfectly defines its main functionality:
-
-MAIA was designed to simplify your life, seamlessly integrating into your daily tasks and intelligently automating processes.
-
-## How to Install
-
-Requer .NET 10 SDK instalado.
+O produto principal. Um assistente de terminal leve instalável com um único comando, sem dependência de servidores locais. Conecta-se a qualquer provedor de LLM compatível com a API OpenAI (OpenRouter, LM Studio, GitHub Copilot, Gemini, etc.) e automatiza tarefas do sistema operacional via comandos extensíveis por JSON.
 
 ```bash
 dotnet tool install --global wolfish.maia
-
 ```
 
-## How Download the language models
+[→ Documentação completa do Maia](Wolfish.Maia/README.md)
 
-```bash
-maia download qwen
+---
+
+### 📚 Bibliotecas de Suporte
+
+Estas libs são as dependências internas do Maia. Evoluem junto com o produto principal.
+
+#### Wolfish.ChatAgent
+
+Abstração de agente de chat sobre APIs OpenAI-compatible. Oferece:
+- `OpenAiAgent` — envio de mensagens com streaming (`IAsyncEnumerable`)
+- `AgentHistory` — persistência de histórico de conversas em JSON local
+
+#### Wolfish.Shared
+
+DTOs compartilhados entre projetos:
+- `CloudAgent` — representa um agente configurado (nome, modelo, provider, history mode)
+- `LlmProvider` — configuração de endpoint + API key
+- `LlamaSettings` — schema de configuração para integração com modelos Llama locais
+
+#### Wolfish.Commands
+
+Infraestrutura de comandos do Maia:
+- `WolfishCommand` — carrega e executa comandos via `TerminalCommands.json`
+- `AgentCommand` — helper para comandos de agentes
+- `IssueManagerCommand` — utilitário para criar GitHub Issues direto do terminal
+- `TerminalCommandDto` / `StepCommand` — DTOs para descrição de comandos
+
+#### Wolfish.CloudAgents
+
+Modelos de configuração para agentes cloud. Espelha parcialmente o `Wolfish.Shared`; será a fonte única de verdade em versões futuras.
+
+---
+
+### 🧪 Projetos Experimentais
+
+Em idealização e desenvolvimento. Sem SLA de estabilidade.
+
+#### Wolfish.Rita — A Memória
+
+> **RITA** — *Retrieval of Informational Texts & Archives*
+
+Armazenamento vetorial local usando SQLite + EF Core. Persiste documentos com seus embeddings (`float[]`) para recuperação semântica. Base de conhecimento para o Cadu.
+
+- `DocumentRecord` — entidade com conteúdo textual e embedding vetorial
+- `AppDbContext` — DbContext configurável por herança
+
+#### Wolfish.Cadu — O Acelerador
+
+> **C.A.D.U.** — *Computational Accelerator for Development & Utilities*
+
+Agente RAG corporativo local. Combina busca semântica por cosine similarity (via embeddings Nomic) com geração de texto via LLamaSharp (Qwen2.5 GGUF). Opera em CPU; suporte a GPU NVIDIA via CUDA planejado.
+
+**Fluxo:** pergunta → embedding → top-3 chunks da Rita → prompt injetado → resposta streaming via LLM local.
+
+#### Wolfish.Llama — Wrapper LLamaSharp
+
+Abstração reutilizável para modelos Llama locais via LLamaSharp:
+- `LlamaService` — inicialização e inferência
+- `LlamaHistory` — persistência de histórico
+
+#### Wolfish.Gemini — Wrapper Google Gemini
+
+Integração com a API do Google Gemini. Alternativa cloud para os projetos experimentais.
+
+#### Wolfish.ServerMcp / Wolfish.AgentClientMcp — Model Context Protocol
+
+> **MCP** — *Model Context Protocol*
+
+Servidor e cliente MCP para comunicação entre agentes de IA. O `ServerMcp` expõe ferramentas e recursos; o `AgentClientMcp` os consome.
+
+#### Wolfish.Core
+
+Biblioteca núcleo, atualmente em estágio de placeholder. Destinada a conter funcionalidades fundamentais compartilhadas por toda a solução.
+
+---
+
+## Arquitetura da Solução
 
 ```
-or
+maia (CLI)
+├── Wolfish.ChatAgent    ← streaming + histórico
+├── Wolfish.Commands     ← execução de comandos via JSON
+└── Wolfish.Shared       ← DTOs
 
-```bash
-maia download gemma
-
-```
-## Commands
-
-```
-maia welcome
-```
-
-```
-maia download chrome
+Projetos Experimentais
+├── Wolfish.Rita         ← vetor store (SQLite)
+├── Wolfish.Cadu         ← RAG local (LLamaSharp + Rita)
+├── Wolfish.Llama        ← wrapper LLamaSharp
+├── Wolfish.Gemini       ← wrapper Gemini API
+├── Wolfish.ServerMcp    ← servidor MCP
+└── Wolfish.AgentClientMcp ← cliente MCP
 ```
 
-```
-maia ask "qualquer coisa que queira perguntar para o gemini"
-```
+O Maia não depende de LLamaSharp, EF Core ou projetos experimentais. A separação é intencional para manter o pacote NuGet leve.
 
-```
-maia welcome
-```
+---
 
-## Website with download link
+## Glossário
 
-- [Site](https://wolfishstudio.github.io/tools/pages/home.html)
-- [Download](https://www.nuget.org/packages/Wolfish.Maia)
+| Sigla | Expansão | Papel no ecossistema |
+|-------|----------|----------------------|
+| MAIA | *MAIA Automated Integrated Assistant* | CLI principal (cérebro) |
+| RITA | *Retrieval of Informational Texts & Archives* | Memória vetorial |
+| C.A.D.U. | *Computational Accelerator for Development & Utilities* | Aceleração computacional / RAG local |
+| GEO | *Generator of Execution & Operations* | Execução de baixo nível no kernel (planejado) |
+| MCP | *Model Context Protocol* | Protocolo de comunicação entre agentes |
 
+---
 
- 
+## Tecnologias
+
+- **Linguagem:** C# / .NET 10 (multi-target: net8.0, net10.0, net11.0)
+- **Distribuição:** NuGet (`dotnet tool`)
+- **LLM cloud:** qualquer endpoint OpenAI-compatible
+- **LLM local:** LLamaSharp + modelos GGUF (Qwen2.5, Nomic Embed)
+- **Persistência:** SQLite via EF Core (projetos experimentais)
+- **Plataformas:** Linux e Windows
+
+---
+
+## Contribuindo
+
+Contribuições são bem-vindas. Para mudanças no Maia (produto publicado), abra uma issue antes para alinhar o escopo. Para projetos experimentais, PRs diretos são encorajados.
+
+1. Fork o repositório
+2. Crie uma branch (`feature/minha-feature`)
+3. Commit e abra um Pull Request
+
+---
+
+## Licença
+
+MIT — veja [LICENSE.txt](LICENSE.txt).
+
+---
+
+*Wolfish Studio — [wolfishstudio.github.io](https://wolfishstudio.github.io/tools/pages/home.html)*

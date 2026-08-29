@@ -1,106 +1,187 @@
-# WolfishTools
-
-Wolfish Maia (CLI) Um assistente ~de automatização, não é um assiitente de IA porém também conversa com uma  IA local leve e rápido para o terminal, construído em .NET 10 e alimentado por modelos de linguagem Llama.
+# 🐺 Wolfish.Maia
 
 [![NuGet](https://img.shields.io/nuget/v/wolfish.maia.svg)](https://www.nuget.org/packages/wolfish.maia)
 [![Downloads](https://img.shields.io/nuget/dt/wolfish.maia.svg)](https://www.nuget.org/packages/wolfish.maia)
-    
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](../LICENSE.txt)
 
-## MAIA Assistente Integrada Automatizada 
+**MAIA** — *MAIA Automated Integrated Assistant*
 
-Na ciência da computação, os desenvolvedores têm uma longa tradição de usar acrônimos recursivos. Esse tipo de sigla é peculiar porque se refere a si mesma em sua própria definição, um toque de humor interno e inteligência que se tornou uma marca registrada de muitos projetos de software influentes.
-Exemplos clássicos incluem:
+Na tradição dos acrônimos recursivos da computação (GNU, PHP, WINE), MAIA se define a si mesma: um assistente de terminal leve, extensível e integrado a LLMs, construído em .NET.
 
-- GNU (GNU's Not Unix)
-- PHP (PHP: Hypertext Preprocessor)
-- WINE (Wine Is Not an Emulator)
+---
 
-Essa tradição de nomes inteligentes e autorreferenciais continua com projetos modernos e inovadores.
+## Instalação
 
-É com esse espírito criativo que apresentamos MAIA, sua nova assistente digital. O nome MAIA é um acrônimo recursivo que define perfeitamente sua funcionalidade principal:
-
-MAIA foi projetada para simplificar sua vida, integrando-se perfeitamente às suas tarefas diárias e automatizando processos de forma inteligente.
-
-## MAIA Asistente Integrada Automatizada 
-En informática, los desarrolladores tienen una larga tradición en el uso de acrónimos recursivos. Este tipo de acrónimo es peculiar porque se refiere a sí mismo en su propia definición, un toque de humor e inteligencia que se ha convertido en el sello distintivo de muchos proyectos de software influyentes.
-
-Ejemplos clásicos incluyen:
-
-- GNU (GNU no es Unix)
-- PHP (PHP: Preprocesador de Hipertexto)
-- WINE (Wine no es un emulador)
-
-Esta tradición de nombres ingeniosos y autorreferenciales continúa con proyectos modernos e innovadores.
-
-Con este espíritu creativo presentamos MAIA, tu nuevo asistente digital. El nombre MAIA es un acrónimo recursivo que define a la perfección su principal funcionalidad:
-
-MAIA fue diseñado para simplificarte la vida, integrándose a la perfección en tus tareas diarias y automatizando procesos de forma inteligente.
-
-## MAIA Automated Integrated Assistant
-
-In computer science, developers have a long tradition of using recursive acronyms. This type of acronym is peculiar because it refers to itself in its own definition, a touch of inner humor and intelligence that has become a trademark of many influential software projects.
-
-Classic examples include:
-
-- GNU (GNU's Not Unix)
-- PHP (PHP: Hypertext Preprocessor)
-- WINE (Wine Is Not an Emulator)
-
-This tradition of clever and self-referential names continues with modern and innovative projects.
-
-It is with this creative spirit that we present MAIA, your new digital assistant. The name MAIA is a recursive acronym that perfectly defines its main functionality:
-
-MAIA was designed to simplify your life, seamlessly integrating into your daily tasks and intelligently automating processes.
-
-## How to Install
-
-Requer .NET 10 SDK instalado.
+Requer .NET 8, 10 ou 11 SDK.
 
 ```bash
 dotnet tool install --global wolfish.maia
-
 ```
-## How to Update
+
+Para atualizar:
 
 ```bash
 dotnet tool update --global wolfish.maia
-
 ```
 
-## How Download the language models
+---
+
+## Comandos
+
+### Informação e navegação
 
 ```bash
-maia download qwen
-
+maia help          # lista todos os comandos disponíveis
+maia welcome       # exibe mensagem de boas-vindas com a versão
+maia list          # lista comandos e descrições
+maia info          # OS, runtime .NET, diretório base
+maia home          # diretório de instalação da ferramenta
+maia config        # exibe/guia configuração de agentes e providers
 ```
-or
+
+### Automação de sistema
 
 ```bash
-maia download gemma
-
-```
-## Commands
-
-```
-maia welcome
+maia install <pacote>       # instala um pacote via gerenciador do SO
+maia uninstall <pacote>     # remove um pacote
+maia download <alvo>        # baixa um recurso (browser, modelo LLM, etc.)
+maia platform               # informações da plataforma/OS
+maia directory              # diretório corrente
 ```
 
-```
+Exemplos:
+
+```bash
 maia download chrome
+maia download qwen
+maia download gemma
+maia install git
 ```
 
+### Conversa com agentes LLM
+
+```bash
+maia ask <agente> <pergunta...>    # envia pergunta para um agente específico
+maia ask all <pergunta...>         # envia para todos os agentes configurados
 ```
-maia ask "qualquer coisa que queira perguntar para o gemini"
+
+Exemplos:
+
+```bash
+maia ask principal como faço um loop em bash
+maia ask fulano explica ponteiros em C
+maia ask all quais são os atalhos do vim mais usados
 ```
 
+A resposta é salva em `ask-{agente}-{timestamp}.md` no diretório corrente.
+
+---
+
+## Configuração de Agentes
+
+### 1. Configurar providers em `appsettings.json`
+
+Crie ou edite `appsettings.json` no diretório de instalação:
+
+```json
+{
+  "LLMProviders": [
+    {
+      "Name": "OpenRouter",
+      "Endpoint": "https://openrouter.ai/api/v1/chat/completions",
+      "ApiKey": "sua-chave-aqui"
+    },
+    {
+      "Name": "LMStudio",
+      "Endpoint": "http://localhost:1234/v1/chat/completions",
+      "ApiKey": ""
+    },
+    {
+      "Name": "Gemini",
+      "Endpoint": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+      "ApiKey": "sua-chave-aqui"
+    }
+  ]
+}
 ```
-maia welcome
+
+> **Importante:** nunca commite API keys. O `appsettings.json` com valores reais é local.
+
+### 2. Configurar agentes em `cloudagents.json`
+
+```json
+{
+  "CloudAgents": [
+    {
+      "Name": "principal",
+      "SystemMessage": "Você é um assistente direto. Responda de forma concisa.",
+      "ProviderName": "OpenRouter",
+      "Model": "openrouter/auto",
+      "History": "none"
+    },
+    {
+      "Name": "local",
+      "SystemMessage": "You are a helpful assistant.",
+      "ProviderName": "LMStudio",
+      "Model": "local-model",
+      "History": "self"
+    }
+  ]
+}
 ```
 
-## Website with download link
+### Modos de histórico
 
-- [Site](https://wolfishstudio.github.io/tools/pages/home.html)
-- [Download](https://www.nuget.org/packages/Wolfish.Maia)
+| Modo | Comportamento |
+|------|---------------|
+| `none` | Sem memória entre execuções |
+| `self` | Persiste histórico em `history-{agente}.json` no diretório corrente |
+| `global` | Carrega histórico de todos os agentes (`history-*.json`) antes de responder |
 
+---
 
- 
+## Providers suportados
+
+Qualquer endpoint compatível com a API OpenAI (`/chat/completions`) funciona:
+
+- [OpenRouter](https://openrouter.ai) — acesso a centenas de modelos
+- [LM Studio](https://lmstudio.ai) — modelos locais via interface gráfica
+- [GitHub Models](https://github.com/marketplace/models) — modelos via GitHub Copilot
+- [Google Gemini](https://ai.google.dev) — via endpoint OpenAI-compatible
+- [Ollama](https://ollama.com) — modelos locais via API
+
+---
+
+## Modelos locais (download)
+
+```bash
+maia download qwen     # Qwen2.5 1.5B — rápido, leve
+maia download gemma    # Gemma — Google, eficiente
+```
+
+---
+
+## Extensão
+
+Para adicionar novos comandos ao Maia, basta:
+
+**Quick Shot** (1 argumento):
+1. Crie uma classe implementando `ICliCommand` em `Commands/QuickShotCommands/`
+2. Registre em `CommandRegistry.CreateDefault()`
+
+**Clean Shot** (2 argumentos):
+1. Adicione uma entrada em `Lists/TerminalCommands.json` (e variante Linux/Windows)
+
+---
+
+## Site e links
+
+- [Site oficial](https://wolfishstudio.github.io/tools/pages/home.html)
+- [NuGet](https://www.nuget.org/packages/Wolfish.Maia)
+- [Repositório](https://github.com/wolfishstudio/tools)
+
+---
+
+## Licença
+
+MIT — veja [LICENSE.txt](../LICENSE.txt).
